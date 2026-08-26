@@ -1,0 +1,247 @@
+/*
+  tokens.css — DS Consistem
+  Espelha, em CSS custom properties, a arquitetura de 3 camadas do repositório
+  (Primitiva → Semântica → Componente, ver docs/CLAUDE.md). Valores copiados
+  literalmente de tokens/primitive/*.json e tokens/semantic/*.json — nenhum
+  valor novo, exceto onde marcado explicitamente como "extensão local desta LP".
+
+  Regra do DS replicada aqui: nada abaixo da camada de componente referencia
+  --ds-* (primitivo) diretamente. styles.css só usa as variáveis semânticas.
+*/
+
+/*
+  Fonte hospedada localmente (assets/fonts/dm-sans.woff2, variável 400-700,
+  subset latin) — evita dependência de fonts.googleapis.com. Baixar a fonte de
+  um <link> externo trava a renderização da página inteira caso a rede esteja
+  instável/bloqueada (foi exatamente o que aconteceu ao abrir via file://).
+*/
+@font-face {
+  font-family: 'DM Sans';
+  src: url('../assets/fonts/dm-sans.woff2') format('woff2-variations'),
+       url('../assets/fonts/dm-sans.woff2') format('woff2');
+  font-weight: 400 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* ===== PRIMITIVA — cor (tokens/primitive/color.tokens.json) ===== */
+  --ds-grafite-50: #eaeaea;
+  --ds-grafite-100: #bebebf;
+  --ds-grafite-200: #9f9fa0;
+  --ds-grafite-300: #737374;
+  --ds-grafite-400: #585859;
+  --ds-grafite-500: #2e2e30;
+  --ds-grafite-600: #2a2a2c;
+  --ds-grafite-700: #212122;
+  --ds-grafite-800: #19191a;
+  --ds-grafite-900: #131314;
+  --ds-grafite-surface: #f5f5f5;
+  --ds-branco: #ffffff;
+  --ds-preto: #000000;
+
+  --ds-coral-tecnico-50: #fceeec;
+  --ds-coral-tecnico-100: #f5c9c4;
+  --ds-coral-tecnico-200: #f0afa8;
+  --ds-coral-tecnico-300: #ea8b80;
+  --ds-coral-tecnico-400: #e57567;
+  --ds-coral-tecnico-500: #df5241;
+  --ds-coral-tecnico-600: #cb4b3b;
+  --ds-coral-tecnico-700: #9e3a2e;
+  --ds-coral-tecnico-800: #7b2d24;
+  --ds-coral-tecnico-900: #5e221b;
+
+  --ds-amarelo-queimado-50: #fcf2de;
+  --ds-amarelo-queimado-100: #f8e3b5;
+  --ds-amarelo-queimado-200: #f5d797;
+  --ds-amarelo-queimado-300: #f1c86f;
+  --ds-amarelo-queimado-400: #efbe54;
+  --ds-amarelo-queimado-500: #ebaf2d;
+  --ds-amarelo-queimado-600: #e9a616;
+  --ds-amarelo-queimado-700: #b58111;
+  --ds-amarelo-queimado-800: #8d650d;
+  --ds-amarelo-queimado-900: #6b4c0a;
+
+  /* ===== PRIMITIVA — tipografia (tokens/primitive/typography.tokens.json) ===== */
+  --ds-font-family-base: 'DM Sans', -apple-system, 'Helvetica Neue', Arial, sans-serif;
+  --ds-weight-regular: 400;
+  --ds-weight-medium: 500;
+  --ds-weight-semibold: 600;
+  --ds-weight-bold: 700;
+
+  --ds-size-64: 64px;
+  --ds-size-48: 48px;
+  --ds-size-40: 40px;
+  --ds-size-28: 28px;
+  --ds-size-20: 20px;
+  --ds-size-16: 16px;
+  --ds-size-14: 14px;
+  --ds-size-12: 12px;
+  --ds-size-11: 11px;
+
+  --ds-tracking-64: -1.28px;
+  --ds-tracking-48: -0.96px;
+  --ds-tracking-40: -0.8px;
+  --ds-tracking-28: -0.56px;
+  --ds-tracking-20: -0.4px;
+  --ds-tracking-12: -0.24px;
+  --ds-tracking-11: -0.22px;
+  --ds-tracking-0: 0px;
+
+  --ds-line-height-tight: 1;
+  --ds-line-height-relaxed: 1.5;
+
+  /* ===== PRIMITIVA — espaçamento, grid 8px (tokens/primitive/spacing.tokens.json) ===== */
+  --ds-space-1: 4px;
+  --ds-space-2: 8px;
+  --ds-space-3: 12px;
+  --ds-space-4: 16px;
+  --ds-space-6: 24px;
+  --ds-space-8: 32px;
+  --ds-space-10: 40px;
+  --ds-space-12: 48px;
+  --ds-space-14: 56px;
+  --ds-space-16: 64px;
+
+  /* ===== PRIMITIVA — ícone (tokens/primitive/icon.tokens.json) ===== */
+  --ds-icon-grid: 24px;
+  --ds-icon-stroke-width: 1.75px;
+  --ds-icon-padding: 2px;
+  --ds-icon-size-sm: 16px;
+  --ds-icon-size-md: 24px;
+  --ds-icon-size-lg: 32px;
+  --ds-icon-size-xl: 48px;
+
+  /* ===================================================================== */
+  /* ===== SEMÂNTICA — cor (tokens/semantic/color.tokens.json + color-functional) ===== */
+  --color-brand-primary: var(--ds-grafite-500);
+  --color-brand-primary-hover: var(--ds-grafite-600);
+  --color-brand-primary-active: var(--ds-grafite-700);
+  --color-brand-primary-inverse: var(--ds-branco);
+  --color-brand-primary-black: var(--ds-preto);
+
+  --color-accent-warm: var(--ds-amarelo-queimado-500);
+  --color-accent-warm-hover: var(--ds-amarelo-queimado-600);
+  --color-accent-warm-active: var(--ds-amarelo-queimado-700);
+
+  --color-accent-highlight: var(--ds-coral-tecnico-500);
+  --color-accent-highlight-hover: var(--ds-coral-tecnico-600);
+  --color-accent-highlight-active: var(--ds-coral-tecnico-700);
+
+  --color-surface-default: var(--ds-branco);
+  --color-surface-alt: var(--ds-grafite-surface);
+  --color-surface-hover: var(--ds-grafite-50);
+  --color-surface-active: var(--ds-grafite-100);
+
+  --color-text-default: var(--ds-grafite-500);
+  --color-text-inverse: var(--ds-branco);
+
+  --color-border: var(--ds-grafite-50);
+  --color-border-hover: var(--ds-grafite-100);
+
+  --color-feedback-positive: #1e7a45;
+  --color-feedback-negative: #c4432e;
+  --color-feedback-warning: #956a0e;
+  --color-feedback-informative: #2e6b8e;
+
+  /*
+    Extensão local desta LP (NÃO é token oficial do DS): a página de campanha
+    "40 anos" é predominantemente escura, papel que a camada semântica atual
+    ainda não nomeia (surface-alt/surface-default são para fundos claros).
+    Usa-se aqui grafite-800/900 com um papel semântico local, mesma lógica que
+    gerou `surface-alt` a partir de grafite-surface — candidato a virar token
+    oficial (`surface-inverse-alt`?) se esse padrão se repetir em outra LP.
+  */
+  --color-surface-inverse-alt: var(--ds-grafite-800);
+  --color-surface-inverse-alt-2: var(--ds-grafite-900);
+  --color-border-inverse: rgba(255, 255, 255, 0.12);
+
+  /* ===== SEMÂNTICA — tipografia (tokens/semantic/typography.tokens.json) ===== */
+  --font-heading-xl-size: var(--ds-size-64);
+  --font-heading-xl-weight: var(--ds-weight-semibold);
+  --font-heading-xl-tracking: var(--ds-tracking-64);
+  --font-heading-xl-leading: var(--ds-line-height-tight);
+
+  --font-heading-lg-size: var(--ds-size-48);
+  --font-heading-lg-weight: var(--ds-weight-semibold);
+  --font-heading-lg-tracking: var(--ds-tracking-48);
+  --font-heading-lg-leading: var(--ds-line-height-tight);
+
+  --font-heading-md-size: var(--ds-size-40);
+  --font-heading-md-weight: var(--ds-weight-semibold);
+  --font-heading-md-tracking: var(--ds-tracking-40);
+  --font-heading-md-leading: var(--ds-line-height-tight);
+
+  --font-heading-sm-size: var(--ds-size-28);
+  --font-heading-sm-weight: var(--ds-weight-semibold);
+  --font-heading-sm-tracking: var(--ds-tracking-28);
+  --font-heading-sm-leading: var(--ds-line-height-tight);
+
+  --font-subheading-size: var(--ds-size-20);
+  --font-subheading-weight: var(--ds-weight-semibold);
+  --font-subheading-tracking: var(--ds-tracking-20);
+  --font-subheading-leading: var(--ds-line-height-tight);
+
+  --font-body-size: var(--ds-size-16);
+  --font-body-weight: var(--ds-weight-regular);
+  --font-body-tracking: var(--ds-tracking-0);
+  --font-body-leading: var(--ds-line-height-relaxed);
+
+  --font-caption-size: var(--ds-size-14);
+  --font-caption-weight: var(--ds-weight-regular);
+  --font-caption-tracking: var(--ds-tracking-0);
+  --font-caption-leading: var(--ds-line-height-relaxed);
+
+  --font-label-sm-size: var(--ds-size-12);
+  --font-label-sm-weight: var(--ds-weight-regular);
+  --font-label-sm-tracking: var(--ds-tracking-12);
+  --font-label-sm-leading: var(--ds-line-height-tight);
+
+  --font-label-xs-size: var(--ds-size-11);
+  --font-label-xs-weight: var(--ds-weight-semibold);
+  --font-label-xs-tracking: var(--ds-tracking-11);
+  --font-label-xs-leading: var(--ds-line-height-tight);
+
+  /* ===== SEMÂNTICA — radius (tokens/semantic/radius.tokens.json) ===== */
+  --radius-none: 0px;
+  --radius-sm: 8px;
+  --radius-md: 16px;
+  --radius-lg: 24px;
+  --radius-full: 9999px;
+
+  /* ===== SEMÂNTICA — espaçamento de componente (tokens/semantic/spacing.tokens.json) ===== */
+  --height-compact: var(--ds-space-10);      /* 40px */
+  --height-comfortable: var(--ds-space-12);  /* 48px */
+  --height-spacious: var(--ds-space-14);     /* 56px */
+  --height-prominent: var(--ds-space-16);    /* 64px */
+
+  --padding-inline-tight: var(--ds-space-4);       /* 16px */
+  --padding-inline-comfortable: var(--ds-space-6); /* 24px */
+  --padding-inline-loose: var(--ds-space-8);       /* 32px */
+
+  --padding-block-minimal: var(--ds-space-2);      /* 8px */
+  --padding-block-tight: var(--ds-space-3);        /* 12px */
+  --padding-block-comfortable: var(--ds-space-4);  /* 16px */
+  --padding-block-loose: var(--ds-space-6);        /* 24px */
+
+  --stack-gap-comfortable: var(--ds-space-4);      /* 16px */
+  --section-padding: var(--ds-space-8);            /* 32px */
+
+  /*
+    Extensão local desta LP: números de estatística ("+xx") pedem um degrau
+    "display" acima do heading-xl (64px) do DS — não existe ainda na escala
+    de 6 níveis (Seção 6.8 do mestre). Nomeado à parte, nunca chamado de
+    heading-*, para não fingir que é um nível oficial da escala tipográfica.
+  */
+  --font-display-stat-size: clamp(32px, 3.6vw, 56px);
+
+  /*
+    Extensão local desta LP: padding vertical de seção maior que o maior
+    degrau hoje publicado da escala de espaçamento (space.primitive.16 =
+    64px) — pedido explícito de mais respiro numa LP de campanha longa.
+    128px continua múltiplo de 8px (16×8), mesma lógica usada quando
+    space.primitive.14 precisou ser criado na Fase 5 (degrau novo, mesma
+    grade). Não é uma mudança no token oficial, só uma extensão local.
+  */
+  --section-padding-block: 128px;
+}

@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Consistem 40 anos — Presença que gera confiança</title>
+<meta name="description" content="40 anos de presença, evolução e confiança. Conheça a trajetória da Consistem." />
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- Sprite de ícones — grid 24px / traço 1.75 / sem preenchimento (tokens/primitive/icon.tokens.json).
+     Desenhados do zero seguindo o brandbook (Seção 5.5), não reaproveitados do protótipo Figma
+     "Templates Brandbook 2026" — brandbook é normativo para iconografia (CLAUDE.md, raiz do repo). -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-chevron-right" viewBox="0 0 24 24">
+    <path d="M9 6l6 6-6 6" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-users" viewBox="0 0 24 24">
+    <path d="M8.2 11.2a3 3 0 100-6 3 3 0 000 6z" stroke-linejoin="round"/>
+    <path d="M2.7 19c0-3 2.5-5.2 5.5-5.2s5.5 2.2 5.5 5.2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M15.3 5.6a3 3 0 010 5.9" stroke-linecap="round"/>
+    <path d="M14.3 13.9c2.5.5 4.3 2.4 4.3 5.1" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-building" viewBox="0 0 24 24">
+    <rect x="5" y="3.5" width="9" height="17" rx="1" stroke-linejoin="round"/>
+    <path d="M14 8.5h5v12h-5" stroke-linejoin="round"/>
+    <path d="M8 7.5h1M11 7.5h1M8 11h1M11 11h1M8 14.5h1M11 14.5h1" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-map-pin" viewBox="0 0 24 24">
+    <path d="M12 21s7-6.2 7-11.5a7 7 0 10-14 0C5 14.8 12 21 12 21z" stroke-linejoin="round"/>
+    <circle cx="12" cy="9.5" r="2.5"/>
+  </symbol>
+  <symbol id="icon-layers" viewBox="0 0 24 24">
+    <path d="M12 3l8.5 4.5L12 12 3.5 7.5 12 3z" stroke-linejoin="round"/>
+    <path d="M3.5 12L12 16.5 20.5 12" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M3.5 16.5L12 21l8.5-4.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-grid" viewBox="0 0 24 24">
+    <rect x="3.5" y="3.5" width="7" height="7" rx="1"/>
+    <rect x="13.5" y="3.5" width="7" height="7" rx="1"/>
+    <rect x="3.5" y="13.5" width="7" height="7" rx="1"/>
+    <rect x="13.5" y="13.5" width="7" height="7" rx="1"/>
+  </symbol>
+  <symbol id="icon-clock" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 7v5l3.5 2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-menu" viewBox="0 0 24 24">
+    <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24">
+    <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="site-header__pill">
+    <a class="site-header__brand" href="#home" aria-label="Consistem — início">
+      <img class="site-header__logo" src="assets/logo-consistem.svg" alt="Consistem" />
+    </a>
+    <nav class="site-header__nav" id="siteNav" aria-label="Navegação principal">
+      <a href="#home" aria-current="page">Home</a>
+      <a href="#presenca">Presença</a>
+      <a href="#trajetoria">Trajetória</a>
+      <a href="#evolucao">Evolução</a>
+    </nav>
+    <a class="btn btn--warm btn--sm site-header__cta" href="#presenca">Saber mais</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteNav">
+      <svg class="icon"><use href="#icon-menu"></use></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero — vídeo institucional de fundo em loop (manifesto-loop.mp4), 100vh/100vw,
+       navbar flutuando por cima. tela-video.jpg como poster/fallback. -->
+  <section class="hero" id="home">
+    <div class="hero__media" aria-hidden="true">
+      <video autoplay muted loop playsinline poster="assets/tela-video.jpg">
+        <source src="assets/video/manifesto-loop.mp4" type="video/mp4" />
+      </video>
+    </div>
+    <div class="hero__scrim" aria-hidden="true"></div>
+    <div class="container">
+      <h1 class="hero__heading">
+        <span class="is-emphasis">Presença</span> <span class="is-light">que</span><br />
+        <span class="is-light">gera</span> <span class="is-emphasis">confiança</span>
+      </h1>
+      <div class="hero__actions">
+        <p class="text-p hero__support">Há 40 anos ao lado da indústria brasileira, unindo tecnologia e proximidade para evoluir com segurança.</p>
+        <div class="hero__buttons">
+          <a class="btn btn--warm btn--md" href="#presenca">Conheça as soluções</a>
+          <button class="btn btn--outline btn--md" id="watchManifestoBtn" type="button">Assistir ao manifesto</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Presença -->
+  <section class="about section--light" id="presenca">
+    <div class="container about__grid">
+      <div class="about__media">
+        <img src="assets/agronegocio-silos.jpg" alt="Gestor analisando dados em tablet em frente a silos de armazenagem" />
+      </div>
+      <div class="about__content">
+        <h2 class="text-h2">Há 40 anos, construímos algo que vai além da tecnologia.</h2>
+        <p class="text-p">Uma presença feita de proximidade, experiência, compromisso e confiança, que se tornou parte da história de quem evolui ao nosso lado.</p>
+        <a class="btn btn--warm btn--md" href="#presenca">Saiba mais</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Evolução da marca -->
+  <section class="evolve" id="trajetoria">
+    <div class="container evolve__grid">
+      <div class="evolve__stack">
+        <div class="card-quote">
+          <h3 class="text-h4">A Consistem evolui junto da indústria.</h3>
+          <p class="text-p">Uma trajetória marcada pela confiança, pela solidez operacional e pela capacidade de acompanhar mudanças sem perder sua essência. A nova identidade, o selo comemorativo e a linguagem renovada representam uma evolução construída com continuidade.</p>
+        </div>
+        <div class="evolve__photo">
+          <img src="assets/card.gif" alt="Animação de um card de produto Consistem em uso" />
+        </div>
+      </div>
+      <div class="evolve__campaign">
+        <img src="assets/fabrica-industria.jpg" alt="Operador de fábrica acompanhando indicadores em tablet no chão de fábrica" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Estatísticas -->
+  <section class="stats section--light" aria-label="Consistem em números">
+    <div class="container">
+      <div class="stats__intro">
+        <h2 class="text-h2">Resultados que refletem nossos 40 anos</h2>
+        <p class="text-p">Números que traduzem quatro décadas de solidez operacional, evolução tecnológica e proximidade com nossos clientes.</p>
+      </div>
+      <div class="stats__grid">
+        <div class="stat-card">
+          <svg class="icon icon--lg stat-card__icon"><use href="#icon-building"></use></svg>
+          <span class="stat-card__label">Clientes</span>
+          <span class="stat-card__number">+xx</span>
+          <span class="stat-card__caption">em todo o Brasil</span>
+        </div>
+        <div class="stat-card">
+          <svg class="icon icon--lg stat-card__icon"><use href="#icon-users"></use></svg>
+          <span class="stat-card__label">Usuários</span>
+          <span class="stat-card__number">+xx</span>
+          <span class="stat-card__caption">ativos na plataforma</span>
+        </div>
+        <div class="stat-card">
+          <svg class="icon icon--lg stat-card__icon"><use href="#icon-grid"></use></svg>
+          <span class="stat-card__label">Segmentos atendidos</span>
+          <span class="stat-card__number">+xx</span>
+          <span class="stat-card__caption">da indústria e distribuição</span>
+        </div>
+        <div class="stat-card">
+          <svg class="icon icon--lg stat-card__icon"><use href="#icon-map-pin"></use></svg>
+          <span class="stat-card__label">Estados brasileiros</span>
+          <span class="stat-card__number">+xx</span>
+          <span class="stat-card__caption">de presença nacional</span>
+        </div>
+        <div class="stat-card">
+          <svg class="icon icon--lg stat-card__icon"><use href="#icon-layers"></use></svg>
+          <span class="stat-card__label">Versões do ERP</span>
+          <span class="stat-card__number">+xx</span>
+          <span class="stat-card__caption">evoluídas em 40 anos</span>
+        </div>
+        <div class="stat-card">
+          <svg class="icon icon--lg stat-card__icon"><use href="#icon-clock"></use></svg>
+          <span class="stat-card__label">Horas de desenvolvimento</span>
+          <span class="stat-card__number">+xx Mil</span>
+          <span class="stat-card__caption">investidas em evolução contínua</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq" aria-label="Perguntas frequentes">
+    <div class="container faq__grid">
+      <div class="faq__intro">
+        <h2 class="text-h2">Perguntas frequentes</h2>
+        <p class="text-p">Tire suas dúvidas sobre a Consistem, nossas soluções e como podemos apoiar a evolução da sua indústria.</p>
+      </div>
+      <div class="faq__list">
+        <details class="faq-item" open>
+          <summary>
+            <span class="text-h4">O que é a Consistem?</span>
+            <svg class="icon"><use href="#icon-chevron-right"></use></svg>
+          </summary>
+          <p class="text-p faq-item__answer">A Consistem é uma empresa especializada em soluções ERP para indústrias e distribuidores, com foco em estabilidade operacional, integração de processos e evolução tecnológica segura.</p>
+        </details>
+        <details class="faq-item">
+          <summary>
+            <span class="text-h4">Há quanto tempo a Consistem atua no mercado?</span>
+            <svg class="icon"><use href="#icon-chevron-right"></use></svg>
+          </summary>
+        </details>
+        <details class="faq-item">
+          <summary>
+            <span class="text-h4">Quais segmentos a Consistem atende?</span>
+            <svg class="icon"><use href="#icon-chevron-right"></use></svg>
+          </summary>
+        </details>
+        <details class="faq-item">
+          <summary>
+            <span class="text-h4">O ERP da Consistem atende operações complexas?</span>
+            <svg class="icon"><use href="#icon-chevron-right"></use></svg>
+          </summary>
+        </details>
+        <details class="faq-item">
+          <summary>
+            <span class="text-h4">A Consistem oferece suporte especializado?</span>
+            <svg class="icon"><use href="#icon-chevron-right"></use></svg>
+          </summary>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- Evolução -->
+  <section class="about about--media-right section--light" id="evolucao">
+    <div class="container about__grid">
+      <div class="about__content">
+        <h2 class="text-h2">Evolua sua operação com confiança.</h2>
+        <p class="text-p">Conheça as soluções Consistem e descubra como unir robustez operacional, integração de processos e evolução contínua para impulsionar sua indústria com segurança.</p>
+        <a class="btn btn--warm btn--md" href="#evolucao">Fale com a gente</a>
+      </div>
+      <div class="about__media">
+        <img src="assets/executivo-lideranca.webp" alt="Executivo Consistem caminhando por um escritório com um tablet em mãos" />
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <img class="site-footer__logo" src="assets/logo-consistem.svg" alt="Consistem" />
+        <p class="text-p site-footer__tagline">40 anos de presença, evolução e confiança.</p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Navegação institucional">
+        <a href="#home" aria-current="page">Home</a>
+        <a href="#presenca">Presença</a>
+        <a href="#trajetoria">Trajetória</a>
+        <a href="#evolucao">Evolução</a>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="text-small site-footer__copyright">© 2026 | Consistem LTDA.</p>
+      <nav class="site-footer__legal" aria-label="Institucional">
+        <a href="#">Política de privacidade</a>
+        <a href="#">Direitos autorais</a>
+        <a href="#">FAQ</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<!-- Modal de vídeo — manifesto completo, com áudio e controles nativos -->
+<div class="video-modal" id="videoModal" aria-hidden="true">
+  <div class="video-modal__backdrop" data-modal-close></div>
+  <div class="video-modal__dialog" role="dialog" aria-modal="true" aria-label="Vídeo manifesto Consistem 40 anos">
+    <button class="video-modal__close" id="videoModalClose" type="button" aria-label="Fechar vídeo">
+      <svg class="icon"><use href="#icon-close"></use></svg>
+    </button>
+    <video id="manifestoVideo" controls playsinline>
+      <source src="assets/video/manifesto.mp4" type="video/mp4" />
+    </video>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
