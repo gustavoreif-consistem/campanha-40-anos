@@ -10,6 +10,15 @@
 </head>
 <body>
 
+<!-- Transição de entrada/navegação — 1 painel grafite cobrindo a tela, que
+     sobe pra abrir quando o site termina de carregar. A mesma peça desce
+     (fecha) e sobe de novo (reabre) nas trocas de seção via âncora (ver
+     js/main.js) — o esqueleto pronto para, no futuro, servir de transição
+     real entre páginas. -->
+<div class="page-transition" id="pageTransition" aria-hidden="true">
+  <div class="page-transition__panel"></div>
+</div>
+
 <!-- Sprite de ícones — grid 24px / traço 1.75 / sem preenchimento (tokens/primitive/icon.tokens.json).
      Desenhados do zero seguindo o brandbook (Seção 5.5), não reaproveitados do protótipo Figma
      "Templates Brandbook 2026" — brandbook é normativo para iconografia (CLAUDE.md, raiz do repo). -->

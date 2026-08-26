@@ -1,3 +1,56 @@
+// Transição de entrada/navegação — 2 painéis grafite que abrem quando o site
+// termina de carregar, e a mesma peça fecha+reabre nos links internos de
+// navegação (uma prévia de como serviria de transição real entre páginas).
+(function () {
+  var overlay = document.getElementById('pageTransition');
+  if (!overlay) return;
+
+  var DURATION = 900; // precisa bater com a transition do CSS (.page-transition__panel)
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function open() { overlay.classList.add('is-open'); }
+  function close() { overlay.classList.remove('is-open'); }
+
+  window.addEventListener('load', function () {
+    if (reduceMotion) { open(); return; }
+    setTimeout(open, 250);
+  });
+
+  // Reaproveitável: fecha (cobre a tela), roda a troca por trás, reabre.
+  // Fica em window.pageTransition pra poder ser chamada de qualquer lugar
+  // (ex.: um roteador real, se este site virar multi-página no futuro).
+  function transitionTo(action) {
+    if (reduceMotion) {
+      if (typeof action === 'function') action();
+      return;
+    }
+    close();
+    setTimeout(function () {
+      if (typeof action === 'function') action();
+      setTimeout(open, 50);
+    }, DURATION);
+  }
+  window.pageTransition = transitionTo;
+
+  // Demonstração no que já existe no site: cliques em âncoras internas
+  // (navbar, rodapé, botões) passam pela transição em vez do salto direto.
+  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    link.addEventListener('click', function (e) {
+      var hash = link.getAttribute('href');
+      var target = hash && hash.length > 1 ? document.querySelector(hash) : null;
+      if (!target) return;
+      e.preventDefault();
+      transitionTo(function () {
+        var root = document.documentElement;
+        var previous = root.style.scrollBehavior;
+        root.style.scrollBehavior = 'auto';
+        target.scrollIntoView();
+        root.style.scrollBehavior = previous;
+      });
+    });
+  });
+})();
+
 // Toggle do menu mobile — única interação além do <details> nativo do FAQ.
 (function () {
   var toggle = document.getElementById('navToggle');

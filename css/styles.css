@@ -31,6 +31,29 @@ section { position: relative; }
   padding-inline: var(--ds-space-6);
 }
 
+/* ===== Transição de entrada/navegação — 1 painel grafite, sobe/desce ===== */
+.page-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  pointer-events: none;
+}
+.page-transition__panel {
+  width: 100%;
+  height: 100%;
+  background: var(--color-brand-primary);
+  /* Estado padrão (antes do JS rodar): fechado, cobrindo a tela — evita
+     qualquer flash de conteúdo antes da animação de abertura. */
+  transform: translateY(0);
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+}
+/* "Aberto" — sobe e sai de cena por cima. Fechar é só tirar esta classe,
+   o painel desce de volta cobrindo a tela com a mesma transição. */
+.page-transition.is-open .page-transition__panel { transform: translateY(-100%); }
+@media (prefers-reduced-motion: reduce) {
+  .page-transition__panel { transition: none; }
+}
+
 /* Alternância clara/escura entre seções (só sobrescreve — o padrão da
    página já é escuro via `body`). A pré-penúltima seção antes do rodapé
    é branca por exigência de composição: o rodapé encosta nela com radius. */
