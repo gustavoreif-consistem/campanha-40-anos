@@ -32,12 +32,14 @@
   }
   window.pageTransition = transitionTo;
 
-  // Demonstração no que já existe no site: cliques em âncoras internas
-  // (navbar, rodapé, botões) passam pela transição em vez do salto direto.
+  // Âncoras internas (navbar, rodapé, botões) na MESMA página: fecha, pula
+  // direto pro alvo (sem o smooth-scroll nativo, que ficaria rodando atrás
+  // do painel), reabre.
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+    var hash = link.getAttribute('href');
+    if (!hash || hash.length <= 1) return; // ignora href="#" solto (placeholder do rodapé)
     link.addEventListener('click', function (e) {
-      var hash = link.getAttribute('href');
-      var target = hash && hash.length > 1 ? document.querySelector(hash) : null;
+      var target = document.querySelector(hash);
       if (!target) return;
       e.preventDefault();
       transitionTo(function () {
@@ -47,6 +49,21 @@
         target.scrollIntoView();
         root.style.scrollBehavior = previous;
       });
+    });
+  });
+
+  // Links pra OUTRA página do mesmo hotsite (ex.: index.html -> presenca.html):
+  // só fecha e navega de verdade — a página nova já nasce coberta pelo
+  // próprio painel (estado padrão do CSS) e se revela sozinha ao carregar.
+  document.querySelectorAll('a[href]').forEach(function (link) {
+    var href = link.getAttribute('href');
+    if (!href || href.charAt(0) === '#') return;
+    if (!/^[a-zA-Z0-9_-]+\.html(#.*)?$/.test(href)) return; // só página local do hotsite
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      if (reduceMotion) { window.location.href = href; return; }
+      close();
+      setTimeout(function () { window.location.href = href; }, DURATION);
     });
   });
 })();
@@ -160,5 +177,76 @@
   backdrop.addEventListener('click', closeModal);
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
+  });
+})();
+
+// Accordion horizontal de depoimentos — passar o mouse ou clicar num painel
+// fechado abre ele e fecha o que estava aberto (nunca mais de um por vez).
+(function () {
+  var accordion = document.getElementById('testimonialAccordion');
+  if (!accordion) return;
+
+  var panels = Array.prototype.slice.call(accordion.querySelectorAll('.testimonial-panel'));
+
+  function activate(target) {
+    panels.forEach(function (panel) {
+      panel.classList.toggle('is-active', panel === target);
+    });
+  }
+
+  panels.forEach(function (panel) {
+    panel.addEventListener('mouseenter', function () { activate(panel); });
+    panel.addEventListener('click', function () { activate(panel); });
+    panel.addEventListener('focus', function () { activate(panel); });
+  });
+})();
+
+// Scroll-reveal LETRA A LETRA no texto de abertura da seção "cobertura"
+// (Presença) — GSAP + ScrollTrigger, só roda se as duas libs estiverem
+// carregadas nesta página. Cada caractere do trecho não destacado (fora do
+// <strong>) vira um <span class="char"> em runtime e recebe um stagger de
+// cor conforme o scroll avança; <strong> e <br> ficam intactos. As cores
+// são lidas dos tokens computados, nunca hex fixo aqui.
+(function () {
+  var lead = document.getElementById('coverageLead');
+  var visual = lead ? lead.querySelector('.coverage-lead__visual') : null;
+  if (!lead || !visual || !window.gsap || !window.ScrollTrigger) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  var initialColor = getComputedStyle(visual).color;
+  var targetColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--color-text-default')
+    .trim();
+
+  function wrapChars(root) {
+    var chars = [];
+    Array.prototype.slice.call(root.childNodes).forEach(function (node) {
+      if (node.nodeType !== Node.TEXT_NODE) return; // preserva <strong> e <br> como estão
+      var frag = document.createDocumentFragment();
+      node.textContent.split('').forEach(function (ch) {
+        var span = document.createElement('span');
+        span.className = 'char';
+        span.textContent = ch;
+        frag.appendChild(span);
+        chars.push(span);
+      });
+      node.parentNode.replaceChild(frag, node);
+    });
+    return chars;
+  }
+
+  var chars = wrapChars(visual);
+  gsap.set(chars, { color: initialColor });
+  gsap.to(chars, {
+    color: targetColor,
+    ease: 'none',
+    stagger: 0.02,
+    scrollTrigger: {
+      trigger: lead,
+      start: 'top 85%',
+      end: 'top 25%',
+      scrub: true,
+    },
   });
 })();
