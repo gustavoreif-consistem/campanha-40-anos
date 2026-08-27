@@ -214,7 +214,9 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  var initialColor = getComputedStyle(visual).color;
+  var initialColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--color-surface-alt')
+    .trim();
   var targetColor = getComputedStyle(document.documentElement)
     .getPropertyValue('--color-text-default')
     .trim();
@@ -222,16 +224,21 @@
   function wrapChars(root) {
     var chars = [];
     Array.prototype.slice.call(root.childNodes).forEach(function (node) {
-      if (node.nodeType !== Node.TEXT_NODE) return; // preserva <strong> e <br> como estão
-      var frag = document.createDocumentFragment();
-      node.textContent.split('').forEach(function (ch) {
-        var span = document.createElement('span');
-        span.className = 'char';
-        span.textContent = ch;
-        frag.appendChild(span);
-        chars.push(span);
-      });
-      node.parentNode.replaceChild(frag, node);
+      if (node.nodeType === Node.TEXT_NODE) {
+        var frag = document.createDocumentFragment();
+        node.textContent.split('').forEach(function (ch) {
+          var span = document.createElement('span');
+          span.className = 'char';
+          span.textContent = ch;
+          frag.appendChild(span);
+          chars.push(span);
+        });
+        node.parentNode.replaceChild(frag, node);
+      } else if (node.tagName !== 'STRONG') {
+        // recursa nos <span class="coverage-lead__line"> (as 3 linhas);
+        // <strong> fica intocado, fora da animação.
+        chars = chars.concat(wrapChars(node));
+      }
     });
     return chars;
   }
@@ -248,5 +255,38 @@
       end: 'top 25%',
       scrub: true,
     },
+  });
+})();
+
+// Ícones da "constelação" de segmentos — parallax de verdade: cada ícone
+// desliza (sem fade) numa velocidade diferente (--depth, lido do elemento
+// pai .segments__icon) enquanto a seção inteira passa pela tela, não só
+// numa entrada única. Roda por cima da flutuação contínua em CSS
+// (@keyframes segmentIconFloat, em elemento separado pra não conflitar
+// com a transform que o GSAP controla aqui).
+(function () {
+  var section = document.getElementById('segmentos');
+  var wrappers = section ? section.querySelectorAll('.segments__icon') : null;
+  if (!section || !wrappers || !wrappers.length || !window.gsap || !window.ScrollTrigger) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  wrappers.forEach(function (wrapper) {
+    var target = wrapper.querySelector('.segments__icon-parallax');
+    if (!target) return;
+    var depth = parseFloat(wrapper.dataset.depth) || 1;
+    gsap.fromTo(target,
+      { y: 160 * depth },
+      {
+        y: -80 * depth,
+        ease: 'none',
+        scrollTrigger: {
+          trigger: section,
+          start: 'top bottom',
+          end: 'bottom top',
+          scrub: true,
+        },
+      }
+    );
   });
 })();

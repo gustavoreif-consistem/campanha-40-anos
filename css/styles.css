@@ -567,7 +567,8 @@ section { position: relative; }
   flex-direction: column;
   align-items: center;
   gap: var(--ds-space-4);
-  max-width: 720px;
+  padding-top: var(--ds-space-16);
+  padding-bottom: var(--ds-space-12);
   text-align: center;
 }
 .presenca-hero__frame {
@@ -632,35 +633,42 @@ section { position: relative; }
 }
 .presenca-hero__card-text strong { font-weight: var(--ds-weight-semibold); font-size: 15px; }
 
-/* Texto de abertura da seção "cobertura" — centralizado, 40px regular, 3
-   linhas fixas (<br> no HTML) com entre-linhas reduzido. Cada letra do
-   trecho não destacado revela de --color-surface-alt (quase invisível no
-   fundo claro) até --color-text-default, uma a uma, via GSAP ScrollTrigger
-   com stagger (ver main.js — a marcação real fica em <span class="char">,
-   gerada em runtime a partir de .coverage-lead__visual). O <strong> fica
-   fixo em amarelo, fora da animação. O <p> externo carrega o texto puro
-   via aria-label; o conteúdo visual/animado é aria-hidden. */
+/* Texto de abertura da seção "cobertura" — centralizado, 48px regular, 3
+   linhas com entre-linhas reduzido. As "linhas" são 3 <span
+   class="coverage-lead__line" display:block> no HTML, não <br>: cada uma
+   sempre começa numa linha nova, mas o texto dentro dela ainda pode
+   quebrar sozinho num mobile bem estreito (um <br> no meio da frase não
+   reflui e sobra/aperta feio nessas telas). Cada letra do trecho não
+   destacado revela de --color-surface-alt (quase invisível no fundo
+   claro) até --color-text-default, uma a uma, via GSAP ScrollTrigger com
+   stagger (ver main.js — a marcação real fica em <span class="char">,
+   gerada em runtime, recursiva por linha). O <strong> fica fixo em
+   amarelo, fora da animação. O <p> externo carrega o texto puro via
+   aria-label; o conteúdo visual/animado é aria-hidden. */
 .coverage-lead {
-  font-size: 40px;
+  font-size: 48px;
   font-weight: var(--ds-weight-regular);
-  line-height: 1.15;
+  line-height: 52px;
   text-align: center;
-  max-width: 820px;
-  margin: 0 auto calc(var(--ds-space-16) + var(--ds-space-8));
+  margin: 0 auto 220px;
 }
-.coverage-lead__visual { color: var(--color-surface-alt); }
+.coverage-lead__line { display: block; }
+/* Sem cor própria aqui: herda --color-text-default do section--light (bem
+   legível) como fallback se o GSAP não carregar. O tom quase-invisível de
+   partida do reveal é setado via JS (gsap.set), nunca fixo em CSS. */
 .coverage-lead strong {
   font-weight: var(--ds-weight-bold);
   color: var(--color-accent-warm);
 }
 
 /* Box horizontal (texto + mapa em pontos), fundo transparente, borda
-   grafite — o mapa é levemente maior que a box e vaza pra fora dela
-   (overflow visível de propósito). */
+   grafite — dimensões fiéis ao Figma 1371:3701 (box 340px de altura fixa,
+   mapa vazando por cima dela). */
 .coverage-box {
   position: relative;
   display: flex;
   align-items: center;
+  height: 340px;
   min-height: 340px;
   padding: var(--ds-space-8);
   border-radius: var(--radius-lg);
@@ -670,38 +678,41 @@ section { position: relative; }
 }
 .coverage-box__content {
   flex: 1 1 auto;
-  max-width: 46%;
+  max-width: 526px;
   display: flex;
   flex-direction: column;
   gap: var(--ds-space-4);
 }
 .coverage-box__content .text-p { max-width: 48ch; opacity: 0.82; }
-/* Mapa: imagem pronta (fornecida pelo guardião), já com o card escuro e os
-   pontos embutidos — não gerar/recompor nada aqui, só posicionar. Posição
-   segue o "framer" do Figma (1366:3576): imagem absoluta, mais alta que a
-   própria box (vaza topo/base) e vazando também a borda direita, na mesma
-   medida do padding. */
+/* Mapa: SVG fornecido pelo guardião (contorno real do Brasil em pontos,
+   grafite), sem tile/fundo — posição e tamanho fiéis ao Figma 1371:3701
+   (left:696px/top:-91px/446x479, relativos à própria box de 1264px). */
 .coverage-box__map {
   position: absolute;
-  top: calc(-1 * var(--ds-space-8));
-  bottom: calc(-1 * var(--ds-space-8));
-  right: calc(-1 * var(--ds-space-8));
-  width: 46%;
-  max-width: 480px;
+  left: 55%;
+  top: -91px;
+  width: 446px;
+  height: 479px;
 }
-.coverage-box__map img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.coverage-box__map img { width: 100%; height: 100%; object-fit: contain; display: block; }
 .coverage__tag {
   display: inline-flex;
   align-items: center;
-  gap: var(--ds-space-2);
+  gap: var(--ds-space-4);
+  padding: var(--ds-space-2) var(--ds-space-4);
+  border-radius: var(--radius-full);
+  background: color-mix(in srgb, var(--color-accent-warm) 10%, transparent);
+  border: 1px solid var(--color-accent-warm);
   font-weight: var(--ds-weight-medium);
-  color: var(--color-accent-highlight);
+  color: var(--color-accent-warm);
+  width: fit-content;
 }
 .coverage__tag .dot {
   width: 8px;
   height: 8px;
   border-radius: var(--radius-full);
-  background: var(--color-accent-highlight);
+  background: var(--color-accent-warm);
+  border: 2px solid color-mix(in srgb, var(--color-accent-warm) 60%, transparent);
 }
 
 /* CTA-banner — card grande com mídia de fundo + scrim + texto (mesmo papel
@@ -738,28 +749,91 @@ section { position: relative; }
 }
 .cta-banner__content .text-p { opacity: 0.85; max-width: 48ch; }
 
-/* Grid de segmentos atendidos — cards com ícone oficial (Portal Consistem,
-   node 809:6987) + título, mesma superfície escura do card-quote
-   (surface-inverse-alt). Acento amarelo dos ícones recolorido pro token
-   real do DS (amarelo-queimado-500), nunca o tom bruto do arquivo de origem. */
-.segments__intro { max-width: 640px; margin-bottom: var(--ds-space-10); display: flex; flex-direction: column; gap: var(--ds-space-4); }
-.segments__intro .text-p { opacity: 0.8; max-width: 60ch; }
-.segments__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--ds-space-4);
+/* Segmentos atendidos — texto centralizado sobre uma "constelação"
+   decorativa: 5 anéis concêntricos + 9 ícones oficiais (Portal Consistem)
+   flutuando ao redor do centro. Ref. Figma 1371:3877 — offsets calculados
+   a partir do metadata real do frame (centro do grupo de ícones coincide
+   com o centro da seção/texto). Ícones ganham flutuação contínua (CSS) +
+   entrada de baixo pra cima conforme o scroll avança (GSAP ScrollTrigger,
+   ver main.js). */
+#segmentos { position: relative; overflow: hidden; }
+.segments__content { display: flex; flex-direction: column; align-items: center; gap: var(--ds-space-12); }
+.segments__intro { max-width: 560px; text-align: center; display: flex; flex-direction: column; gap: var(--ds-space-4); }
+.segments__intro .text-p { opacity: 0.8; }
+.segments__tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--ds-space-2);
+  max-width: 700px;
 }
-.segment-card {
-  background: var(--color-surface-inverse-alt);
-  border-radius: var(--radius-md);
-  min-height: 96px;
+.segments__tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px var(--ds-space-3);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--color-accent-warm) 10%, transparent);
+  border: 1px solid var(--color-accent-warm);
+  color: var(--color-text-inverse);
+  font-size: 14px;
+  font-weight: var(--ds-weight-medium);
+  white-space: nowrap;
+}
+.segments__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--ds-space-12);
+  padding-inline: var(--ds-space-6);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-text-inverse);
+  color: var(--color-text-inverse);
+  font-size: 16px;
+  font-weight: var(--ds-weight-medium);
+}
+#segmentos .container { position: relative; z-index: 1; }
+
+.segments__orbit { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.segments__ring {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--ring-size);
+  height: var(--ring-size);
+  transform: translate(-50%, -50%);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border-inverse);
+}
+.segments__icon {
+  position: absolute;
+  left: calc(50% + var(--icon-x));
+  top: calc(50% + var(--icon-y));
+  transform: translate(-50%, -50%);
+}
+/* Sem estado inicial fixo aqui — a posição de partida do slide-in/parallax
+   é setada via JS (gsap.fromTo), lida do --depth de cada ícone. Se o GSAP
+   não carregar, o ícone fica parado na posição natural (nunca some). */
+.segments__icon-parallax { will-change: transform; }
+.segments__icon-float {
   display: flex;
   align-items: center;
-  gap: var(--ds-space-4);
-  padding: var(--ds-space-6);
+  justify-content: center;
+  width: 58px;
+  height: 58px;
+  padding: var(--ds-space-2);
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--color-accent-warm) 20%, transparent);
+  border: 1px solid var(--color-accent-warm);
+  animation: segmentIconFloat 4.8s ease-in-out infinite;
 }
-.segment-card__icon { width: 40px; height: 40px; flex-shrink: 0; }
-.segment-card__title { font-weight: var(--ds-weight-semibold); font-size: 18px; opacity: 0.95; }
+.segments__icon-float img { width: 40px; height: 40px; display: block; }
+@keyframes segmentIconFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .segments__icon-float { animation: none; }
+}
 
 /* Depoimentos — accordion horizontal (referência Figma 1364:3495): o
    primeiro painel começa aberto (mais largo, mostra citação completa), os
@@ -836,12 +910,12 @@ section { position: relative; }
   .evolve__grid { grid-template-columns: 1fr; }
   .faq__grid { grid-template-columns: 1fr; gap: var(--ds-space-8); }
   .stats__grid { grid-template-columns: repeat(2, 1fr); }
-  .segments__grid { grid-template-columns: repeat(2, 1fr); }
+  .segments__orbit { transform: scale(0.65); }
   .cta-banner { padding: var(--ds-space-8); min-height: 420px; }
-  .coverage-box { flex-direction: column; align-items: stretch; min-height: 0; gap: var(--ds-space-8); }
+  .coverage-box { flex-direction: column; align-items: stretch; min-height: 0; height: auto; gap: var(--ds-space-8); }
   .coverage-box__content { max-width: none; }
   .coverage-box__map { position: static; width: 100%; max-width: none; height: 280px; }
-  .coverage-lead { font-size: 32px; }
+  .coverage-lead { font-size: 32px; margin-bottom: var(--ds-space-16); }
   .hero__actions { flex-direction: column; align-items: flex-start; gap: var(--ds-space-6); }
   :root { --section-padding-block: 88px; }
 }
@@ -871,7 +945,7 @@ section { position: relative; }
   .hero__buttons { flex-direction: column; align-items: stretch; width: 100%; }
   .hero__buttons .btn { width: 100%; }
   .stats__grid { grid-template-columns: 1fr; }
-  .segments__grid { grid-template-columns: 1fr; }
+  .segments__orbit { transform: scale(0.4); }
   .cta-banner { padding: var(--ds-space-6); min-height: 380px; }
   .coverage-box__map { height: 220px; }
   .coverage-lead { font-size: 26px; margin-bottom: var(--ds-space-10); }

@@ -84,7 +84,7 @@
   <section class="section-pad section--light" id="cobertura">
     <div class="container">
       <p class="coverage-lead" id="coverageLead" aria-label="A Consistem está presente onde a operação exige precisão, continuidade e controle, sustentando o crescimento com segurança.">
-        <span class="coverage-lead__visual" aria-hidden="true">A Consistem está presente onde a operação exige<br /><strong>precisão, continuidade e controle</strong>,<br />sustentando o crescimento com segurança.</span>
+        <span class="coverage-lead__visual" aria-hidden="true"><span class="coverage-lead__line">A Consistem está presente onde a operação</span><span class="coverage-lead__line">exige <strong>precisão, continuidade e controle</strong>,</span><span class="coverage-lead__line">sustentando o crescimento com segurança.</span></span>
       </p>
       <div class="coverage-box">
         <div class="coverage-box__content">
@@ -93,7 +93,7 @@
           <span class="coverage__tag"><span class="dot" aria-hidden="true"></span>Presença Consistem</span>
         </div>
         <div class="coverage-box__map">
-          <img src="assets/brasil-pontos.png" alt="Mapa do Brasil em pontos, com estados de presença da Consistem destacados em coral" />
+          <img src="assets/brasil-pontos.svg" alt="Mapa do Brasil em pontos" />
         </div>
       </div>
     </div>
@@ -120,48 +120,61 @@
 
   <!-- Segmentos atendidos -->
   <section class="section-pad" id="segmentos">
-    <div class="container">
-      <div class="segments__intro">
-        <h2 class="text-h2">A <strong class="text-accent-warm">Consistem</strong> está presente em cada etapa da operação industrial.</h2>
-        <p class="text-p">Do planejamento que direciona a produção às compras que abastecem a cadeia. Da gestão da produção ao controle de qualidade. Do fiscal à expedição. Da análise dos indicadores às decisões estratégicas.</p>
+    <!-- Constelação decorativa (5 anéis concêntricos + 9 ícones oficiais) — ref. Figma 1371:3877.
+         Offsets calculados a partir do metadata do frame (centro do grupo = centro da seção). -->
+    <div class="segments__orbit" aria-hidden="true">
+      <span class="segments__ring" style="--ring-size:835px"></span>
+      <span class="segments__ring" style="--ring-size:961px"></span>
+      <span class="segments__ring" style="--ring-size:1087px"></span>
+      <span class="segments__ring" style="--ring-size:1217px"></span>
+      <span class="segments__ring" style="--ring-size:1353px"></span>
+
+      <div class="segments__icon" style="--icon-x:-324.5px; --icon-y:-354.5px;" data-depth="0.7">
+        <div class="segments__icon-parallax"><div class="segments__icon-float" style="animation-delay:-0.2s"><img src="assets/icons-segmentos/alimenticios-bebidas.svg" alt="" /></div></div>
       </div>
-      <div class="segments__grid">
-        <div class="segment-card">
-          <img class="segment-card__icon" src="assets/icons-segmentos/alimenticios-bebidas.svg" alt="" aria-hidden="true" />
-          <span class="segment-card__title">Alimentícios e Bebidas</span>
+      <div class="segments__icon" style="--icon-x:301.5px; --icon-y:-377.5px;" data-depth="1.3">
+        <div class="segments__icon-parallax"><div class="segments__icon-float" style="animation-delay:-1.4s"><img src="assets/icons-segmentos/papel-celulose.svg" alt="" /></div></div>
+      </div>
+      <div class="segments__icon" style="--icon-x:526.5px; --icon-y:-145.5px;" data-depth="0.9">
+        <div class="segments__icon-parallax"><div class="segments__icon-float" style="animation-delay:-2.6s"><img src="assets/icons-segmentos/quimico.svg" alt="" /></div></div>
+      </div>
+      <div class="segments__icon" style="--icon-x:-509.5px; --icon-y:-203.5px;" data-depth="1.1">
+        <div class="segments__icon-parallax"><div class="segments__icon-float" style="animation-delay:-0.8s"><img src="assets/icons-segmentos/agroindustria.svg" alt="" /></div></div>
+      </div>
+      <div class="segments__icon" style="--icon-x:451.5px; --icon-y:322.5px;" data-depth="0.6">
+        <div class="segments__icon-parallax"><div class="segments__icon-float" style="animation-delay:-2s"><img src="assets/icons-segmentos/industria-madeira.svg" alt="" /></div></div>
+      </div>
+      <div class="segments__icon" style="--icon-x:-213.5px; --icon-y:427.5px;" data-depth="1.4">
+        <div class="segments__icon-parallax"><div class="segments__icon-float" style="animation-delay:-3.2s"><img src="assets/icons-segmentos/metalmecanico.svg" alt="" /></div></div>
+      </div>
+      <div class="segments__icon" style="--icon-x:-598.5px; --icon-y:36.5px;" data-depth="0.8">
+        <div class="segments__icon-parallax"><div class="segments__icon-float" style="animation-delay:-1.1s"><img src="assets/icons-segmentos/cosmeticos.svg" alt="" /></div></div>
+      </div>
+      <div class="segments__icon" style="--icon-x:-432.5px; --icon-y:215.5px;" data-depth="1.2">
+        <div class="segments__icon-parallax"><div class="segments__icon-float" style="animation-delay:-3.6s"><img src="assets/icons-segmentos/plasticos-embalagens.svg" alt="" /></div></div>
+      </div>
+      <div class="segments__icon" style="--icon-x:411.5px; --icon-y:75.5px;" data-depth="1.0">
+        <div class="segments__icon-parallax"><div class="segments__icon-float" style="animation-delay:-2.9s"><img src="assets/icons-segmentos/distribuidoras.svg" alt="" /></div></div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="segments__content">
+        <div class="segments__intro">
+          <h2 class="text-h2">A <strong class="text-accent-warm">Consistem</strong> está presente em cada etapa da operação industrial.</h2>
+          <p class="text-p">Do planejamento que direciona a produção às compras que abastecem a cadeia. Da gestão da produção ao controle de qualidade. Do fiscal à expedição. Da análise dos indicadores às decisões estratégicas.</p>
         </div>
-        <div class="segment-card">
-          <img class="segment-card__icon" src="assets/icons-segmentos/agroindustria.svg" alt="" aria-hidden="true" />
-          <span class="segment-card__title">Agroindústria</span>
+        <div class="segments__tags">
+          <span class="segments__tag">Alimentício e bebidas</span>
+          <span class="segments__tag">Cerealista</span>
+          <span class="segments__tag">Papel e Celulose</span>
+          <span class="segments__tag">Químico</span>
+          <span class="segments__tag">Plásticos e embalagens</span>
+          <span class="segments__tag">Indústria de Madeira</span>
+          <span class="segments__tag">Cosméticos</span>
+          <span class="segments__tag">Metalmecânico</span>
+          <span class="segments__tag">Distribuidoras</span>
         </div>
-        <div class="segment-card">
-          <img class="segment-card__icon" src="assets/icons-segmentos/papel-celulose.svg" alt="" aria-hidden="true" />
-          <span class="segment-card__title">Papel e Celulose</span>
-        </div>
-        <div class="segment-card">
-          <img class="segment-card__icon" src="assets/icons-segmentos/cosmeticos.svg" alt="" aria-hidden="true" />
-          <span class="segment-card__title">Cosméticos</span>
-        </div>
-        <div class="segment-card">
-          <img class="segment-card__icon" src="assets/icons-segmentos/metalmecanico.svg" alt="" aria-hidden="true" />
-          <span class="segment-card__title">Metalmecânico</span>
-        </div>
-        <div class="segment-card">
-          <img class="segment-card__icon" src="assets/icons-segmentos/industria-madeira.svg" alt="" aria-hidden="true" />
-          <span class="segment-card__title">Indústria de Madeira</span>
-        </div>
-        <div class="segment-card">
-          <img class="segment-card__icon" src="assets/icons-segmentos/plasticos-embalagens.svg" alt="" aria-hidden="true" />
-          <span class="segment-card__title">Plásticos e Embalagens</span>
-        </div>
-        <div class="segment-card">
-          <img class="segment-card__icon" src="assets/icons-segmentos/distribuidoras.svg" alt="" aria-hidden="true" />
-          <span class="segment-card__title">Distribuidoras</span>
-        </div>
-        <div class="segment-card">
-          <img class="segment-card__icon" src="assets/icons-segmentos/quimico.svg" alt="" aria-hidden="true" />
-          <span class="segment-card__title">Químico</span>
-        </div>
+        <a class="segments__cta" href="index.html#trajetoria">Saiba mais</a>
       </div>
     </div>
   </section>
