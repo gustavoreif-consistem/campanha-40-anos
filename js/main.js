@@ -322,22 +322,39 @@
 // nenhuma outra página do hotsite tem essa classe), pedido pra dar sensação
 // de "mergulho" na timeline. JS próprio em vez de lib (Lenis foi cogitada e
 // descartada quando esta página nasceu, por trocar o scroll nativo do SITE
-// INTEIRO) — aqui só suaviza o `wheel`, sempre via scroll nativo real
-// (window.scrollTo em cada frame, nunca transformando um wrapper), então
-// .history-nav/.history-block__sticky (sticky) e o ScrollTrigger do reveal
-// acima continuam funcionando sem nenhum ajuste — eles só enxergam scroll
-// de verdade, só que espalhado em vários frames em vez de um salto só.
-// Só ouve "wheel": teclado, scrollbar e touch continuam 100% nativos (touch
-// nem dispara "wheel"), então mobile não é afetado.
+// INTEIRO).
+//
+// Duas tentativas anteriores (ver histórico do arquivo) suavizavam TODO
+// wheel event via lerp contínuo — isso deixava a rolagem em si com atraso
+// perceptível o tempo inteiro, o oposto do pedido ("scrolla normal"). O
+// mecanismo certo é outro: durante o gesto, NÃO intercepta nada (scroll
+// nativo, sem preventDefault, 1:1 com o input); só quando o wheel para de
+// chegar por STOP_DELAY ms é que entra uma freada curta (glide com atrito,
+// desacelerando até zero) em vez do corte seco que o scroll nativo dá
+// sozinho. Pra trackpad (que já entrega o próprio momentum no deltaY,
+// tapering sozinho antes de parar) o glide sai pequeno quase à toa — a
+// última amostra de velocidade já vem baixa; é pro mouse de catraca (sem
+// momentum nenhum nativo) que esse freio faz diferença de verdade.
 (function () {
   if (!document.querySelector('.history-timeline')) return;
   if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  var EASE = 0.09;
-  var current = window.scrollY;
-  var target = current;
-  var ticking = false;
+  var STOP_DELAY = 100; // ms sem "wheel" pra considerar que soltou o gesto
+  var FRICTION = 0.88; // por frame — perto de 1 pra frenagem visível ao longo de vários frames
+  var VELOCITY_SCALE = 0.045; // fração do último delta que vira o "impulso" do freio —
+    // precisa ser pequena: com FRICTION alto (necessário pra frenagem em VÁRIOS frames,
+    // não só 2-3), a distância total do glide é velocidade_inicial/(1-FRICTION); sem
+    // encolher a velocidade de entrada primeiro, um clique de roda de 100px virava quase
+    // mais 900px de glide sozinho — helicoptero, não um freio suave.
+  var MIN_VELOCITY = 0.3; // px/frame abaixo disso, encerra o glide
+
+  var velocity = 0;
+  var pos = 0; // posição própria do glide — nunca reler window.scrollY dentro
+    // do loop (scrollTo→scrollY tem 1 frame de atraso pra refletir no
+    // Chromium, ler de volta a cada frame fazia a posição "andar pra trás")
+  var coasting = false;
   var programmatic = false;
+  var stopTimer = null;
 
   function maxScroll() {
     return document.documentElement.scrollHeight - window.innerHeight;
@@ -350,32 +367,41 @@
     return e.deltaY;
   }
 
-  function loop() {
-    current += (target - current) * EASE;
-    if (Math.abs(target - current) < 0.5) current = target;
+  function coastLoop() {
+    if (!coasting) return;
+    velocity *= FRICTION;
+    if (Math.abs(velocity) < MIN_VELOCITY) { coasting = false; return; }
+    pos = Math.max(0, Math.min(pos + velocity, maxScroll()));
     programmatic = true;
-    window.scrollTo(0, current);
-    if (current === target) { ticking = false; return; }
-    requestAnimationFrame(loop);
+    // behavior:'instant' é obrigatório aqui — html{scroll-behavior:smooth}
+    // (usado pelos links de âncora do site) faz o PRÓPRIO navegador suavizar
+    // scrollTo(x,y) por padrão; sem isso, cada frame deste loop disparava
+    // outra animação suave nativa por cima da anterior, uma cancelando a
+    // outra a cada ~16ms — resultado imprevisível, nada a ver com o glide
+    // calculado aqui.
+    window.scrollTo({ top: pos, left: 0, behavior: 'instant' });
+    if (pos <= 0 || pos >= maxScroll()) { coasting = false; return; }
+    requestAnimationFrame(coastLoop);
   }
 
   window.addEventListener('wheel', function (e) {
-    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; // scroll horizontal — não intercepta
-    e.preventDefault();
-    target = Math.max(0, Math.min(target + normalizeDelta(e), maxScroll()));
-    if (!ticking) {
-      ticking = true;
-      requestAnimationFrame(loop);
-    }
-  }, { passive: false });
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; // scroll horizontal — não mexe
+    coasting = false; // gesto novo cancela qualquer freada em andamento
+    velocity = normalizeDelta(e) * VELOCITY_SCALE; // última amostra vira o "impulso" de saída do glide
+    clearTimeout(stopTimer);
+    stopTimer = setTimeout(function () {
+      pos = window.scrollY; // única leitura — feita já parado, sem glide rodando, é confiável
+      coasting = true;
+      requestAnimationFrame(coastLoop);
+    }, STOP_DELAY);
+    // sem preventDefault: o próprio wheel já rola nativo, normal, sem atraso.
+  }, { passive: true });
 
-  // Resincroniza quando o scroll muda por outro meio (teclado, scrollbar,
-  // clique na barra de eras via scrollIntoView) — sem isso, o próximo
-  // "wheel" recomeçaria do `target` antigo e puxaria a página de volta.
+  // Se o scroll mudar por outro meio (teclado, scrollbar) enquanto o glide
+  // ainda estivesse rodando, cancela — não briga com o controle do usuário.
   window.addEventListener('scroll', function () {
     if (programmatic) { programmatic = false; return; }
-    current = window.scrollY;
-    target = current;
+    coasting = false;
   }, { passive: true });
 })();
 
