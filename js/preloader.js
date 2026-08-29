@@ -15,6 +15,9 @@
     root.classList.remove('preloader-active');
     document.body.style.overflow = '';
     try { sessionStorage.setItem('preloaderSeen40', '1'); } catch (e) {}
+    // Só agora o vídeo do hero deixa de estar coberto — é aqui que ele começa
+    // a baixar, e não no load da página (ver startHeroVideo em js/main.js).
+    if (typeof window.startHeroVideo === 'function') window.startHeroVideo();
   }
 
   var preloader = document.getElementById('preloader');
@@ -291,6 +294,10 @@
     removeDismissListeners();
     preloader.classList.add('is-leaving');
     stopLoop();
+    // Começa a buscar o vídeo do hero JÁ na saída da cortina (não no fim dela):
+    // ganha os ~0.9s da animação de vantagem, então na hora que o hero aparece
+    // o vídeo já tem os primeiros bytes e engata sem tela parada no poster.
+    if (typeof window.startHeroVideo === 'function') window.startHeroVideo();
     setTimeout(finish, 950); // depois da transição de 0.9s do CSS
   }
 

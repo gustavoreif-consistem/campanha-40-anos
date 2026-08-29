@@ -405,20 +405,59 @@
   }, { passive: true });
 })();
 
-// Reforço do autoplay do hero em mobile — o atributo autoplay+muted+playsinline
-// já cobre a maioria dos browsers, mas alguns webviews (in-app do Instagram/
-// Facebook, Data Saver do Android) só engatam o play depois de uma chamada
-// explícita de .play(); reforça aqui e resiliente também a orientationchange,
-// caso o browser pause o vídeo ao girar a tela.
+// Vídeo de fundo do hero — carregamento explícito, nunca via `autoplay` no HTML.
+//
+// Por quê: `autoplay` faz o browser ignorar `preload="none"` e baixar o arquivo
+// inteiro (2.5MB, 83% do peso da página) já no load. Na Home esse vídeo passa os
+// primeiros segundos INTEIRAMENTE coberto pela cortina do preloader — ou seja,
+// baixava cedo, invisível, disputando banda com o preloader.js e com as imagens.
+// Sintoma real relatado: grid de fundo (CSS) aparecia na hora, mas o "40" e as
+// imagens demoravam ~10s numa primeira visita.
+//
+// Agora o <video> nasce sem src (só `data-src`) e sem autoplay; quem inicia é
+// startHeroVideo(), chamada quando a cortina do preloader sai — ou de imediato,
+// quando não há preloader nesta visita (2ª visita, reduced-motion, outra página).
 (function () {
-  var video = document.querySelector('.hero__media video[autoplay]');
+  var video = document.querySelector('video.js-hero-video');
   if (!video) return;
 
+  var started = false;
+  function startHeroVideo() {
+    if (started) return;
+    started = true;
+    Array.prototype.slice.call(video.querySelectorAll('source[data-src]')).forEach(function (source) {
+      source.src = source.dataset.src;
+      source.removeAttribute('data-src');
+    });
+    video.load();
+    tryPlay();
+    // Alguns webviews (in-app do Instagram/Facebook, Data Saver do Android) só
+    // engatam o play depois de uma chamada explícita já com dados carregados;
+    // e alguns browsers pausam o vídeo ao girar a tela.
+    video.addEventListener('loadeddata', tryPlay);
+    window.addEventListener('orientationchange', tryPlay);
+  }
   function tryPlay() { video.play().catch(function () {}); }
 
-  tryPlay();
-  video.addEventListener('loadeddata', tryPlay);
-  window.addEventListener('orientationchange', tryPlay);
+  window.startHeroVideo = startHeroVideo;
+
+  // Sem preloader nesta visita → nada cobre o hero, pode carregar já.
+  if (!document.documentElement.classList.contains('preloader-active')) {
+    startHeroVideo();
+    return;
+  }
+
+  // Rede de segurança: se o preloader.js não chegar a rodar (falha de rede,
+  // erro), a cortina some sozinha e o vídeo entra assim mesmo — o hero nunca
+  // fica preso atrás de uma cortina permanente nem sem vídeo.
+  setTimeout(function () {
+    if (started) return;
+    document.documentElement.classList.remove('preloader-active');
+    var curtain = document.getElementById('preloader');
+    if (curtain) curtain.style.display = 'none';
+    document.body.style.overflow = '';
+    startHeroVideo();
+  }, 8000);
 })();
 
 // Vídeos decorativos de fundo (autoplay/loop) só carregam quando chegam

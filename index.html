@@ -129,11 +129,16 @@
 <main>
 
   <!-- Hero — vídeo institucional de fundo em loop (manifesto-loop.mp4), 100vh/100vw,
-       navbar flutuando por cima. hero-poster.jpg (1º frame real do vídeo) como poster/fallback. -->
+       navbar flutuando por cima. hero-poster.jpg (1º frame real do vídeo) como poster/fallback.
+       SEM `autoplay` e com `data-src` de propósito: `autoplay` faz o browser IGNORAR
+       preload="none" e baixar os 2.5MB do vídeo já no load — 83% do peso da página, e
+       tudo isso enquanto o vídeo está 100% coberto pela cortina do preloader, roubando
+       banda do preloader.js e das imagens. Quem dá play é startHeroVideo() em js/main.js,
+       chamado assim que a cortina sai (ou de imediato, quando não há preloader). -->
   <section class="hero" id="home">
     <div class="hero__media" aria-hidden="true">
-      <video autoplay muted loop playsinline preload="none" fetchpriority="low" poster="assets/hero-poster.jpg">
-        <source src="assets/video/manifesto-loop.mp4" type="video/mp4" />
+      <video class="js-hero-video" muted loop playsinline preload="none" poster="assets/hero-poster.jpg">
+        <source data-src="assets/video/manifesto-loop.mp4" type="video/mp4" />
       </video>
     </div>
     <div class="hero__scrim" aria-hidden="true"></div>
