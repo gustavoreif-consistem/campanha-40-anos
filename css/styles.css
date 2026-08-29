@@ -443,8 +443,7 @@ section { position: relative; }
   align-items: center;
   text-align: center;
   gap: var(--ds-space-6);
-  max-width: 640px;
-  margin: 0 auto var(--ds-space-14);
+  margin: 0 auto var(--ds-space-16);
 }
 .experience__intro .text-p { opacity: 0.72; }
 .experience__grid {
@@ -470,9 +469,13 @@ section { position: relative; }
 .experience-item .text-p { opacity: 0.8; }
 /* Parágrafo grande entre os 4 diferenciais e o bloco de números — mesma
    escala visual do "fundamentos-lead", mas centralizado e sem animação. */
+/* Margin do maior degrau existente no DS (--section-padding-block, 128px
+   desktop / 88px ≤960px) — pedido explícito de bastante respiro aqui,
+   maior que qualquer token de espaçamento primitivo (--ds-space-16 = 64px
+   é o teto da escala primitiva). */
 .experience__lead {
   max-width: 1198px;
-  margin: 0 auto var(--ds-space-16);
+  margin: var(--section-padding-block) auto;
   font-size: 40px;
   line-height: 1.1;
   text-align: center;
@@ -610,6 +613,32 @@ section { position: relative; }
       sozinha nas bordas desse container, sem replicar o hack de
       ScrollTrigger que a referência precisa só por ser `fixed`. */
 
+/* Hero de abertura — 100vh (mesmo idioma de .hero em index.html: height +
+   min-height de segurança), texto de um lado e espaço de foto do outro
+   (ainda placeholder — ver .history-placeholder mais abaixo). */
+.history-hero {
+  height: 100vh;
+  min-height: 640px;
+  display: flex;
+  align-items: center;
+}
+.history-hero__grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: var(--ds-space-12);
+  align-items: center;
+}
+.history-hero__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4);
+}
+.history-hero__photo {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  max-height: 70vh;
+}
+
 /* Ficha técnica (fundação/sede/atuação/produto) — 4 colunas com divisórias
    via ::after (mesma técnica de .experience-item, sem elemento extra). */
 .history-facts {
@@ -694,29 +723,36 @@ section { position: relative; }
   color: var(--color-brand-primary);
 }
 
-/* Bloco de era — grid de 2 colunas; alterna lado a cada bloco. Sem
-   align-items override: o item de texto herda `stretch` (padrão do
-   grid), então sua caixa sticky fica tão alta quanto a linha inteira
-   (ditada pela coluna de cards, mais alta) — é isso que faz o texto
-   ficar "grudado" pela duração inteira do bloco, não só um instante. */
+/* Bloco de era — grid de 2 colunas; alterna lado a cada bloco. align-items
+   stretch (default do grid) faz .history-block__content (o item em si,
+   sem position própria) ficar tão alto quanto a linha inteira (ditada pela
+   coluna de cards, mais alta). O sticky NÃO fica nesse item — fica num
+   FILHO dele (.history-block__sticky): aplicar position:sticky direto no
+   próprio item esticado é um gotcha real de Grid (vários engines não
+   calculam a faixa de "colado" corretamente quando o elemento sticky e o
+   elemento esticado são o mesmo) — envolver o conteúdo sticky num wrapper
+   à parte, que só herda a altura via stretch, é o fix padrão. Só funciona
+   em viewport ≥960px — abaixo disso o efeito inteiro é desligado de
+   propósito (ver @media no fim do arquivo). */
 .history-block {
   display: grid;
   grid-template-columns: 1fr 1.1fr;
   gap: var(--ds-space-12);
+  align-items: stretch;
   padding-block: var(--section-padding-block);
 }
 .history-block--reverse .history-block__content { order: 2; }
 .history-block--reverse .history-block__cards { order: 1; }
 
-.history-block__content {
+.history-block__sticky {
   position: sticky;
   top: 160px; /* limpa header + barra sticky (~96 + ~48) com respiro */
   display: flex;
   flex-direction: column;
   gap: var(--ds-space-4);
 }
-.history-block__content .text-tag { color: var(--color-accent-warm); }
-.history-block__content .text-p { opacity: 0.85; max-width: 46ch; }
+.history-block__sticky .text-tag { color: var(--color-accent-warm); }
+.history-block__sticky .text-p { opacity: 0.85; max-width: 46ch; }
 
 .history-block__cards {
   display: flex;
@@ -729,6 +765,9 @@ section { position: relative; }
   flex-direction: column;
   gap: var(--ds-space-3);
   padding: var(--ds-space-6);
+  max-height: 60vh; /* card inteiro, não só a foto — garante que ano/título
+    fiquem sempre visíveis mesmo com o card colado no topo da tela */
+  overflow: hidden;
   border-radius: var(--radius-md);
   background: var(--color-surface-inverse-alt);
   border: 1px solid var(--color-border-inverse);
@@ -740,6 +779,10 @@ section { position: relative; }
 .history-card:nth-child(1) { top: 176px; }
 .history-card:nth-child(2) { top: 216px; }
 .history-card:nth-child(3) { top: 256px; }
+/* Ano/título nunca encolhem — só a foto cede espaço pro card caber no
+   max-height acima. */
+.history-card__year,
+.history-card__title { flex-shrink: 0; }
 .history-card__year { color: var(--color-accent-warm); }
 .history-card__title { opacity: 0.9; }
 
@@ -756,7 +799,10 @@ section { position: relative; }
   overflow: hidden;
 }
 .history-placeholder__label { max-width: 20ch; text-align: center; opacity: 0.55; }
-.history-card__photo { aspect-ratio: 4 / 5; }
+/* A foto do card cresce pra ocupar o espaço restante do card (que tem
+   max-height:60vh), mas nunca abaixo de 300px — se a soma ultrapassar o
+   max-height do .history-card, o overflow:hidden dele corta o excesso. */
+.history-card__photo { flex: 1 1 auto; min-height: 300px; }
 
 /* Bloco "presente" (2026) — fora do padrão de stack, de propósito: é o
    fecho maior da timeline, não mais uma era igual às outras. Último
@@ -810,16 +856,21 @@ section { position: relative; }
   .hero__actions { flex-direction: column; align-items: flex-start; gap: var(--ds-space-6); }
   :root { --section-padding-block: 88px; }
 
-  /* História: desliga o efeito de stack (mesmo ponto de corte de
+  /* História: hero perde a altura fixa (o conteúdo empilhado — texto +
+     ficha técnica + foto — não cabe bem em 100vh numa coluna só) e
+     desliga o efeito de stack (mesmo ponto de corte de
      .about__grid/.evolve__grid acima) — vira coluna única, texto sempre
      primeiro, cards em fluxo normal abaixo, sem sticky. */
+  .history-hero { height: auto; min-height: 0; padding-block: var(--section-padding-block); }
+  .history-hero__grid { grid-template-columns: 1fr; }
+  .history-hero__photo { max-height: 50vh; }
   .history-facts { grid-template-columns: repeat(2, 1fr); row-gap: var(--ds-space-6); }
   .history-fact::after { display: none; }
   .history-block { grid-template-columns: 1fr; gap: var(--ds-space-8); }
   .history-block--reverse .history-block__content,
   .history-block--reverse .history-block__cards { order: initial; }
-  .history-block__content,
-  .history-card { position: static; top: auto; }
+  .history-block__sticky,
+  .history-card { position: static; top: auto; max-height: none; }
 }
 
 @media (max-width: 640px) {
