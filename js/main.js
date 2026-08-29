@@ -34,8 +34,10 @@
 
   // Âncoras internas (navbar, rodapé, botões) na MESMA página: fecha, pula
   // direto pro alvo (sem o smooth-scroll nativo, que ficaria rodando atrás
-  // do painel), reabre.
-  document.querySelectorAll('a[href^="#"]').forEach(function (link) {
+  // do painel), reabre. Exclui .js-no-transition (ex.: itens da barra da
+  // timeline de História — clique frequente, não deve carregar o painel
+  // grafite a cada troca de era).
+  document.querySelectorAll('a[href^="#"]:not(.js-no-transition)').forEach(function (link) {
     var hash = link.getAttribute('href');
     if (!hash || hash.length <= 1) return; // ignora href="#" solto (placeholder do rodapé)
     link.addEventListener('click', function (e) {
@@ -180,84 +182,6 @@
   });
 })();
 
-// Accordion horizontal de depoimentos — passar o mouse ou clicar num painel
-// fechado abre ele e fecha o que estava aberto (nunca mais de um por vez).
-(function () {
-  var accordion = document.getElementById('testimonialAccordion');
-  if (!accordion) return;
-
-  var panels = Array.prototype.slice.call(accordion.querySelectorAll('.testimonial-panel'));
-
-  function activate(target) {
-    panels.forEach(function (panel) {
-      panel.classList.toggle('is-active', panel === target);
-    });
-  }
-
-  panels.forEach(function (panel) {
-    panel.addEventListener('mouseenter', function () { activate(panel); });
-    panel.addEventListener('click', function () { activate(panel); });
-    panel.addEventListener('focus', function () { activate(panel); });
-  });
-})();
-
-// Scroll-reveal LETRA A LETRA no texto de abertura da seção "cobertura"
-// (Presença) — GSAP + ScrollTrigger, só roda se as duas libs estiverem
-// carregadas nesta página. Cada caractere do trecho não destacado (fora do
-// <strong>) vira um <span class="char"> em runtime e recebe um stagger de
-// cor conforme o scroll avança; <strong> e <br> ficam intactos. As cores
-// são lidas dos tokens computados, nunca hex fixo aqui.
-(function () {
-  var lead = document.getElementById('coverageLead');
-  var visual = lead ? lead.querySelector('.coverage-lead__visual') : null;
-  if (!lead || !visual || !window.gsap || !window.ScrollTrigger) return;
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  var initialColor = getComputedStyle(document.documentElement)
-    .getPropertyValue('--color-surface-alt')
-    .trim();
-  var targetColor = getComputedStyle(document.documentElement)
-    .getPropertyValue('--color-text-default')
-    .trim();
-
-  function wrapChars(root) {
-    var chars = [];
-    Array.prototype.slice.call(root.childNodes).forEach(function (node) {
-      if (node.nodeType === Node.TEXT_NODE) {
-        var frag = document.createDocumentFragment();
-        node.textContent.split('').forEach(function (ch) {
-          var span = document.createElement('span');
-          span.className = 'char';
-          span.textContent = ch;
-          frag.appendChild(span);
-          chars.push(span);
-        });
-        node.parentNode.replaceChild(frag, node);
-      } else if (node.tagName !== 'STRONG') {
-        // recursa nos <span class="coverage-lead__line"> (as 3 linhas);
-        // <strong> fica intocado, fora da animação.
-        chars = chars.concat(wrapChars(node));
-      }
-    });
-    return chars;
-  }
-
-  var chars = wrapChars(visual);
-  gsap.set(chars, { color: initialColor });
-  gsap.to(chars, {
-    color: targetColor,
-    ease: 'none',
-    stagger: 0.02,
-    scrollTrigger: {
-      trigger: lead,
-      start: 'top 85%',
-      end: 'top 25%',
-      scrub: true,
-    },
-  });
-})();
-
 // Scroll-reveal LETRA A LETRA no texto "fundamentos" da Home (index.html) —
 // mesma técnica do bloco acima (coverage-lead), sem trecho fixo/destacado:
 // o parágrafo inteiro revela de uma cor bem apagada até a cor sólida do
@@ -317,35 +241,75 @@
   });
 })();
 
-// Ícones da "constelação" de segmentos — parallax de verdade: cada ícone
-// desliza (sem fade) numa velocidade diferente (--depth, lido do elemento
-// pai .segments__icon) enquanto a seção inteira passa pela tela, não só
-// numa entrada única. Roda por cima da flutuação contínua em CSS
-// (@keyframes segmentIconFloat, em elemento separado pra não conflitar
-// com a transform que o GSAP controla aqui).
+// Timeline de "História" (historia.html) — estado ativo da barra de eras.
+// A barra em si fica sticky por CSS puro (ver .history-nav em styles.css,
+// primeiro filho de .history-timeline) — aqui só troca qual item mostra
+// "ativo" conforme o scroll passa por cada bloco (IntersectionObserver,
+// sem GSAP: mesma técnica usada de verdade pelo ICARDA pra esse detalhe
+// específico, olhando qual <section data-history-era> está mais visível).
 (function () {
-  var section = document.getElementById('segmentos');
-  var wrappers = section ? section.querySelectorAll('.segments__icon') : null;
-  if (!section || !wrappers || !wrappers.length || !window.gsap || !window.ScrollTrigger) return;
+  var nav = document.querySelector('.history-nav');
+  var blocks = Array.prototype.slice.call(document.querySelectorAll('[data-history-era]'));
+  if (!nav || !blocks.length) return;
+
+  var items = Array.prototype.slice.call(nav.querySelectorAll('.history-nav__item'));
+
+  function setActive(id) {
+    items.forEach(function (item) {
+      item.classList.toggle('is-active', item.getAttribute('href') === '#' + id);
+    });
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    var mostVisible = null;
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting && (!mostVisible || entry.intersectionRatio > mostVisible.intersectionRatio)) {
+        mostVisible = entry;
+      }
+    });
+    if (mostVisible) setActive(mostVisible.target.id);
+  }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+
+  blocks.forEach(function (block) { observer.observe(block); });
+
+  items.forEach(function (item) {
+    item.addEventListener('click', function (e) {
+      var target = document.querySelector(item.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+})();
+
+// Timeline de "História" — reveal de entrada nos cards empilhados e no
+// título do bloco "presente". Puramente cosmético por cima do empilhamento
+// (que já funciona só de CSS, .history-card{position:sticky}) — sem GSAP,
+// os cards continuam visíveis normalmente (guard padrão).
+(function () {
+  var cards = document.querySelectorAll('.history-card');
+  var presentTitle = document.querySelector('.history-present__title');
+  if ((!cards.length && !presentTitle) || !window.gsap || !window.ScrollTrigger) return;
 
   gsap.registerPlugin(ScrollTrigger);
 
-  wrappers.forEach(function (wrapper) {
-    var target = wrapper.querySelector('.segments__icon-parallax');
-    if (!target) return;
-    var depth = parseFloat(wrapper.dataset.depth) || 1;
-    gsap.fromTo(target,
-      { y: 160 * depth },
-      {
-        y: -80 * depth,
-        ease: 'none',
-        scrollTrigger: {
-          trigger: section,
-          start: 'top bottom',
-          end: 'bottom top',
-          scrub: true,
-        },
-      }
-    );
+  cards.forEach(function (card) {
+    gsap.from(card, {
+      opacity: 0,
+      y: 40,
+      duration: 0.6,
+      ease: 'Power2.easeOut',
+      scrollTrigger: { trigger: card, start: 'top 85%' },
+    });
   });
+
+  if (presentTitle) {
+    gsap.from(presentTitle, {
+      opacity: 0,
+      y: 24,
+      duration: 0.7,
+      ease: 'Power2.easeOut',
+      scrollTrigger: { trigger: presentTitle, start: 'top 85%' },
+    });
+  }
 })();

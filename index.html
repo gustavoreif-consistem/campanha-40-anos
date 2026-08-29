@@ -114,6 +114,7 @@
       <p class="fundamentos-lead" id="fundamentosLead" aria-label="Essa trajetória foi construída acompanhando mudanças na indústria, evoluindo produtos, ampliando conhecimento e mantendo relações que atravessam diferentes ciclos de negócio. Em 2026, celebramos o caminho percorrido e seguimos olhando para o que ainda podemos construir.">
         <span class="fundamentos-lead__visual" aria-hidden="true">
           <span class="fundamentos-lead__block">Essa trajetória foi construída acompanhando mudanças na indústria, evoluindo produtos, ampliando conhecimento e mantendo relações que atravessam diferentes ciclos de negócio.</span>
+          <br />
           <span class="fundamentos-lead__block">Em 2026, celebramos o caminho percorrido e seguimos olhando para o que ainda podemos construir.</span>
         </span>
       </p>
@@ -130,7 +131,7 @@
         <p class="text-p text-p-lg">Nosso manifesto parte dessa ideia para falar sobre decisões, presença, responsabilidade e sobre as pessoas e empresas que mantêm a indústria em movimento.</p>
       </div>
       <div class="about__media">
-        <video controls playsinline poster="assets/tela-video.jpg">
+        <video controls playsinline preload="none" poster="assets/tela-video.jpg">
           <source src="assets/video/manifesto.mp4" type="video/mp4" />
         </video>
       </div>
@@ -148,7 +149,9 @@
           <a class="btn btn--warm btn--sm" href="#">Explore a história</a>
         </div>
         <div class="evolve__photo">
-          <img src="assets/card.gif" alt="Animação de um card de produto Consistem em uso" />
+          <video autoplay muted loop playsinline aria-label="Animação de um card de produto Consistem em uso">
+            <source src="assets/video/card.mp4" type="video/mp4" />
+          </video>
         </div>
       </div>
       <div class="evolve__campaign">
@@ -304,7 +307,7 @@
     <button class="video-modal__close" id="videoModalClose" type="button" aria-label="Fechar vídeo">
       <svg class="icon"><use href="#icon-close"></use></svg>
     </button>
-    <video id="manifestoVideo" controls playsinline>
+    <video id="manifestoVideo" controls playsinline preload="none">
       <source src="assets/video/manifesto.mp4" type="video/mp4" />
     </video>
   </div>

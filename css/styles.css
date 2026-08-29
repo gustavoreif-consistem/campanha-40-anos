@@ -384,14 +384,12 @@ section { position: relative; }
    <strong> de .coverage-lead), alinhado à esquerda, não centralizado. ===== */
 .fundamentos-lead {
   max-width: 1158px;
-  margin: 0 auto;
   font-size: 40px;
   font-weight: var(--ds-weight-regular);
   line-height: 1.24;
   color: var(--color-text-default);
 }
 .fundamentos-lead__block { display: block; }
-.fundamentos-lead__block + .fundamentos-lead__block { margin-top: var(--ds-space-12); }
 
 /* ===== Cards (citação + gif) + imagem de campanha ===== */
 .evolve {
@@ -425,7 +423,8 @@ section { position: relative; }
   overflow: hidden;
   min-height: 180px;
 }
-.evolve__photo img { width: 100%; height: 100%; object-fit: cover; }
+.evolve__photo img,
+.evolve__photo video { width: 100%; height: 100%; object-fit: cover; }
 .evolve__campaign {
   border-radius: var(--radius-lg);
   overflow: hidden;
