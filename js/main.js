@@ -258,6 +258,65 @@
   });
 })();
 
+// Scroll-reveal LETRA A LETRA no texto "fundamentos" da Home (index.html) —
+// mesma técnica do bloco acima (coverage-lead), sem trecho fixo/destacado:
+// o parágrafo inteiro revela de uma cor bem apagada até a cor sólida do
+// texto. A cor inicial (20% do token de texto sobre transparente) é
+// resolvida via color-mix num elemento-sonda descartável, nunca hex fixo.
+(function () {
+  var lead = document.getElementById('fundamentosLead');
+  var visual = lead ? lead.querySelector('.fundamentos-lead__visual') : null;
+  if (!lead || !visual || !window.gsap || !window.ScrollTrigger) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  var probe = document.createElement('span');
+  probe.style.color = 'color-mix(in srgb, var(--color-text-default) 20%, transparent)';
+  probe.style.position = 'absolute';
+  probe.style.visibility = 'hidden';
+  document.body.appendChild(probe);
+  var initialColor = getComputedStyle(probe).color;
+  document.body.removeChild(probe);
+
+  var targetColor = getComputedStyle(document.documentElement)
+    .getPropertyValue('--color-text-default')
+    .trim();
+
+  function wrapChars(root) {
+    var chars = [];
+    Array.prototype.slice.call(root.childNodes).forEach(function (node) {
+      if (node.nodeType === Node.TEXT_NODE) {
+        var frag = document.createDocumentFragment();
+        node.textContent.split('').forEach(function (ch) {
+          var span = document.createElement('span');
+          span.className = 'char';
+          span.textContent = ch;
+          frag.appendChild(span);
+          chars.push(span);
+        });
+        node.parentNode.replaceChild(frag, node);
+      } else if (node.tagName !== 'STRONG') {
+        chars = chars.concat(wrapChars(node));
+      }
+    });
+    return chars;
+  }
+
+  var chars = wrapChars(visual);
+  gsap.set(chars, { color: initialColor });
+  gsap.to(chars, {
+    color: targetColor,
+    ease: 'none',
+    stagger: 0.01,
+    scrollTrigger: {
+      trigger: lead,
+      start: 'top 85%',
+      end: 'top 25%',
+      scrub: true,
+    },
+  });
+})();
+
 // Ícones da "constelação" de segmentos — parallax de verdade: cada ícone
 // desliza (sem fade) numa velocidade diferente (--depth, lido do elemento
 // pai .segments__icon) enquanto a seção inteira passa pela tela, não só

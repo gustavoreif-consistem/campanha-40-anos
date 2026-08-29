@@ -78,6 +78,8 @@ section { position: relative; }
 .text-h4 { font-size: var(--font-heading-sm-size); font-weight: var(--font-heading-sm-weight); letter-spacing: var(--font-heading-sm-tracking); line-height: var(--font-heading-sm-leading); }
 .text-h5 { font-size: var(--font-subheading-size); font-weight: var(--font-subheading-weight); letter-spacing: var(--font-subheading-tracking); line-height: var(--font-subheading-leading); }
 .text-p { font-size: var(--font-body-size); font-weight: var(--font-body-weight); letter-spacing: var(--font-body-tracking); line-height: var(--font-body-leading); }
+/* Variante "grande" do body (20px) — soma à .text-p, nunca sozinha. */
+.text-p-lg { font-size: var(--font-body-lg-size); line-height: var(--font-body-lg-leading); }
 .text-small { font-size: var(--font-caption-size); font-weight: var(--font-caption-weight); letter-spacing: var(--font-caption-tracking); line-height: var(--font-caption-leading); }
 .text-tag { font-size: var(--font-label-sm-size); font-weight: var(--font-label-sm-weight); letter-spacing: var(--font-label-sm-tracking); line-height: var(--font-label-sm-leading); text-transform: uppercase; }
 .text-badge { font-size: var(--font-label-xs-size); font-weight: var(--font-label-xs-weight); letter-spacing: var(--font-label-xs-tracking); line-height: var(--font-label-xs-leading); }
@@ -274,14 +276,15 @@ section { position: relative; }
 }
 .hero__heading {
   margin: 0;
-  max-width: 18ch;
+  max-width: 480px;
   font-size: clamp(36px, 5.5vw, var(--font-heading-xl-size));
   font-weight: var(--font-heading-xl-weight);
   letter-spacing: var(--font-heading-xl-tracking);
   line-height: 1.1;
 }
+.hero__heading .is-light { font-weight: var(--ds-weight-regular); }
 .hero__heading .is-emphasis { font-weight: var(--ds-weight-bold); }
-.hero__heading .is-light { font-weight: var(--ds-weight-regular); opacity: 0.85; }
+.hero__heading .is-semibold { font-weight: var(--ds-weight-semibold); }
 
 .hero__actions {
   display: flex;
@@ -289,7 +292,7 @@ section { position: relative; }
   justify-content: space-between;
   gap: var(--ds-space-8);
 }
-.hero__support { display: flex; flex-direction: column; gap: var(--ds-space-3); max-width: 44ch; margin: 0; opacity: 0.82; }
+.hero__support { max-width: 44ch; margin: 0; }
 .hero__buttons { display: flex; gap: var(--ds-space-4); flex-shrink: 0; }
 
 /* ===== Modal de vídeo — manifesto completo, com áudio ===== */
@@ -374,6 +377,22 @@ section { position: relative; }
 .about__content .text-h3 { max-width: 22ch; }
 .about__content .text-p { max-width: 42ch; opacity: 0.88; }
 
+/* ===== Texto "fundamentos" — parágrafo grande revelado letra a letra no
+   scroll (mesma técnica de .coverage-lead em presenca.html: <span class="char">
+   gerado em runtime pelo main.js, cor anima de bem apagada até a cor sólida
+   do texto). Aqui a peça inteira revela (não tem trecho fixo/destacado como o
+   <strong> de .coverage-lead), alinhado à esquerda, não centralizado. ===== */
+.fundamentos-lead {
+  max-width: 1158px;
+  margin: 0 auto;
+  font-size: 40px;
+  font-weight: var(--ds-weight-regular);
+  line-height: 1.24;
+  color: var(--color-text-default);
+}
+.fundamentos-lead__block { display: block; }
+.fundamentos-lead__block + .fundamentos-lead__block { margin-top: var(--ds-space-12); }
+
 /* ===== Cards (citação + gif) + imagem de campanha ===== */
 .evolve {
   padding-block: var(--section-padding-block);
@@ -399,7 +418,7 @@ section { position: relative; }
   min-height: 290px;
   justify-content: center;
 }
-.card-quote .text-h4 { max-width: 20ch; }
+.card-quote .text-h3 { max-width: 20ch; }
 .card-quote .text-p { opacity: 0.8; }
 .evolve__photo {
   border-radius: var(--radius-md);
@@ -418,20 +437,44 @@ section { position: relative; }
 .experience__intro {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   gap: var(--ds-space-4);
   max-width: 640px;
-  margin-bottom: var(--ds-space-10);
+  margin: 0 auto var(--ds-space-10);
 }
 .experience__intro .text-p { opacity: 0.72; }
 .experience__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--ds-space-6);
-  margin-bottom: var(--ds-space-14);
+  margin-bottom: var(--ds-space-16);
 }
-.experience-item { display: flex; flex-direction: column; gap: var(--ds-space-2); }
-.experience-item .text-h4 { font-size: var(--font-subheading-size); }
+.experience-item { position: relative; display: flex; flex-direction: column; }
+/* Linha divisória entre itens — centralizada no meio do gap de 24px do
+   grid, sem precisar de um elemento de linha à parte no HTML. */
+.experience-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: calc(var(--ds-space-6) / -2 - 0.5px);
+  width: 1px;
+  background: var(--color-border-inverse);
+}
+.experience-item__icon { width: 141px; height: 141px; margin-bottom: var(--ds-space-6); }
+.experience-item .text-h4 { font-size: var(--font-subheading-size); color: var(--color-accent-warm); margin-bottom: var(--ds-space-2); }
 .experience-item .text-p { opacity: 0.8; }
+/* Parágrafo grande entre os 4 diferenciais e o bloco de números — mesma
+   escala visual do "fundamentos-lead", mas centralizado e sem animação. */
+.experience__lead {
+  max-width: 1198px;
+  margin: var(--ds-space-16) auto var(--ds-space-14);
+  font-size: 40px;
+  line-height: 1.1;
+  text-align: center;
+  color: var(--color-text-inverse);
+}
 
 /* ===== Estatísticas — cards individuais (label em cima / número / legenda) ===== */
 .stats__grid {
@@ -491,6 +534,9 @@ section { position: relative; }
 }
 .future-item .text-h3 { max-width: 20ch; }
 .future-item .text-p { max-width: 44ch; opacity: 0.82; }
+/* Ilustração do card — soma ao gap padrão do card (16px) mais 16px de
+   margem própria, resultando nos 32px de respiro do Figma antes do título. */
+.future-item__art { width: 100%; height: auto; margin-bottom: var(--ds-space-4); }
 
 /* ===== Footer — próximo do componente oficial (logo + link list + linha legal) ===== */
 .site-footer {
@@ -908,7 +954,8 @@ section { position: relative; }
   .about--media-right .about__media,
   .about--media-right .about__content { order: initial; }
   .evolve__grid { grid-template-columns: 1fr; }
-  .experience__grid { grid-template-columns: repeat(2, 1fr); }
+  .experience__grid { grid-template-columns: repeat(2, 1fr); row-gap: var(--ds-space-10); }
+  .experience-item::after { display: none; }
   .future__grid { grid-template-columns: 1fr; gap: var(--ds-space-6); }
   .stats__grid { grid-template-columns: repeat(2, 1fr); }
   .segments__orbit { transform: scale(0.65); }
@@ -917,6 +964,8 @@ section { position: relative; }
   .coverage-box__content { max-width: none; }
   .coverage-box__map { position: static; width: 100%; max-width: none; height: 280px; }
   .coverage-lead { font-size: 32px; margin-bottom: var(--ds-space-16); }
+  .fundamentos-lead { font-size: 28px; }
+  .experience__lead { font-size: 28px; }
   .hero__actions { flex-direction: column; align-items: flex-start; gap: var(--ds-space-6); }
   :root { --section-padding-block: 88px; }
 }
@@ -951,6 +1000,8 @@ section { position: relative; }
   .cta-banner { padding: var(--ds-space-6); min-height: 380px; }
   .coverage-box__map { height: 220px; }
   .coverage-lead { font-size: 26px; margin-bottom: var(--ds-space-10); }
+  .fundamentos-lead { font-size: 22px; }
+  .experience__lead { font-size: 22px; }
   .presenca-hero__photo { object-position: 65% 30%; }
   /* Sem espaço pra vazar a borda numa tela estreita — as tags recolhem
      pra dentro do card em vez de sair pelos lados. */

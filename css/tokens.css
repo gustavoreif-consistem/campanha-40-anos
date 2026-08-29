@@ -187,6 +187,15 @@
   --font-body-tracking: var(--ds-tracking-0);
   --font-body-leading: var(--ds-line-height-relaxed);
 
+  /*
+    Extensão local desta LP: parágrafo de apoio "grande" (20px) — usado como
+    variante de peso maior do body em vários blocos de intro/lead da Home,
+    sem ganhar peso de subheading (que é semibold). Não é um nível novo da
+    escala oficial de heading, só um degrau intermediário de corpo de texto.
+  */
+  --font-body-lg-size: var(--ds-size-20);
+  --font-body-lg-leading: 24px;
+
   --font-caption-size: var(--ds-size-14);
   --font-caption-weight: var(--ds-weight-regular);
   --font-caption-tracking: var(--ds-tracking-0);

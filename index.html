@@ -93,20 +93,30 @@
     <div class="hero__scrim" aria-hidden="true"></div>
     <div class="container">
       <h1 class="hero__heading">
-        <span class="is-emphasis">Confiança</span> <span class="is-light">em cada</span><br />
-        <span class="is-emphasis">decisão</span>
+        <span class="is-light">Confiança em</span> <span class="is-emphasis">cada</span> <span class="is-semibold">decisão</span>
       </h1>
       <div class="hero__actions">
-        <div class="hero__support">
-          <p class="text-p">Há 40 anos, a Consistem desenvolve tecnologia para empresas que precisam integrar processos, manter a operação segura e tomar decisões com mais clareza.</p>
-          <p class="text-p">Essa trajetória foi construída acompanhando mudanças na indústria, evoluindo produtos, ampliando conhecimento e mantendo relações que atravessam diferentes ciclos de negócio.</p>
-          <p class="text-p">Em 2026, celebramos o caminho percorrido e seguimos olhando para o que ainda podemos construir.</p>
-        </div>
+        <p class="text-p hero__support">Há 40 anos, a Consistem desenvolve tecnologia para empresas que precisam integrar processos, manter a operação segura e tomar decisões com mais clareza.</p>
         <div class="hero__buttons">
           <button class="btn btn--warm btn--md" id="watchManifestoBtn" type="button">Assistir ao manifesto</button>
           <a class="btn btn--outline btn--md" href="#trajetoria">Conhecer a história</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Texto que "abria" o hero (parágrafos 2 e 3 originais) agora abre esta seção,
+       revelado letra a letra via GSAP ScrollTrigger conforme o scroll avança —
+       mesmo mecanismo de .coverage-lead (presenca.html), adaptado pra este
+       bloco (ver #fundamentosLead em main.js). -->
+  <section class="section-pad section--light" id="fundamentos">
+    <div class="container">
+      <p class="fundamentos-lead" id="fundamentosLead" aria-label="Essa trajetória foi construída acompanhando mudanças na indústria, evoluindo produtos, ampliando conhecimento e mantendo relações que atravessam diferentes ciclos de negócio. Em 2026, celebramos o caminho percorrido e seguimos olhando para o que ainda podemos construir.">
+        <span class="fundamentos-lead__visual" aria-hidden="true">
+          <span class="fundamentos-lead__block">Essa trajetória foi construída acompanhando mudanças na indústria, evoluindo produtos, ampliando conhecimento e mantendo relações que atravessam diferentes ciclos de negócio.</span>
+          <span class="fundamentos-lead__block">Em 2026, celebramos o caminho percorrido e seguimos olhando para o que ainda podemos construir.</span>
+        </span>
+      </p>
     </div>
   </section>
 
@@ -116,8 +126,8 @@
     <div class="container about__grid">
       <div class="about__content">
         <h2 class="text-h2">O que sustenta uma relação por 40 anos</h2>
-        <p class="text-p">O tempo amplia repertório, mas são as escolhas feitas ao longo dele que constroem uma relação de confiança.</p>
-        <p class="text-p">Nosso manifesto parte dessa ideia para falar sobre decisões, presença, responsabilidade e sobre as pessoas e empresas que mantêm a indústria em movimento.</p>
+        <p class="text-p text-p-lg">O tempo amplia repertório, mas são as escolhas feitas ao longo dele que constroem uma relação de confiança.</p>
+        <p class="text-p text-p-lg">Nosso manifesto parte dessa ideia para falar sobre decisões, presença, responsabilidade e sobre as pessoas e empresas que mantêm a indústria em movimento.</p>
       </div>
       <div class="about__media">
         <video controls playsinline poster="assets/tela-video.jpg">
@@ -132,8 +142,8 @@
     <div class="container evolve__grid">
       <div class="evolve__stack">
         <div class="card-quote">
-          <h3 class="text-h4">A Consistem evolui junto da indústria</h3>
-          <p class="text-p">Uma história marcada pela confiança, pela solidez operacional e pela capacidade de acompanhar mudanças sem perder sua essência.</p>
+          <h3 class="text-h3">A Consistem evolui junto da indústria</h3>
+          <p class="text-p text-p-lg">Uma história marcada pela confiança, pela solidez operacional e pela capacidade de acompanhar mudanças sem perder sua essência.</p>
           <!-- Destino "história completa" ainda não existe como página própria — placeholder até essa página nascer. -->
           <a class="btn btn--warm btn--sm" href="#">Explore a história</a>
         </div>
@@ -152,27 +162,31 @@
     <div class="container">
       <div class="experience__intro">
         <h2 class="text-h2">Experiência que gera eficiência</h2>
-        <p class="text-p">Chegar aos 40 anos representa acumular conhecimento sobre processos, tecnologia e, principalmente, sobre o impacto que um sistema de gestão tem na rotina de uma empresa.</p>
-        <p class="text-p">Essa experiência aparece hoje em nossos indicadores e na forma como desenvolvemos produtos, acompanhamos clientes e avaliamos cada nova tecnologia antes de incorporá-la à operação.</p>
+        <p class="text-p text-p-lg">Chegar aos 40 anos representa acumular conhecimento sobre processos, tecnologia e, principalmente, sobre o impacto que um sistema de gestão tem na rotina de uma empresa.</p>
       </div>
       <div class="experience__grid">
         <div class="experience-item">
+          <img class="experience-item__icon" src="assets/icons-experiencia/conhecimento-operacao.png" alt="" />
           <h3 class="text-h4">Conhecimento da operação</h3>
           <p class="text-p">Conviver com diferentes realidades industriais ampliou nossa capacidade de compreender processos complexos e transformar necessidades de gestão em soluções aplicáveis.</p>
         </div>
         <div class="experience-item">
+          <img class="experience-item__icon" src="assets/icons-experiencia/continuidade.png" alt="" />
           <h3 class="text-h4">Continuidade</h3>
           <p class="text-p">Para uma indústria, evolução tecnológica precisa considerar o que já funciona. Segurança, estabilidade e previsibilidade fazem parte das decisões sobre produto desde o desenvolvimento até a atualização.</p>
         </div>
         <div class="experience-item">
+          <img class="experience-item__icon" src="assets/icons-experiencia/relacionamento.png" alt="" />
           <h3 class="text-h4">Relacionamento</h3>
           <p class="text-p">Os processos mudam, as empresas crescem e novos desafios aparecem. A proximidade permite acompanhar essas mudanças e manter o produto conectado à realidade de quem utiliza o sistema.</p>
         </div>
         <div class="experience-item">
+          <img class="experience-item__icon" src="assets/icons-experiencia/evolucao-responsavel.png" alt="" />
           <h3 class="text-h4">Evolução responsável</h3>
           <p class="text-p">A tecnologia avança continuamente. Nosso critério é incorporá-la quando existe aplicação real para melhorar produtividade, análise, controle e capacidade de decisão.</p>
         </div>
       </div>
+      <p class="experience__lead">Essa experiência aparece hoje em nossos indicadores e na forma como desenvolvemos produtos, acompanhamos clientes e avaliamos cada nova tecnologia antes de incorporá-la à operação.</p>
       <div class="stats__grid">
         <div class="stat-card">
           <svg class="icon icon--lg stat-card__icon"><use href="#icon-building"></use></svg>
@@ -219,10 +233,11 @@
     <div class="container">
       <div class="future__intro">
         <h2 class="text-h2">De olho no futuro</h2>
-        <p class="text-p">Os 40 anos coincidem com movimentos importantes na forma como a Consistem se apresenta e desenvolve tecnologia.</p>
+        <p class="text-p text-p-lg">Os 40 anos coincidem com movimentos importantes na forma como a Consistem se apresenta e desenvolve tecnologia.</p>
       </div>
       <div class="future__grid">
         <div class="future-item">
+          <img class="future-item__art" src="assets/img-futuro/nova-marca.png" alt="" />
           <h3 class="text-h3">Uma identidade mais precisa</h3>
           <p class="text-p">Em 2026, renovamos nossa identidade para expressar com mais clareza a Consistem de hoje: uma empresa que combina experiência, conhecimento técnico, proximidade e capacidade de evoluir com responsabilidade.</p>
           <p class="text-p">A confiança permanece no centro dessa construção e agora ganha uma expressão mais contemporânea em nossos canais, produtos e experiências.</p>
@@ -230,6 +245,7 @@
           <a class="btn btn--warm btn--md" href="#">Conheça a nova marca</a>
         </div>
         <div class="future-item">
+          <img class="future-item__art" src="assets/img-futuro/clara-ia.png" alt="" />
           <h3 class="text-h3">Inteligência aplicada à gestão</h3>
           <p class="text-p">A Consistem Clara IA passa a representar nossa suíte de inteligência artificial, conectando assistência, agentes, criação e orquestração à realidade da gestão empresarial.</p>
           <p class="text-p">A proposta é aproximar a IA dos dados e processos da empresa e permitir que ela ajude a transformar informação em decisão e decisão em ação, com permissões, rastreabilidade e supervisão humana.</p>
@@ -245,7 +261,7 @@
     <div class="container about__grid">
       <div class="about__content">
         <h2 class="text-h2">Evolua sua operação com confiança</h2>
-        <p class="text-p">Conheça as soluções Consistem e descubra como unir robustez operacional, integração de processos e evolução contínua para impulsionar sua indústria com segurança.</p>
+        <p class="text-p text-p-lg">Conheça as soluções Consistem e descubra como unir robustez operacional, integração de processos e evolução contínua para impulsionar sua indústria com segurança.</p>
         <a class="btn btn--warm btn--md" href="#evolucao">Fale com a gente</a>
       </div>
       <div class="about__media">
@@ -294,6 +310,8 @@
   </div>
 </div>
 
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
 <script src="js/main.js"></script>
 </body>
 </html>
