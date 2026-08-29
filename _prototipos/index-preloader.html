@@ -5,14 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Consistem 40 anos — Confiança em cada decisão</title>
 <meta name="description" content="Há 40 anos, a Consistem desenvolve tecnologia para empresas que precisam integrar processos, manter a operação segura e tomar decisões com mais clareza." />
-<link rel="icon" type="image/png" href="assets/favicon-selo-40anos.png" />
-<link rel="stylesheet" href="css/tokens.css" />
-<link rel="stylesheet" href="css/styles.css" />
-<link rel="stylesheet" href="css/preloader.css" />
+<link rel="icon" type="image/png" href="../assets/favicon-selo-40anos.png" />
+<link rel="stylesheet" href="../css/tokens.css" />
+<link rel="stylesheet" href="../css/styles.css" />
+<link rel="stylesheet" href="../css/preloader.css" />
 <!-- Gate síncrono do preloader — precisa rodar ANTES do primeiro paint pra
      não piscar o hero normal e depois escondê-lo. Só ativa se: motion normal
-     E ainda não visto nesta sessão (protótipo validado em
-     _prototipos/particulas-40.html, coreografia em js/preloader.js).
+     E ainda não visto nesta sessão (protótipo isolado, ver js/preloader.js).
      Qualquer reload (F5, Cmd+R, ou o hard reload Cmd+Shift+R) reseta a marca
      de "já visto" — não dá pra distinguir hard reload de reload normal via
      JS (os dois reportam type:"reload" na Navigation Timing API), então
@@ -35,12 +34,13 @@
 </head>
 <body>
 
-<!-- Preloader da Home — cortina opaca fixa com o "40" em partículas (mesmos
-     dados/física do protótipo validado em _prototipos/particulas-40.html,
-     hover incluso) + CTA "Clique e saiba mais". O hero real já existe
-     embaixo na posição normal o tempo todo — a cortina só sobe (clique no
-     CTA ou primeiro scroll/gesto) revelando ele. Ver js/preloader.js e
-     css/preloader.css. Inerte/invisível sem .preloader-active na <html>. -->
+<!-- Preloader da Home (protótipo isolado) — cortina opaca fixa com o "40" em
+     partículas (mesmos dados/física do protótipo validado em
+     _prototipos/particulas-40.html, hover incluso) + CTA "Saiba mais". O
+     hero real já existe embaixo na posição normal o tempo todo — a cortina
+     só sobe (clique no CTA ou primeiro scroll/gesto) revelando ele. Ver
+     js/preloader.js e css/preloader.css. Inerte/invisível sem
+     .preloader-active na <html>. -->
 <div class="preloader" id="preloader">
   <canvas class="preloader__canvas" id="preloaderCanvas" aria-hidden="true"></canvas>
   <button class="preloader__cta" id="preloaderCta" type="button">
@@ -105,15 +105,15 @@
 <header class="site-header">
   <div class="site-header__pill">
     <a class="site-header__brand" href="#home" aria-label="Consistem — início">
-      <img class="site-header__logo" src="assets/logo-consistem.svg" alt="Consistem" />
+      <img class="site-header__logo" src="../assets/logo-consistem.svg" alt="Consistem" />
     </a>
     <nav class="site-header__nav" id="siteNav" aria-label="Navegação principal">
       <a href="#home" aria-current="page">Home</a>
-      <a href="historia.html">História</a>
+      <a href="../historia.html">História</a>
       <a href="#trajetoria">Trajetória</a>
       <a href="#evolucao">Evolução</a>
     </nav>
-    <a class="btn btn--warm btn--sm site-header__cta" href="historia.html">Saber mais</a>
+    <a class="btn btn--warm btn--sm site-header__cta" href="../historia.html">Saber mais</a>
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteNav">
       <svg class="icon"><use href="#icon-menu"></use></svg>
     </button>
@@ -127,7 +127,7 @@
   <section class="hero" id="home">
     <div class="hero__media" aria-hidden="true">
       <video autoplay muted loop playsinline preload="metadata" fetchpriority="low" poster="assets/hero-poster.jpg">
-        <source src="assets/video/manifesto-loop.mp4" type="video/mp4" />
+        <source src="../assets/video/manifesto-loop.mp4" type="video/mp4" />
       </video>
     </div>
     <div class="hero__scrim" aria-hidden="true"></div>
@@ -171,7 +171,7 @@
       </div>
       <div class="about__media">
         <video controls playsinline preload="none" poster="assets/manifesto-poster.jpg">
-          <source src="assets/video/manifesto.mp4" type="video/mp4" />
+          <source src="../assets/video/manifesto.mp4" type="video/mp4" />
         </video>
       </div>
     </div>
@@ -184,16 +184,16 @@
         <div class="card-quote">
           <h3 class="text-h3">A Consistem evolui junto da indústria</h3>
           <p class="text-p text-p-lg">Uma história marcada pela confiança, pela solidez operacional e pela capacidade de acompanhar mudanças sem perder sua essência.</p>
-          <a class="btn btn--warm btn--sm" href="historia.html">Explore a história</a>
+          <a class="btn btn--warm btn--sm" href="../historia.html">Explore a história</a>
         </div>
         <div class="evolve__photo">
           <video class="js-lazy-video" muted loop playsinline preload="none" aria-label="Animação de um card de produto Consistem em uso">
-            <source data-src="assets/video/card.mp4" type="video/mp4" />
+            <source data-src="../assets/video/card.mp4" type="video/mp4" />
           </video>
         </div>
       </div>
       <div class="evolve__campaign">
-        <img src="assets/fabrica-industria.jpg" alt="Operador de fábrica acompanhando indicadores em tablet no chão de fábrica" width="1000" height="746" loading="lazy" decoding="async" />
+        <img src="../assets/fabrica-industria.jpg" alt="Operador de fábrica acompanhando indicadores em tablet no chão de fábrica" width="1000" height="746" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -207,22 +207,22 @@
       </div>
       <div class="experience__grid">
         <div class="experience-item">
-          <img class="experience-item__icon" src="assets/icons-experiencia/conhecimento-operacao.png" alt="" width="141" height="141" loading="lazy" decoding="async" />
+          <img class="experience-item__icon" src="../assets/icons-experiencia/conhecimento-operacao.png" alt="" width="141" height="141" loading="lazy" decoding="async" />
           <h3 class="text-h4">Conhecimento da operação</h3>
           <p class="text-p">Conviver com diferentes realidades industriais ampliou nossa capacidade de compreender processos complexos e transformar necessidades de gestão em soluções aplicáveis.</p>
         </div>
         <div class="experience-item">
-          <img class="experience-item__icon" src="assets/icons-experiencia/continuidade.png" alt="" width="141" height="141" loading="lazy" decoding="async" />
+          <img class="experience-item__icon" src="../assets/icons-experiencia/continuidade.png" alt="" width="141" height="141" loading="lazy" decoding="async" />
           <h3 class="text-h4">Continuidade</h3>
           <p class="text-p">Para uma indústria, evolução tecnológica precisa considerar o que já funciona. Segurança, estabilidade e previsibilidade fazem parte das decisões sobre produto desde o desenvolvimento até a atualização.</p>
         </div>
         <div class="experience-item">
-          <img class="experience-item__icon" src="assets/icons-experiencia/relacionamento.png" alt="" width="141" height="141" loading="lazy" decoding="async" />
+          <img class="experience-item__icon" src="../assets/icons-experiencia/relacionamento.png" alt="" width="141" height="141" loading="lazy" decoding="async" />
           <h3 class="text-h4">Relacionamento</h3>
           <p class="text-p">Os processos mudam, as empresas crescem e novos desafios aparecem. A proximidade permite acompanhar essas mudanças e manter o produto conectado à realidade de quem utiliza o sistema.</p>
         </div>
         <div class="experience-item">
-          <img class="experience-item__icon" src="assets/icons-experiencia/evolucao-responsavel.png" alt="" width="141" height="141" loading="lazy" decoding="async" />
+          <img class="experience-item__icon" src="../assets/icons-experiencia/evolucao-responsavel.png" alt="" width="141" height="141" loading="lazy" decoding="async" />
           <h3 class="text-h4">Evolução responsável</h3>
           <p class="text-p">A tecnologia avança continuamente. Nosso critério é incorporá-la quando existe aplicação real para melhorar produtividade, análise, controle e capacidade de decisão.</p>
         </div>
@@ -278,7 +278,7 @@
       </div>
       <div class="future__grid">
         <div class="future-item">
-          <img class="future-item__art" src="assets/img-futuro/nova-marca.webp" alt="" width="528" height="262" loading="lazy" decoding="async" />
+          <img class="future-item__art" src="../assets/img-futuro/nova-marca.webp" alt="" width="528" height="262" loading="lazy" decoding="async" />
           <h3 class="text-h3">Uma identidade mais precisa</h3>
           <p class="text-p">Em 2026, renovamos nossa identidade para expressar com mais clareza a Consistem de hoje: uma empresa que combina experiência, conhecimento técnico, proximidade e capacidade de evoluir com responsabilidade.</p>
           <p class="text-p">A confiança permanece no centro dessa construção e agora ganha uma expressão mais contemporânea em nossos canais, produtos e experiências.</p>
@@ -286,7 +286,7 @@
           <a class="btn btn--warm btn--md" href="#">Conheça a nova marca</a>
         </div>
         <div class="future-item">
-          <img class="future-item__art" src="assets/img-futuro/clara-ia.webp" alt="" width="528" height="262" loading="lazy" decoding="async" />
+          <img class="future-item__art" src="../assets/img-futuro/clara-ia.webp" alt="" width="528" height="262" loading="lazy" decoding="async" />
           <h3 class="text-h3">Inteligência aplicada à gestão</h3>
           <p class="text-p">A Consistem Clara IA passa a representar nossa suíte de inteligência artificial, conectando assistência, agentes, criação e orquestração à realidade da gestão empresarial.</p>
           <p class="text-p">A proposta é aproximar a IA dos dados e processos da empresa e permitir que ela ajude a transformar informação em decisão e decisão em ação, com permissões, rastreabilidade e supervisão humana.</p>
@@ -306,7 +306,7 @@
         <a class="btn btn--warm btn--md" href="#evolucao">Fale com a gente</a>
       </div>
       <div class="about__media">
-        <img src="assets/executivo-lideranca.webp" alt="Executivo Consistem caminhando por um escritório com um tablet em mãos" width="1376" height="768" loading="lazy" decoding="async" />
+        <img src="../assets/executivo-lideranca.webp" alt="Executivo Consistem caminhando por um escritório com um tablet em mãos" width="1376" height="768" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -317,12 +317,12 @@
   <div class="container">
     <div class="site-footer__top">
       <div class="site-footer__brand">
-        <img class="site-footer__logo" src="assets/logo-consistem.svg" alt="Consistem" />
+        <img class="site-footer__logo" src="../assets/logo-consistem.svg" alt="Consistem" />
         <p class="text-p site-footer__tagline">40 anos de presença, evolução e confiança.</p>
       </div>
       <nav class="site-footer__nav" aria-label="Navegação institucional">
         <a href="#home" aria-current="page">Home</a>
-        <a href="historia.html">História</a>
+        <a href="../historia.html">História</a>
         <a href="#trajetoria">Trajetória</a>
         <a href="#evolucao">Evolução</a>
       </nav>
@@ -346,14 +346,14 @@
       <svg class="icon"><use href="#icon-close"></use></svg>
     </button>
     <video id="manifestoVideo" controls playsinline preload="none" poster="assets/manifesto-poster.jpg">
-      <source src="assets/video/manifesto.mp4" type="video/mp4" />
+      <source src="../assets/video/manifesto.mp4" type="video/mp4" />
     </video>
   </div>
 </div>
 
-<script src="js/vendor/gsap.min.js"></script>
-<script src="js/vendor/ScrollTrigger.min.js"></script>
-<script src="js/main.js"></script>
-<script src="js/preloader.js"></script>
+<script src="../js/vendor/gsap.min.js"></script>
+<script src="../js/vendor/ScrollTrigger.min.js"></script>
+<script src="../js/main.js"></script>
+<script src="../js/preloader.js"></script>
 </body>
 </html>
