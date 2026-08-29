@@ -289,7 +289,7 @@ section { position: relative; }
   justify-content: space-between;
   gap: var(--ds-space-8);
 }
-.hero__support { max-width: 40ch; margin: 0; opacity: 0.82; }
+.hero__support { display: flex; flex-direction: column; gap: var(--ds-space-3); max-width: 44ch; margin: 0; opacity: 0.82; }
 .hero__buttons { display: flex; gap: var(--ds-space-4); flex-shrink: 0; }
 
 /* ===== Modal de vídeo — manifesto completo, com áudio ===== */
@@ -363,7 +363,8 @@ section { position: relative; }
 
 .about--media-right .about__media { order: 2; }
 .about--media-right .about__content { order: 1; }
-.about__media img {
+.about__media img,
+.about__media video {
   width: 100%;
   height: auto;
   border-radius: var(--radius-lg);
@@ -412,16 +413,27 @@ section { position: relative; }
 }
 .evolve__campaign img { width: 100%; height: 100%; object-fit: cover; }
 
-/* ===== Estatísticas — cards individuais (label em cima / número / legenda) ===== */
-.stats { padding-block: var(--section-padding-block); }
-.stats__intro {
+/* ===== Experiência que gera eficiência — intro + 4 diferenciais + números ===== */
+.experience { padding-block: var(--section-padding-block); }
+.experience__intro {
   display: flex;
   flex-direction: column;
   gap: var(--ds-space-4);
   max-width: 640px;
   margin-bottom: var(--ds-space-10);
 }
-.stats__intro .text-p { opacity: 0.72; }
+.experience__intro .text-p { opacity: 0.72; }
+.experience__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--ds-space-6);
+  margin-bottom: var(--ds-space-14);
+}
+.experience-item { display: flex; flex-direction: column; gap: var(--ds-space-2); }
+.experience-item .text-h4 { font-size: var(--font-subheading-size); }
+.experience-item .text-p { opacity: 0.8; }
+
+/* ===== Estatísticas — cards individuais (label em cima / número / legenda) ===== */
 .stats__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -454,43 +466,31 @@ section { position: relative; }
   opacity: 0.55;
 }
 
-/* ===== FAQ — sem pills/box, 2 colunas (título+apoio / accordion) ===== */
-.faq { padding-block: var(--section-padding-block); }
-.faq__grid {
-  display: grid;
-  grid-template-columns: 0.85fr 1.3fr;
-  gap: var(--ds-space-16);
-  align-items: start;
-}
-.faq__intro .text-p { max-width: 34ch; margin-top: var(--ds-space-4); opacity: 0.72; }
-.faq__list { display: flex; flex-direction: column; }
-.faq-item {
-  border-bottom: 1px solid var(--color-border-inverse);
-  padding-block: var(--ds-space-6);
-}
-.faq-item:first-child { padding-top: 0; }
-.faq-item summary {
+/* ===== De olho no futuro — intro + 2 cards (identidade / Clara IA) ===== */
+.future { padding-block: var(--section-padding-block); }
+.future__intro {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
   gap: var(--ds-space-4);
-  cursor: pointer;
-  list-style: none;
+  max-width: 640px;
+  margin-bottom: var(--ds-space-12);
 }
-.faq-item summary::-webkit-details-marker { display: none; }
-.faq-item summary .text-h4 { font-size: var(--font-subheading-size); }
-.faq-item summary .icon {
-  color: var(--color-text-inverse);
-  opacity: 0.6;
-  transition: transform 0.2s ease, color 0.2s ease;
+.future__intro .text-p { opacity: 0.72; }
+.future__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ds-space-10);
 }
-.faq-item[open] summary .icon { transform: rotate(90deg); color: var(--color-accent-warm); opacity: 1; }
-.faq-item[open] summary .text-h4 { color: var(--color-accent-warm); }
-.faq-item__answer {
-  margin-top: var(--ds-space-4);
-  opacity: 0.82;
-  max-width: 72ch;
+.future-item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-lg);
+  padding: var(--ds-space-10);
 }
+.future-item .text-h3 { max-width: 20ch; }
+.future-item .text-p { max-width: 44ch; opacity: 0.82; }
 
 /* ===== Footer — próximo do componente oficial (logo + link list + linha legal) ===== */
 .site-footer {
@@ -908,7 +908,8 @@ section { position: relative; }
   .about--media-right .about__media,
   .about--media-right .about__content { order: initial; }
   .evolve__grid { grid-template-columns: 1fr; }
-  .faq__grid { grid-template-columns: 1fr; gap: var(--ds-space-8); }
+  .experience__grid { grid-template-columns: repeat(2, 1fr); }
+  .future__grid { grid-template-columns: 1fr; gap: var(--ds-space-6); }
   .stats__grid { grid-template-columns: repeat(2, 1fr); }
   .segments__orbit { transform: scale(0.65); }
   .cta-banner { padding: var(--ds-space-8); min-height: 420px; }
@@ -944,6 +945,7 @@ section { position: relative; }
   .site-header__nav.is-open { display: flex; }
   .hero__buttons { flex-direction: column; align-items: stretch; width: 100%; }
   .hero__buttons .btn { width: 100%; }
+  .experience__grid { grid-template-columns: 1fr; }
   .stats__grid { grid-template-columns: 1fr; }
   .segments__orbit { transform: scale(0.4); }
   .cta-banner { padding: var(--ds-space-6); min-height: 380px; }
