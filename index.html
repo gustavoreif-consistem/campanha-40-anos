@@ -83,10 +83,10 @@
 <main>
 
   <!-- Hero — vídeo institucional de fundo em loop (manifesto-loop.mp4), 100vh/100vw,
-       navbar flutuando por cima. tela-video.jpg como poster/fallback. -->
+       navbar flutuando por cima. hero-poster.jpg (1º frame real do vídeo) como poster/fallback. -->
   <section class="hero" id="home">
     <div class="hero__media" aria-hidden="true">
-      <video autoplay muted loop playsinline preload="metadata" poster="assets/tela-video.jpg">
+      <video autoplay muted loop playsinline preload="auto" poster="assets/hero-poster.jpg">
         <source src="assets/video/manifesto-loop.mp4" type="video/mp4" />
       </video>
     </div>
@@ -130,7 +130,7 @@
         <p class="text-p text-p-lg">Nosso manifesto parte dessa ideia para falar sobre decisões, presença, responsabilidade e sobre as pessoas e empresas que mantêm a indústria em movimento.</p>
       </div>
       <div class="about__media">
-        <video controls playsinline preload="none" poster="assets/tela-video.jpg">
+        <video controls playsinline preload="none" poster="assets/manifesto-poster.jpg">
           <source src="assets/video/manifesto.mp4" type="video/mp4" />
         </video>
       </div>
@@ -305,7 +305,7 @@
     <button class="video-modal__close" id="videoModalClose" type="button" aria-label="Fechar vídeo">
       <svg class="icon"><use href="#icon-close"></use></svg>
     </button>
-    <video id="manifestoVideo" controls playsinline preload="none">
+    <video id="manifestoVideo" controls playsinline preload="none" poster="assets/manifesto-poster.jpg">
       <source src="assets/video/manifesto.mp4" type="video/mp4" />
     </video>
   </div>

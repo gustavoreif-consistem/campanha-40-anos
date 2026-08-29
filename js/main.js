@@ -11,7 +11,11 @@
   function open() { overlay.classList.add('is-open'); }
   function close() { overlay.classList.remove('is-open'); }
 
-  window.addEventListener('load', function () {
+  // DOMContentLoaded (não 'load'): o painel não pode ficar esperando o
+  // <video autoplay> do hero (nem vídeos/imagens ainda fora da tela) baixarem
+  // por inteiro pra revelar a página — isso deixava TUDO parecendo travado
+  // atrás do painel opaco enquanto só o hero video ainda buferizava.
+  document.addEventListener('DOMContentLoaded', function () {
     if (reduceMotion) { open(); return; }
     setTimeout(open, 250);
   });
@@ -312,6 +316,22 @@
       scrollTrigger: { trigger: presentTitle, start: 'top 85%' },
     });
   }
+})();
+
+// Reforço do autoplay do hero em mobile — o atributo autoplay+muted+playsinline
+// já cobre a maioria dos browsers, mas alguns webviews (in-app do Instagram/
+// Facebook, Data Saver do Android) só engatam o play depois de uma chamada
+// explícita de .play(); reforça aqui e resiliente também a orientationchange,
+// caso o browser pause o vídeo ao girar a tela.
+(function () {
+  var video = document.querySelector('.hero__media video[autoplay]');
+  if (!video) return;
+
+  function tryPlay() { video.play().catch(function () {}); }
+
+  tryPlay();
+  video.addEventListener('loadeddata', tryPlay);
+  window.addEventListener('orientationchange', tryPlay);
 })();
 
 // Vídeos decorativos de fundo (autoplay/loop) só carregam quando chegam
