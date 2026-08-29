@@ -286,10 +286,10 @@
   });
 })();
 
-// Timeline de "História" — reveal de entrada nos cards empilhados e no
-// título do bloco "presente". Puramente cosmético por cima do empilhamento
-// (que já funciona só de CSS, .history-card{position:sticky}) — sem GSAP,
-// os cards continuam visíveis normalmente (guard padrão).
+// Timeline de "História" — reveal de entrada nos cards (que passam em
+// fluxo normal, não empilham mais — ver .history-card em styles.css) e no
+// título do bloco "presente". Puramente cosmético — sem GSAP, os cards
+// continuam visíveis normalmente (guard padrão).
 (function () {
   var cards = document.querySelectorAll('.history-card');
   var presentTitle = document.querySelector('.history-present__title');
@@ -316,6 +316,67 @@
       scrollTrigger: { trigger: presentTitle, start: 'top 85%' },
     });
   }
+})();
+
+// Scroll suave só na página "História" (guard por .history-timeline —
+// nenhuma outra página do hotsite tem essa classe), pedido pra dar sensação
+// de "mergulho" na timeline. JS próprio em vez de lib (Lenis foi cogitada e
+// descartada quando esta página nasceu, por trocar o scroll nativo do SITE
+// INTEIRO) — aqui só suaviza o `wheel`, sempre via scroll nativo real
+// (window.scrollTo em cada frame, nunca transformando um wrapper), então
+// .history-nav/.history-block__sticky (sticky) e o ScrollTrigger do reveal
+// acima continuam funcionando sem nenhum ajuste — eles só enxergam scroll
+// de verdade, só que espalhado em vários frames em vez de um salto só.
+// Só ouve "wheel": teclado, scrollbar e touch continuam 100% nativos (touch
+// nem dispara "wheel"), então mobile não é afetado.
+(function () {
+  if (!document.querySelector('.history-timeline')) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var EASE = 0.09;
+  var current = window.scrollY;
+  var target = current;
+  var ticking = false;
+  var programmatic = false;
+
+  function maxScroll() {
+    return document.documentElement.scrollHeight - window.innerHeight;
+  }
+
+  function normalizeDelta(e) {
+    // deltaMode 1 = linhas (trackpad "clicado"/mouse com catraca), 2 = páginas.
+    if (e.deltaMode === 1) return e.deltaY * 16;
+    if (e.deltaMode === 2) return e.deltaY * window.innerHeight;
+    return e.deltaY;
+  }
+
+  function loop() {
+    current += (target - current) * EASE;
+    if (Math.abs(target - current) < 0.5) current = target;
+    programmatic = true;
+    window.scrollTo(0, current);
+    if (current === target) { ticking = false; return; }
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('wheel', function (e) {
+    if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return; // scroll horizontal — não intercepta
+    e.preventDefault();
+    target = Math.max(0, Math.min(target + normalizeDelta(e), maxScroll()));
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(loop);
+    }
+  }, { passive: false });
+
+  // Resincroniza quando o scroll muda por outro meio (teclado, scrollbar,
+  // clique na barra de eras via scrollIntoView) — sem isso, o próximo
+  // "wheel" recomeçaria do `target` antigo e puxaria a página de volta.
+  window.addEventListener('scroll', function () {
+    if (programmatic) { programmatic = false; return; }
+    current = window.scrollY;
+    target = current;
+  }, { passive: true });
 })();
 
 // Reforço do autoplay do hero em mobile — o atributo autoplay+muted+playsinline

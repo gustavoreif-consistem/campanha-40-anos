@@ -602,16 +602,21 @@ section { position: relative; }
 .site-footer__copyright { opacity: 0.6; }
 
 /* ===== Página "História" — componentes novos desta subpágina =====
-   Mecanismo de referência: https://icarda.org/icarda-at-50 (timeline em
-   blocos, texto sticky ao lado de fotos que se empilham, barra de
-   progresso). Visual 100% tokens do DS, mas duas simplificações reais em
-   relação à referência (ver plano da sessão que criou esta página):
+   Mecanismo original de referência: https://icarda.org/icarda-at-50
+   (timeline em blocos, texto sticky ao lado, barra de progresso). Visual
+   100% tokens do DS, com simplificações reais em relação à referência (ver
+   plano da sessão que criou esta página):
    1) a barra vira horizontal NO TOPO (não lateral);
    2) a barra fica `position:sticky` (não `fixed`+JS de show/hide) — ela é
       o primeiro filho de `.history-timeline`, que envolve os 4 blocos de
       era + o bloco "presente"; sticky nativo já a faz aparecer/sumir
       sozinha nas bordas desse container, sem replicar o hack de
-      ScrollTrigger que a referência precisa só por ser `fixed`. */
+      ScrollTrigger que a referência precisa só por ser `fixed`;
+   3) os cards de foto NÃO empilham mais (diferente do ICARDA) — só o texto
+      (`.history-block__sticky`) fica sticky/centralizado, os cards passam
+      em fluxo normal ao lado. Mudança pedida depois de testar o empilhar:
+      a troca de card cobria ano/título do card anterior no meio da
+      transição, quebrando a leitura (ver `.history-card`). */
 
 /* Hero de abertura — 100vh (mesmo idioma de .hero em index.html: height +
    min-height de segurança), texto de um lado e espaço de foto do outro
@@ -761,27 +766,14 @@ section { position: relative; }
   gap: var(--ds-space-4);
 }
 .history-card {
-  position: sticky;
   display: flex;
   flex-direction: column;
   gap: var(--ds-space-3);
   padding: var(--ds-space-6);
-  max-height: 60vh; /* card inteiro, não só a foto — garante que ano/título
-    fiquem sempre visíveis mesmo com o card colado no topo da tela */
-  overflow: hidden;
   border-radius: var(--radius-md);
   background: var(--color-surface-inverse-alt);
   border: 1px solid var(--color-border-inverse);
-  box-shadow: 0 -32px 48px rgba(0, 0, 0, 0.18); /* sombra vinda de cima — reforça a leitura de pilha */
 }
-/* Incrementos de --ds-space-10 (40px) a partir de 216px — mesma linha de
-   partida do .history-block__sticky ao lado, mesmo truque puro-CSS do
-   ICARDA (.timeline__card{position:sticky} com `top` crescente por card). */
-.history-card:nth-child(1) { top: 216px; }
-.history-card:nth-child(2) { top: 256px; }
-.history-card:nth-child(3) { top: 296px; }
-/* Ano/título nunca encolhem — só a foto cede espaço pro card caber no
-   max-height acima. */
 .history-card__year,
 .history-card__title { flex-shrink: 0; }
 .history-card__year { color: var(--color-accent-warm); }
@@ -811,10 +803,11 @@ section { position: relative; }
   object-fit: cover;
   border-radius: var(--radius-md);
 }
-/* A foto do card cresce pra ocupar o espaço restante do card (que tem
-   max-height:60vh), mas nunca abaixo de 300px — se a soma ultrapassar o
-   max-height do .history-card, o overflow:hidden dele corta o excesso. */
-.history-card__photo { flex: 1 1 auto; min-height: 300px; }
+/* aspect-ratio fixo (não flex/min-height) — os cards não empilham mais
+   (ver .history-card acima), então cada foto precisa da própria altura
+   definida; sem isso, fotos de proporção diferente (480x480 de arquivo
+   vs. 16:9/3:2 recentes) deixariam os cards com alturas desiguais. */
+.history-card__photo { width: 100%; aspect-ratio: 4 / 3; }
 
 /* Bloco "presente" (2026) — fora do padrão de stack, de propósito: é o
    fecho maior da timeline, não mais uma era igual às outras (2 colunas
@@ -902,9 +895,7 @@ section { position: relative; }
   .history-block { grid-template-columns: 1fr; gap: var(--ds-space-8); }
   .history-block--reverse .history-block__content,
   .history-block--reverse .history-block__cards { order: initial; }
-  .history-block__sticky,
-  .history-card { position: static; top: auto; max-height: none; }
-  .history-block__sticky { transform: none; }
+  .history-block__sticky { position: static; top: auto; transform: none; }
   .history-present__grid { grid-template-columns: 1fr; }
 }
 
