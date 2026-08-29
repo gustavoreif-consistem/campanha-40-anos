@@ -136,8 +136,24 @@
     resizeTimer = setTimeout(resize, 120);
   }, { passive: true });
 
-  function setPointer(x, y) { pointer.x = x; pointer.y = y; pointer.active = true; }
+  function setPointer(x, y) {
+    pointer.x = x; pointer.y = y; pointer.active = true;
+    maybeStart(); // hover pode ter chegado com o loop congelado (parado, ocioso)
+  }
   function clearPointer() { pointer.active = false; }
+
+  function hasResidualOffset() {
+    for (var i = 0; i < count; i++) {
+      if (offX[i] !== 0 || offY[i] !== 0) return true;
+    }
+    return false;
+  }
+  function maybeStart() {
+    if (dismissed || rafId) return;
+    if (!formationDone || pointer.active || hasResidualOffset()) {
+      rafId = requestAnimationFrame(frame);
+    }
+  }
 
   window.addEventListener('mousemove', function (e) { setPointer(e.clientX, e.clientY); }, { passive: true });
   window.addEventListener('mouseleave', clearPointer, { passive: true });
@@ -165,6 +181,8 @@
     ctx.clearRect(0, 0, W, H); // fundo (grid de pontos + degradê) já vem do CSS, ver .preloader
 
     var usePointer = pointerStrength > 0.002;
+
+    var anyOffset = false;
 
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
@@ -202,6 +220,7 @@
         if (offMag < 0.02) { oxv = 0; oyv = 0; }
         offX[i] = oxv; offY[i] = oyv;
       }
+      if (oxv !== 0 || oyv !== 0) anyOffset = true;
 
       var drawX = bx + oxv, drawY = by + oyv;
       var r = rad[i];
@@ -215,7 +234,15 @@
       revealCta();
     }
 
-    rafId = requestAnimationFrame(frame);
+    // Congela quando ocioso (já formado, sem hover, sem deslocamento
+    // assentando) — 39.740 partículas custam ~15-20ms/frame neste tipo de
+    // hardware; rodar isso pra sempre enquanto o usuário só está olhando
+    // pesa a máquina inteira à toa. maybeStart() religa no próximo hover.
+    if (!formationDone || usePointer || anyOffset) {
+      rafId = requestAnimationFrame(frame);
+    } else {
+      rafId = null;
+    }
   }
 
   function stopLoop() {
@@ -224,7 +251,7 @@
 
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) stopLoop();
-    else if (!dismissed) rafId = requestAnimationFrame(frame);
+    else maybeStart();
   });
 
   // ---- Coreografia: forma -> CTA -> dispensa (clique ou scroll) -----------

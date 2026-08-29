@@ -165,6 +165,8 @@
 
   var formStart = 0;
   var rafId = null;
+  var maxFormTime = 0;
+  var formationDone = false;
 
   var pointer = { x: -9999, y: -9999, active: false };
   var pointerSX = 0, pointerSY = 0, pointerHasPos = false;
@@ -213,6 +215,7 @@
     offX = new Float32Array(count);
     offY = new Float32Array(count);
 
+    maxFormTime = 0;
     for (var i = 0; i < count; i++) {
       delay[i] = reduceMotion ? 0 : Math.random() * 1.1;
       dur[i]   = reduceMotion ? 0.001 : 0.85 + Math.random() * 0.45;
@@ -220,6 +223,8 @@
       speed[i] = 0.5 + Math.random() * 0.8;
       amp[i]   = 0.7 + Math.random() * 1.1;
       pushAngle[i] = Math.random() * Math.PI * 2;
+      var finishAt = delay[i] + dur[i];
+      if (finishAt > maxFormTime) maxFormTime = finishAt;
     }
     layout();
     scatterOrigins();
@@ -275,9 +280,23 @@
     pointer.x = x;
     pointer.y = y;
     pointer.active = true;
+    maybeStart(); // hover pode ter chegado com o loop congelado (parado, ocioso)
   }
   function clearPointer() {
     pointer.active = false;
+  }
+
+  function hasResidualOffset() {
+    for (var i = 0; i < count; i++) {
+      if (offX[i] !== 0 || offY[i] !== 0) return true;
+    }
+    return false;
+  }
+  function maybeStart() {
+    if (rafId) return;
+    if (!formationDone || pointer.active || hasResidualOffset()) {
+      rafId = requestAnimationFrame(frame);
+    }
   }
 
   window.addEventListener('mousemove', function (e) { setPointer(e.clientX, e.clientY); }, { passive: true });
@@ -297,6 +316,8 @@
     scatterOrigins();
     if (offX) { offX.fill(0); offY.fill(0); }
     formStart = performance.now();
+    formationDone = false;
+    maybeStart();
   });
 
   window.addEventListener('resize', onResize, { passive: true });
@@ -323,6 +344,8 @@
 
     var allowMotion = !reduceMotion;
     var usePointer = allowMotion && pointerStrength > 0.002;
+
+    var anyOffset = false;
 
     ctx.fillStyle = '#ffffff';
     ctx.beginPath();
@@ -369,6 +392,7 @@
         if (offMag < 0.02) { oxv = 0; oyv = 0; }
         offX[i] = oxv; offY[i] = oyv;
       }
+      if (oxv !== 0 || oyv !== 0) anyOffset = true;
 
       var drawX = bx + oxv, drawY = by + oyv;
 
@@ -378,12 +402,21 @@
     }
     ctx.fill();
 
-    rafId = requestAnimationFrame(frame);
+    if (!formationDone && t >= maxFormTime) formationDone = true;
+
+    // Congela quando ocioso (já formado, sem hover, sem deslocamento
+    // assentando) — ~39.740 partículas custam ~15-20ms/frame neste tipo de
+    // hardware; rodar isso pra sempre enquanto ninguém interage pesa a
+    // máquina à toa. maybeStart() religa no próximo hover ou "reformar".
+    if (!formationDone || usePointer || anyOffset) {
+      rafId = requestAnimationFrame(frame);
+    } else {
+      rafId = null;
+    }
   }
 
   function start() {
-    if (rafId) return;
-    rafId = requestAnimationFrame(frame);
+    maybeStart();
   }
   function stop() {
     if (rafId) {
@@ -393,7 +426,7 @@
   }
 
   document.addEventListener('visibilitychange', function () {
-    if (document.hidden) stop(); else start();
+    if (document.hidden) stop(); else maybeStart();
   });
 
   // ---- Boot -----------------------------------------------------------------
