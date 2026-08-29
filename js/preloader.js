@@ -74,6 +74,27 @@
     return { nx: nx, ny: ny, nr: nr, n: n };
   }
 
+  // Telas pequenas (mobile) costumam ter CPU/GPU bem mais fracas que
+  // desktop — desenhar os mesmos ~22 mil pontos custa desproporcionalmente
+  // mais lá. Numa tela física menor a forma também ocupa menos px, então
+  // menos pontos continuam lendo como "cheios" — corta antes de alocar os
+  // arrays por partícula (mais barato que sempre alocar tudo e descartar).
+  function subsampleShape(shape, maxCount) {
+    if (shape.n <= maxCount) return shape;
+    var idx = new Array(shape.n);
+    for (var i = 0; i < shape.n; i++) idx[i] = i;
+    for (var i = 0; i < maxCount; i++) {
+      var j = i + Math.floor(Math.random() * (shape.n - i));
+      var tmp = idx[i]; idx[i] = idx[j]; idx[j] = tmp;
+    }
+    var nx = new Float32Array(maxCount), ny = new Float32Array(maxCount), nr = new Float32Array(maxCount);
+    for (var k = 0; k < maxCount; k++) {
+      var id = idx[k];
+      nx[k] = shape.nx[id]; ny[k] = shape.ny[id]; nr[k] = shape.nr[id];
+    }
+    return { nx: nx, ny: ny, nr: nr, n: maxCount };
+  }
+
   function initParticles(shape) {
     count = shape.n;
     normX = shape.nx; normY = shape.ny; normR = shape.nr;
@@ -155,14 +176,13 @@
     }
   }
 
+  // Hover é conceito de mouse (cursor parado) — não faz sentido em touch, e
+  // religar a física de 22 mil partículas a cada touchmove pesava demais no
+  // mobile bem no gesto que a pessoa usa pra tentar dispensar (swipe pra
+  // baixo). Touch só dispara o swipe-to-dismiss (mais abaixo), nunca hover.
   window.addEventListener('mousemove', function (e) { setPointer(e.clientX, e.clientY); }, { passive: true });
   window.addEventListener('mouseleave', clearPointer, { passive: true });
   window.addEventListener('blur', clearPointer);
-  canvas.addEventListener('touchmove', function (e) {
-    var t = e.touches[0];
-    if (t) setPointer(t.clientX, t.clientY);
-  }, { passive: true });
-  canvas.addEventListener('touchend', clearPointer, { passive: true });
 
   function frame(now) {
     var t = (now - formStart) / 1000;
@@ -303,7 +323,10 @@
   // ---- Boot -----------------------------------------------------------------
   try {
     resize();
-    initParticles(pointsToShape(SHAPE_POINTS));
+    var shape = pointsToShape(SHAPE_POINTS);
+    var smallViewport = Math.min(window.innerWidth, window.innerHeight) < 640;
+    if (smallViewport) shape = subsampleShape(shape, 8000);
+    initParticles(shape);
     formStart = performance.now();
     rafId = requestAnimationFrame(frame);
   } catch (err) {
