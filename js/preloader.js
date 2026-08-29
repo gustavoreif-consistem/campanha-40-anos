@@ -22,7 +22,7 @@
   var cta = document.getElementById('preloaderCta');
   if (!preloader || !canvas || !cta) { finish(); return; }
 
-  var ctx = canvas.getContext('2d', { alpha: false });
+  var ctx = canvas.getContext('2d'); // alpha: true (default) — deixa o grid de pontos do CSS aparecer embaixo
   if (!ctx) { finish(); return; }
 
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -45,7 +45,6 @@
 
   var DPR = Math.min(window.devicePixelRatio || 1, MAX_DPR);
   var W = 0, H = 0, centerX = 0, centerY = 0;
-  var bgGradient = null;
 
   var count = 0;
   var normX, normY, normR, tx, ty, rad, ox, oy, delay, dur, phase, speed, amp, pushAngle, offX, offY;
@@ -128,9 +127,6 @@
     canvas.style.width = W + 'px';
     canvas.style.height = H + 'px';
     ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
-    bgGradient = ctx.createLinearGradient(0, 0, W, H);
-    bgGradient.addColorStop(0, '#131314');
-    bgGradient.addColorStop(1, '#1b1b1d');
     if (count) layout();
   }
 
@@ -166,8 +162,7 @@
     var want = pointer.active ? 1 : 0;
     pointerStrength += (want - pointerStrength) * 0.08;
 
-    ctx.fillStyle = bgGradient || '#131314';
-    ctx.fillRect(0, 0, W, H);
+    ctx.clearRect(0, 0, W, H); // fundo (grid de pontos + degradê) já vem do CSS, ver .preloader
 
     var usePointer = pointerStrength > 0.002;
 
