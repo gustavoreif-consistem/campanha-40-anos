@@ -746,7 +746,7 @@ section { position: relative; }
 
 .history-block__sticky {
   position: sticky;
-  top: 160px; /* limpa header + barra sticky (~96 + ~48) com respiro */
+  top: 216px; /* nav sticky termina em ~152px (96 + ~56 de altura) + var(--ds-space-16)=64px de respiro — sem isso o texto fica colado embaixo da barra */
   display: flex;
   flex-direction: column;
   gap: var(--ds-space-4);
@@ -773,12 +773,12 @@ section { position: relative; }
   border: 1px solid var(--color-border-inverse);
   box-shadow: 0 -32px 48px rgba(0, 0, 0, 0.18); /* sombra vinda de cima — reforça a leitura de pilha */
 }
-/* Incrementos de --ds-space-10 (40px) a partir de 176px (header 96 +
-   barra ~48 + respiro 32) — mesmo truque puro-CSS do ICARDA
-   (.timeline__card{position:sticky} com `top` crescente por card). */
-.history-card:nth-child(1) { top: 176px; }
-.history-card:nth-child(2) { top: 216px; }
-.history-card:nth-child(3) { top: 256px; }
+/* Incrementos de --ds-space-10 (40px) a partir de 216px — mesma linha de
+   partida do .history-block__sticky ao lado, mesmo truque puro-CSS do
+   ICARDA (.timeline__card{position:sticky} com `top` crescente por card). */
+.history-card:nth-child(1) { top: 216px; }
+.history-card:nth-child(2) { top: 256px; }
+.history-card:nth-child(3) { top: 296px; }
 /* Ano/título nunca encolhem — só a foto cede espaço pro card caber no
    max-height acima. */
 .history-card__year,
@@ -805,27 +805,32 @@ section { position: relative; }
 .history-card__photo { flex: 1 1 auto; min-height: 300px; }
 
 /* Bloco "presente" (2026) — fora do padrão de stack, de propósito: é o
-   fecho maior da timeline, não mais uma era igual às outras. Último
-   filho de .history-timeline — é aqui que a barra sticky solta. */
+   fecho maior da timeline, não mais uma era igual às outras (2 colunas
+   fixas, sem sticky/empilhamento). Último filho de .history-timeline —
+   é aqui que a barra sticky solta. */
 .history-present {
   padding-block: var(--section-padding-block);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--ds-space-8);
-  text-align: center;
 }
-.history-present .text-tag { color: var(--color-accent-warm); }
-.history-present__title { max-width: 18ch; }
-.history-present__text {
-  max-width: 62ch;
+.history-present__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--ds-space-12);
+  align-items: center;
+}
+.history-present__content {
   display: flex;
   flex-direction: column;
   gap: var(--ds-space-4);
-  text-align: left;
+}
+.history-present .text-tag { color: var(--color-accent-warm); }
+.history-present__title { max-width: 14ch; }
+.history-present__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4);
   opacity: 0.88;
 }
-.history-present__photo { width: 100%; max-width: 900px; aspect-ratio: 16 / 9; }
+.history-present__photo { width: 100%; aspect-ratio: 4 / 5; }
 
 /* Fechamento — depoimento Appel Home (reaproveita .about/.about__grid,
    já genéricos, não específicos de nenhuma subpágina) + CTA final. */
@@ -871,6 +876,7 @@ section { position: relative; }
   .history-block--reverse .history-block__cards { order: initial; }
   .history-block__sticky,
   .history-card { position: static; top: auto; max-height: none; }
+  .history-present__grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 640px) {
