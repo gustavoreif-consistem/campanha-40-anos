@@ -846,8 +846,20 @@ section { position: relative; }
 }
 .history-closing .text-p { opacity: 0.82; }
 
-/* ===== Responsivo ===== */
+/* ===== Responsivo =====
+   Padrão de respiro em telas ≤960px (tablet e celular): 20px de padding
+   horizontal de seção, 64px de padding vertical, títulos de seção (h2) em
+   32px — pedido explícito, aplicado num único ponto de corte pra não
+   fragmentar o comportamento entre tablet e celular. text-h1 (só usado nos
+   heros da página História) ganha seu próprio degrau intermediário aqui e
+   mais um menor em ≤640px, pra manter hierarquia acima do h2 sem repetir o
+   tamanho de desktop (64px) numa coluna estreita. */
 @media (max-width: 960px) {
+  :root { --section-padding-block: 64px; }
+  .container { padding-inline: 20px; }
+  .text-h1 { font-size: 44px; }
+  .text-h2 { font-size: 32px; }
+
   .about__grid { grid-template-columns: 1fr; }
   .about--media-right .about__media,
   .about--media-right .about__content { order: initial; }
@@ -859,14 +871,18 @@ section { position: relative; }
   .fundamentos-lead { font-size: 28px; }
   .experience__lead { font-size: 28px; }
   .hero__actions { flex-direction: column; align-items: flex-start; gap: var(--ds-space-6); }
-  :root { --section-padding-block: 88px; }
 
   /* História: hero perde a altura fixa (o conteúdo empilhado — texto +
      ficha técnica + foto — não cabe bem em 100vh numa coluna só) e
      desliga o efeito de stack (mesmo ponto de corte de
      .about__grid/.evolve__grid acima) — vira coluna única, texto sempre
-     primeiro, cards em fluxo normal abaixo, sem sticky. */
-  .history-hero { height: auto; min-height: 0; padding-block: var(--section-padding-block); }
+     primeiro, cards em fluxo normal abaixo, sem sticky. padding-top
+     próprio (não o padding-block padrão de 64px): é a única seção do
+     hotsite que nasce colada no topo da página, embaixo do header fixo
+     flutuante — 96px é a mesma folga que .history-nav já usa mais abaixo
+     pra limpar o header (ver comentário em .history-nav). Com os 64px
+     genéricos, a tag "Desde 1986" ficava parcialmente atrás do header. */
+  .history-hero { height: auto; min-height: 0; padding-top: 96px; padding-bottom: var(--section-padding-block); }
   .history-hero__grid { grid-template-columns: 1fr; }
   .history-hero__photo { max-height: 50vh; }
   .history-facts { grid-template-columns: repeat(2, 1fr); row-gap: var(--ds-space-6); }
@@ -903,6 +919,7 @@ section { position: relative; }
   .site-header__nav.is-open { display: flex; }
   .hero__buttons { flex-direction: column; align-items: stretch; width: 100%; }
   .hero__buttons .btn { width: 100%; }
+  .text-h1 { font-size: 36px; }
   .experience__grid { grid-template-columns: 1fr; }
   .stats__grid { grid-template-columns: 1fr; }
   .fundamentos-lead { font-size: 22px; }
