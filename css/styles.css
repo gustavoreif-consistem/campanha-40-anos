@@ -372,16 +372,15 @@ section { position: relative; }
   height: auto;
   border-radius: var(--radius-lg);
 }
-.about__content { display: flex; flex-direction: column; gap: var(--ds-space-6); }
+.about__content { display: flex; flex-direction: column; gap: var(--ds-space-8); }
 .about__content .text-h2,
 .about__content .text-h3 { max-width: 22ch; }
 .about__content .text-p { max-width: 42ch; opacity: 0.88; }
 
 /* ===== Texto "fundamentos" — parágrafo grande revelado letra a letra no
-   scroll (mesma técnica de .coverage-lead em presenca.html: <span class="char">
-   gerado em runtime pelo main.js, cor anima de bem apagada até a cor sólida
-   do texto). Aqui a peça inteira revela (não tem trecho fixo/destacado como o
-   <strong> de .coverage-lead), alinhado à esquerda, não centralizado. ===== */
+   scroll: <span class="char"> gerado em runtime pelo main.js, cor anima de
+   bem apagada até a cor sólida do texto. A peça inteira revela (sem trecho
+   fixo/destacado), alinhado à esquerda, não centralizado. ===== */
 .fundamentos-lead {
   max-width: 1158px;
   font-size: 40px;
@@ -398,13 +397,13 @@ section { position: relative; }
 .evolve__grid {
   display: grid;
   grid-template-columns: 1.05fr 1fr;
-  gap: var(--ds-space-6);
+  gap: var(--ds-space-8);
   align-items: stretch;
 }
 .evolve__stack {
   display: flex;
   flex-direction: column;
-  gap: var(--ds-space-6);
+  gap: var(--ds-space-8);
 }
 .card-quote {
   background: var(--color-surface-inverse-alt);
@@ -412,7 +411,7 @@ section { position: relative; }
   padding: var(--ds-space-12) var(--ds-space-10);
   display: flex;
   flex-direction: column;
-  gap: var(--stack-gap-comfortable);
+  gap: var(--ds-space-6);
   min-height: 290px;
   justify-content: center;
 }
@@ -433,42 +432,47 @@ section { position: relative; }
 
 /* ===== Experiência que gera eficiência — intro + 4 diferenciais + números ===== */
 .experience { padding-block: var(--section-padding-block); }
+/* Coluna com gap próprio em vez de margin em cada filho — margins de blocos
+   irmãos colapsariam (ex.: margin-bottom do grid + margin-top do lead virava
+   só o maior dos dois, nunca a soma), resultando em menos respiro do que o
+   valor declarado. Gap em flex nunca colapsa. */
+.experience__stack { display: flex; flex-direction: column; }
 .experience__intro {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--ds-space-4);
+  gap: var(--ds-space-6);
   max-width: 640px;
-  margin: 0 auto var(--ds-space-10);
+  margin: 0 auto var(--ds-space-14);
 }
 .experience__intro .text-p { opacity: 0.72; }
 .experience__grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--ds-space-6);
+  gap: var(--ds-space-8);
   margin-bottom: var(--ds-space-16);
 }
 .experience-item { position: relative; display: flex; flex-direction: column; }
-/* Linha divisória entre itens — centralizada no meio do gap de 24px do
-   grid, sem precisar de um elemento de linha à parte no HTML. */
+/* Linha divisória entre itens — centralizada no meio do gap do grid, sem
+   precisar de um elemento de linha à parte no HTML. */
 .experience-item:not(:last-child)::after {
   content: '';
   position: absolute;
   top: 0;
   bottom: 0;
-  right: calc(var(--ds-space-6) / -2 - 0.5px);
+  right: calc(var(--ds-space-8) / -2 - 0.5px);
   width: 1px;
   background: var(--color-border-inverse);
 }
 .experience-item__icon { width: 141px; height: 141px; margin-bottom: var(--ds-space-6); }
-.experience-item .text-h4 { font-size: var(--font-subheading-size); color: var(--color-accent-warm); margin-bottom: var(--ds-space-2); }
+.experience-item .text-h4 { font-size: var(--font-subheading-size); color: var(--color-accent-warm); margin-bottom: var(--ds-space-4); }
 .experience-item .text-p { opacity: 0.8; }
 /* Parágrafo grande entre os 4 diferenciais e o bloco de números — mesma
    escala visual do "fundamentos-lead", mas centralizado e sem animação. */
 .experience__lead {
   max-width: 1198px;
-  margin: var(--ds-space-16) auto var(--ds-space-14);
+  margin: 0 auto var(--ds-space-16);
   font-size: 40px;
   line-height: 1.1;
   text-align: center;
@@ -488,7 +492,7 @@ section { position: relative; }
   padding: var(--ds-space-8);
   display: flex;
   flex-direction: column;
-  gap: var(--ds-space-1);
+  gap: var(--ds-space-2);
 }
 .stat-card__icon { color: var(--color-accent-warm); margin-bottom: var(--ds-space-2); }
 .stat-card__label {
@@ -513,9 +517,9 @@ section { position: relative; }
 .future__intro {
   display: flex;
   flex-direction: column;
-  gap: var(--ds-space-4);
+  gap: var(--ds-space-6);
   max-width: 640px;
-  margin-bottom: var(--ds-space-12);
+  margin-bottom: var(--ds-space-14);
 }
 .future__intro .text-p { opacity: 0.72; }
 .future__grid {
@@ -526,7 +530,7 @@ section { position: relative; }
 .future-item {
   display: flex;
   flex-direction: column;
-  gap: var(--ds-space-4);
+  gap: var(--ds-space-6);
   background: var(--color-surface-alt);
   border-radius: var(--radius-lg);
   padding: var(--ds-space-10);
@@ -535,7 +539,7 @@ section { position: relative; }
 .future-item .text-p { max-width: 44ch; opacity: 0.82; }
 /* Ilustração do card — soma ao gap padrão do card (16px) mais 16px de
    margem própria, resultando nos 32px de respiro do Figma antes do título. */
-.future-item__art { width: 100%; height: auto; margin-bottom: var(--ds-space-4); }
+.future-item__art { width: 100%; height: auto; margin-bottom: var(--ds-space-2); }
 
 /* ===== Footer — próximo do componente oficial (logo + link list + linha legal) ===== */
 .site-footer {
@@ -594,358 +598,202 @@ section { position: relative; }
 .site-footer__legal a:hover { opacity: 1; text-decoration: underline; }
 .site-footer__copyright { opacity: 0.6; }
 
-/* ===== Página "Presença" — componentes novos desta subpágina ===== */
+/* ===== Página "História" — componentes novos desta subpágina =====
+   Mecanismo de referência: https://icarda.org/icarda-at-50 (timeline em
+   blocos, texto sticky ao lado de fotos que se empilham, barra de
+   progresso). Visual 100% tokens do DS, mas duas simplificações reais em
+   relação à referência (ver plano da sessão que criou esta página):
+   1) a barra vira horizontal NO TOPO (não lateral);
+   2) a barra fica `position:sticky` (não `fixed`+JS de show/hide) — ela é
+      o primeiro filho de `.history-timeline`, que envolve os 4 blocos de
+      era + o bloco "presente"; sticky nativo já a faz aparecer/sumir
+      sozinha nas bordas desse container, sem replicar o hack de
+      ScrollTrigger que a referência precisa só por ser `fixed`. */
 
-/* Hero — texto centralizado acima de um card de foto contido, sobre o
-   fundo escuro padrão da página (sem section--light), com dois cards
-   claros flutuantes vazando as bordas esquerda/direita — mesma ideia de
-   composição de referência (foto contida + widgets sobrepostos), adaptada
-   aos tokens do DS. */
-.presenca-hero {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--ds-space-16);
+/* Ficha técnica (fundação/sede/atuação/produto) — 4 colunas com divisórias
+   via ::after (mesma técnica de .experience-item, sem elemento extra). */
+.history-facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--ds-space-6);
+  margin-top: var(--ds-space-12);
 }
-.presenca-hero__intro {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--ds-space-4);
-  padding-top: var(--ds-space-16);
-  padding-bottom: var(--ds-space-12);
-  text-align: center;
-}
-.presenca-hero__frame {
-  position: relative;
-  width: 100%;
-  max-width: 960px;
-}
-.presenca-hero__photo-wrap {
-  position: relative;
-  aspect-ratio: 678 / 368;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-.presenca-hero__photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 68% 32%;
-  display: block;
-}
-/* "Contorno" decorativo (moldura de viewfinder), fiel ao Figma. */
-.presenca-hero__outline {
+.history-fact { position: relative; display: flex; flex-direction: column; gap: var(--ds-space-1); }
+.history-fact:not(:last-child)::after {
+  content: '';
   position: absolute;
-  inset: 11.5% 10%;
-  border: 1.5px solid var(--color-text-inverse);
-  border-radius: var(--radius-sm);
-  pointer-events: none;
+  top: 0;
+  bottom: 0;
+  right: calc(var(--ds-space-6) / -2 - 0.5px);
+  width: 1px;
+  background: var(--color-border-inverse);
 }
-/* Cards claros flutuantes — vazam a borda esquerda/direita do card de foto
-   na mesma medida (--ds-space-16), contrastando com o hero escuro. */
-.presenca-hero__card {
-  position: absolute;
+.history-fact__label { color: var(--color-accent-warm); opacity: 0.9; }
+.history-fact__value { opacity: 0.88; }
+
+/* Envelope da timeline inteira — só existe pra dar à barra sticky um
+   container com começo/fim (aparece ao entrar, some ao sair do bloco
+   "presente", sem JS nenhum controlando isso). */
+.history-timeline { padding-top: var(--ds-space-16); }
+
+/* Barra de progresso — mesmo material "glass" do .site-header__pill
+   (mesma cor/blur/borda), só que horizontal e mais compacta. z-index
+   abaixo do header (50) mas acima do conteúdo dos blocos, que não
+   declara z-index próprio. */
+.history-nav {
+  position: sticky;
+  top: 96px; /* limpa o .site-header fixo (topo 16px + pill ~64-72px) */
+  z-index: 40;
   display: flex;
-  align-items: center;
-  gap: var(--ds-space-3);
-  max-width: 240px;
-  padding: var(--ds-space-4);
-  border-radius: var(--radius-md);
-  background: var(--color-surface-default);
-  box-shadow: 0 16px 32px rgba(19, 19, 20, 0.28);
-}
-.presenca-hero__card--top { left: calc(-1 * var(--ds-space-16)); top: 22%; }
-.presenca-hero__card--bottom { right: calc(-1 * var(--ds-space-16)); top: 58%; }
-.presenca-hero__card-icon {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-full);
-  background: var(--color-surface-alt);
-  display: flex;
-  align-items: center;
   justify-content: center;
-}
-.presenca-hero__card-icon img { width: 20px; height: 20px; }
-.presenca-hero__card-text {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  color: var(--color-text-default);
-  font-size: 14px;
-  line-height: 1.35;
-}
-.presenca-hero__card-text strong { font-weight: var(--ds-weight-semibold); font-size: 15px; }
-
-/* Texto de abertura da seção "cobertura" — centralizado, 48px regular, 3
-   linhas com entre-linhas reduzido. As "linhas" são 3 <span
-   class="coverage-lead__line" display:block> no HTML, não <br>: cada uma
-   sempre começa numa linha nova, mas o texto dentro dela ainda pode
-   quebrar sozinho num mobile bem estreito (um <br> no meio da frase não
-   reflui e sobra/aperta feio nessas telas). Cada letra do trecho não
-   destacado revela de --color-surface-alt (quase invisível no fundo
-   claro) até --color-text-default, uma a uma, via GSAP ScrollTrigger com
-   stagger (ver main.js — a marcação real fica em <span class="char">,
-   gerada em runtime, recursiva por linha). O <strong> fica fixo em
-   amarelo, fora da animação. O <p> externo carrega o texto puro via
-   aria-label; o conteúdo visual/animado é aria-hidden. */
-.coverage-lead {
-  font-size: 48px;
-  font-weight: var(--ds-weight-regular);
-  line-height: 52px;
-  text-align: center;
-  margin: 0 auto 220px;
-}
-.coverage-lead__line { display: block; }
-/* Sem cor própria aqui: herda --color-text-default do section--light (bem
-   legível) como fallback se o GSAP não carregar. O tom quase-invisível de
-   partida do reveal é setado via JS (gsap.set), nunca fixo em CSS. */
-.coverage-lead strong {
-  font-weight: var(--ds-weight-bold);
-  color: var(--color-accent-warm);
-}
-
-/* Box horizontal (texto + mapa em pontos), fundo transparente, borda
-   grafite — dimensões fiéis ao Figma 1371:3701 (box 340px de altura fixa,
-   mapa vazando por cima dela). */
-.coverage-box {
-  position: relative;
-  display: flex;
-  align-items: center;
-  height: 340px;
-  min-height: 340px;
-  padding: var(--ds-space-8);
-  border-radius: var(--radius-lg);
-  background: transparent;
-  border: 1px solid var(--color-brand-primary);
-  overflow: visible;
-}
-.coverage-box__content {
-  flex: 1 1 auto;
-  max-width: 526px;
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-4);
-}
-.coverage-box__content .text-p { max-width: 48ch; opacity: 0.82; }
-/* Mapa: SVG fornecido pelo guardião (contorno real do Brasil em pontos,
-   grafite), sem tile/fundo — posição e tamanho fiéis ao Figma 1371:3701
-   (left:696px/top:-91px/446x479, relativos à própria box de 1264px). */
-.coverage-box__map {
-  position: absolute;
-  left: 55%;
-  top: -91px;
-  width: 446px;
-  height: 479px;
-}
-.coverage-box__map img { width: 100%; height: 100%; object-fit: contain; display: block; }
-.coverage__tag {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--ds-space-4);
-  padding: var(--ds-space-2) var(--ds-space-4);
-  border-radius: var(--radius-full);
-  background: color-mix(in srgb, var(--color-accent-warm) 10%, transparent);
-  border: 1px solid var(--color-accent-warm);
-  font-weight: var(--ds-weight-medium);
-  color: var(--color-accent-warm);
-  width: fit-content;
-}
-.coverage__tag .dot {
-  width: 8px;
-  height: 8px;
-  border-radius: var(--radius-full);
-  background: var(--color-accent-warm);
-  border: 2px solid color-mix(in srgb, var(--color-accent-warm) 60%, transparent);
-}
-
-/* CTA-banner — card grande com mídia de fundo + scrim + texto (mesmo papel
-   de "banners/destaques" do radius.lg). Baseado na referência Figma
-   955:4424, com o conteúdo real da página no lugar do texto de exemplo;
-   a seção em volta é clara, o card em si continua escuro por cima da
-   mídia (o scrim cuida disso). */
-.cta-banner {
-  position: relative;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  min-height: 480px;
-  display: flex;
-  align-items: center;
-  padding: var(--ds-space-12);
-}
-.cta-banner__media { position: absolute; inset: 0; z-index: 0; }
-.cta-banner__media img,
-.cta-banner__media video { width: 100%; height: 100%; object-fit: cover; }
-.cta-banner__scrim {
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  background: linear-gradient(100deg, rgba(19, 19, 20, 0.92) 30%, rgba(19, 19, 20, 0.15) 85%);
-}
-.cta-banner__content {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-4);
-  max-width: 560px;
-  color: var(--color-text-inverse);
-}
-.cta-banner__content .text-p { opacity: 0.85; max-width: 48ch; }
-
-/* Segmentos atendidos — texto centralizado sobre uma "constelação"
-   decorativa: 5 anéis concêntricos + 9 ícones oficiais (Portal Consistem)
-   flutuando ao redor do centro. Ref. Figma 1371:3877 — offsets calculados
-   a partir do metadata real do frame (centro do grupo de ícones coincide
-   com o centro da seção/texto). Ícones ganham flutuação contínua (CSS) +
-   entrada de baixo pra cima conforme o scroll avança (GSAP ScrollTrigger,
-   ver main.js). */
-#segmentos { position: relative; overflow: hidden; }
-.segments__content { display: flex; flex-direction: column; align-items: center; gap: var(--ds-space-12); }
-.segments__intro { max-width: 560px; text-align: center; display: flex; flex-direction: column; gap: var(--ds-space-4); }
-.segments__intro .text-p { opacity: 0.8; }
-.segments__tags {
-  display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   gap: var(--ds-space-2);
-  max-width: 700px;
+  width: fit-content;
+  margin: 0 auto var(--ds-space-16);
+  padding: var(--ds-space-2) var(--ds-space-4);
+  border-radius: var(--radius-lg);
+  background: rgba(46, 46, 48, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.28);
 }
-.segments__tag {
-  display: inline-flex;
+.history-nav__item {
+  display: flex;
   align-items: center;
-  padding: 6px var(--ds-space-3);
-  border-radius: var(--radius-sm);
-  background: color-mix(in srgb, var(--color-accent-warm) 10%, transparent);
-  border: 1px solid var(--color-accent-warm);
-  color: var(--color-text-inverse);
-  font-size: 14px;
+  gap: var(--ds-space-2);
+  padding: var(--ds-space-2) var(--ds-space-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-caption-size);
   font-weight: var(--ds-weight-medium);
-  white-space: nowrap;
+  color: var(--color-text-inverse);
+  opacity: 0.6;
+  transition: opacity 0.2s ease, background-color 0.2s ease, color 0.2s ease;
 }
-.segments__cta {
-  display: inline-flex;
+.history-nav__item:hover { opacity: 0.9; }
+.history-nav__item.is-active {
+  opacity: 1;
+  background: color-mix(in srgb, var(--color-accent-warm) 16%, transparent);
+  color: var(--color-accent-warm);
+}
+.history-nav__index {
+  display: flex;
   align-items: center;
   justify-content: center;
-  height: var(--ds-space-12);
-  padding-inline: var(--ds-space-6);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-text-inverse);
-  color: var(--color-text-inverse);
-  font-size: 16px;
-  font-weight: var(--ds-weight-medium);
-}
-#segmentos .container { position: relative; z-index: 1; }
-
-.segments__orbit { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
-.segments__ring {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--ring-size);
-  height: var(--ring-size);
-  transform: translate(-50%, -50%);
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
   border-radius: var(--radius-full);
   border: 1px solid var(--color-border-inverse);
+  font-size: 11px;
+  font-weight: var(--ds-weight-bold);
 }
-.segments__icon {
-  position: absolute;
-  left: calc(50% + var(--icon-x));
-  top: calc(50% + var(--icon-y));
-  transform: translate(-50%, -50%);
-}
-/* Sem estado inicial fixo aqui — a posição de partida do slide-in/parallax
-   é setada via JS (gsap.fromTo), lida do --depth de cada ícone. Se o GSAP
-   não carregar, o ícone fica parado na posição natural (nunca some). */
-.segments__icon-parallax { will-change: transform; }
-.segments__icon-float {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 58px;
-  height: 58px;
-  padding: var(--ds-space-2);
-  border-radius: 12px;
-  background: color-mix(in srgb, var(--color-accent-warm) 20%, transparent);
-  border: 1px solid var(--color-accent-warm);
-  animation: segmentIconFloat 4.8s ease-in-out infinite;
-}
-.segments__icon-float img { width: 40px; height: 40px; display: block; }
-@keyframes segmentIconFloat {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .segments__icon-float { animation: none; }
+.history-nav__item.is-active .history-nav__index {
+  background: var(--color-accent-warm);
+  border-color: var(--color-accent-warm);
+  color: var(--color-brand-primary);
 }
 
-/* Depoimentos — accordion horizontal (referência Figma 1364:3495): o
-   primeiro painel começa aberto (mais largo, mostra citação completa), os
-   demais ficam estreitos (só o nome, na vertical) até ganharem hover/clique,
-   quando trocam de lugar com o que estava aberto. */
-.testimonials__intro { text-align: center; margin-bottom: var(--ds-space-10); }
-.testimonial-accordion {
+/* Bloco de era — grid de 2 colunas; alterna lado a cada bloco. Sem
+   align-items override: o item de texto herda `stretch` (padrão do
+   grid), então sua caixa sticky fica tão alta quanto a linha inteira
+   (ditada pela coluna de cards, mais alta) — é isso que faz o texto
+   ficar "grudado" pela duração inteira do bloco, não só um instante. */
+.history-block {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: var(--ds-space-12);
+  padding-block: var(--section-padding-block);
+}
+.history-block--reverse .history-block__content { order: 2; }
+.history-block--reverse .history-block__cards { order: 1; }
+
+.history-block__content {
+  position: sticky;
+  top: 160px; /* limpa header + barra sticky (~96 + ~48) com respiro */
   display: flex;
-  gap: var(--ds-space-3);
-  height: 560px;
+  flex-direction: column;
+  gap: var(--ds-space-4);
 }
-.testimonial-panel {
-  position: relative;
-  flex: 1 1 0;
-  min-width: 64px;
-  border: none;
-  padding: 0;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  cursor: pointer;
-  transition: flex-grow 0.5s cubic-bezier(0.76, 0, 0.24, 1);
+.history-block__content .text-tag { color: var(--color-accent-warm); }
+.history-block__content .text-p { opacity: 0.85; max-width: 46ch; }
+
+.history-block__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4);
 }
-.testimonial-panel.is-active { flex-grow: 6; }
-.testimonial-panel:not(.is-active) { flex-grow: 1; }
-.testimonial-panel__photo {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.testimonial-panel__scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to top, rgba(19, 19, 20, 0.88) 0%, rgba(19, 19, 20, 0.25) 55%, rgba(19, 19, 20, 0.15) 100%);
-}
-.testimonial-panel__content {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  padding: var(--ds-space-8);
+.history-card {
+  position: sticky;
   display: flex;
   flex-direction: column;
   gap: var(--ds-space-3);
-  color: var(--color-text-inverse);
+  padding: var(--ds-space-6);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-inverse-alt);
+  border: 1px solid var(--color-border-inverse);
+  box-shadow: 0 -32px 48px rgba(0, 0, 0, 0.18); /* sombra vinda de cima — reforça a leitura de pilha */
+}
+/* Incrementos de --ds-space-10 (40px) a partir de 176px (header 96 +
+   barra ~48 + respiro 32) — mesmo truque puro-CSS do ICARDA
+   (.timeline__card{position:sticky} com `top` crescente por card). */
+.history-card:nth-child(1) { top: 176px; }
+.history-card:nth-child(2) { top: 216px; }
+.history-card:nth-child(3) { top: 256px; }
+.history-card__year { color: var(--color-accent-warm); }
+.history-card__title { opacity: 0.9; }
+
+/* Placeholder visual reutilizado (card de foto, foto larga do "presente",
+   vídeo vertical do depoimento) — sem fotos reais ainda; reserva o espaço
+   final já no aspect-ratio certo pra troca por `src` sem mexer em layout. */
+.history-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px dashed var(--color-border-inverse);
+  background: var(--color-surface-inverse-alt);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+.history-placeholder__label { max-width: 20ch; text-align: center; opacity: 0.55; }
+.history-card__photo { aspect-ratio: 4 / 5; }
+
+/* Bloco "presente" (2026) — fora do padrão de stack, de propósito: é o
+   fecho maior da timeline, não mais uma era igual às outras. Último
+   filho de .history-timeline — é aqui que a barra sticky solta. */
+.history-present {
+  padding-block: var(--section-padding-block);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ds-space-8);
+  text-align: center;
+}
+.history-present .text-tag { color: var(--color-accent-warm); }
+.history-present__title { max-width: 18ch; }
+.history-present__text {
+  max-width: 62ch;
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-4);
   text-align: left;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.3s ease 0.15s, transform 0.3s ease 0.15s;
+  opacity: 0.88;
 }
-.testimonial-panel.is-active .testimonial-panel__content { opacity: 1; transform: none; }
-.testimonial-panel__quote { max-width: 46ch; }
-.testimonial-panel__name { margin: 0; }
-.testimonial-panel__role { opacity: 0.72; margin: 0; }
-.testimonial-panel__label {
-  position: absolute;
-  left: var(--ds-space-4);
-  bottom: var(--ds-space-6);
-  color: var(--color-text-inverse);
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  font-weight: var(--ds-weight-medium);
-  white-space: nowrap;
-  transition: opacity 0.2s ease;
+.history-present__photo { width: 100%; max-width: 900px; aspect-ratio: 16 / 9; }
+
+/* Fechamento — depoimento Appel Home (reaproveita .about/.about__grid,
+   já genéricos, não específicos de nenhuma subpágina) + CTA final. */
+.history-video-placeholder { width: 100%; max-width: 320px; aspect-ratio: 9 / 16; margin-inline: auto; }
+.history-closing {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ds-space-6);
 }
-.testimonial-panel.is-active .testimonial-panel__label { opacity: 0; pointer-events: none; }
+.history-closing .text-p { opacity: 0.82; }
 
 /* ===== Responsivo ===== */
 @media (max-width: 960px) {
@@ -957,16 +805,21 @@ section { position: relative; }
   .experience-item::after { display: none; }
   .future__grid { grid-template-columns: 1fr; gap: var(--ds-space-6); }
   .stats__grid { grid-template-columns: repeat(2, 1fr); }
-  .segments__orbit { transform: scale(0.65); }
-  .cta-banner { padding: var(--ds-space-8); min-height: 420px; }
-  .coverage-box { flex-direction: column; align-items: stretch; min-height: 0; height: auto; gap: var(--ds-space-8); }
-  .coverage-box__content { max-width: none; }
-  .coverage-box__map { position: static; width: 100%; max-width: none; height: 280px; }
-  .coverage-lead { font-size: 32px; margin-bottom: var(--ds-space-16); }
   .fundamentos-lead { font-size: 28px; }
   .experience__lead { font-size: 28px; }
   .hero__actions { flex-direction: column; align-items: flex-start; gap: var(--ds-space-6); }
   :root { --section-padding-block: 88px; }
+
+  /* História: desliga o efeito de stack (mesmo ponto de corte de
+     .about__grid/.evolve__grid acima) — vira coluna única, texto sempre
+     primeiro, cards em fluxo normal abaixo, sem sticky. */
+  .history-facts { grid-template-columns: repeat(2, 1fr); row-gap: var(--ds-space-6); }
+  .history-fact::after { display: none; }
+  .history-block { grid-template-columns: 1fr; gap: var(--ds-space-8); }
+  .history-block--reverse .history-block__content,
+  .history-block--reverse .history-block__cards { order: initial; }
+  .history-block__content,
+  .history-card { position: static; top: auto; }
 }
 
 @media (max-width: 640px) {
@@ -995,25 +848,14 @@ section { position: relative; }
   .hero__buttons .btn { width: 100%; }
   .experience__grid { grid-template-columns: 1fr; }
   .stats__grid { grid-template-columns: 1fr; }
-  .segments__orbit { transform: scale(0.4); }
-  .cta-banner { padding: var(--ds-space-6); min-height: 380px; }
-  .coverage-box__map { height: 220px; }
-  .coverage-lead { font-size: 26px; margin-bottom: var(--ds-space-10); }
   .fundamentos-lead { font-size: 22px; }
   .experience__lead { font-size: 22px; }
-  .presenca-hero__photo { object-position: 65% 30%; }
-  /* Sem espaço pra vazar a borda numa tela estreita — as tags recolhem
-     pra dentro do card em vez de sair pelos lados. */
-  .presenca-hero__card { max-width: 170px; padding: var(--ds-space-3); }
-  .presenca-hero__card-text { font-size: 12px; }
-  .presenca-hero__card-text strong { font-size: 13px; }
-  .presenca-hero__card--top { left: var(--ds-space-3); }
-  .presenca-hero__card--bottom { right: var(--ds-space-3); }
-  /* Accordion horizontal não cabe numa tela estreita — vira lista empilhada,
-     tudo sempre visível (sem depender de hover/clique). */
-  .testimonial-accordion { flex-direction: column; height: auto; }
-  .testimonial-panel { min-height: 220px; flex: 0 0 auto !important; }
-  .testimonial-panel__label { display: none; }
-  .testimonial-panel__content { position: static; opacity: 1; transform: none; height: 100%; justify-content: flex-end; }
   .site-footer__top { flex-direction: column; }
+
+  /* História: barra de progresso condensa — só o índice numerado fica
+     visível (o rótulo do período some), continua sticky normalmente. */
+  .history-nav { gap: var(--ds-space-1); padding: var(--ds-space-1) var(--ds-space-2); }
+  .history-nav__item { padding: var(--ds-space-1); }
+  .history-nav__item span:not(.history-nav__index) { display: none; }
+  .history-facts { grid-template-columns: 1fr; row-gap: var(--ds-space-4); }
 }

@@ -54,7 +54,7 @@
     });
   });
 
-  // Links pra OUTRA página do mesmo hotsite (ex.: index.html -> presenca.html):
+  // Links pra OUTRA página do mesmo hotsite (ex.: index.html -> historia.html):
   // só fecha e navega de verdade — a página nova já nasce coberta pelo
   // próprio painel (estado padrão do CSS) e se revela sozinha ao carregar.
   document.querySelectorAll('a[href]').forEach(function (link) {
@@ -183,10 +183,10 @@
 })();
 
 // Scroll-reveal LETRA A LETRA no texto "fundamentos" da Home (index.html) —
-// mesma técnica do bloco acima (coverage-lead), sem trecho fixo/destacado:
 // o parágrafo inteiro revela de uma cor bem apagada até a cor sólida do
-// texto. A cor inicial (20% do token de texto sobre transparente) é
-// resolvida via color-mix num elemento-sonda descartável, nunca hex fixo.
+// texto, sem trecho fixo/destacado. A cor inicial (20% do token de texto
+// sobre transparente) é resolvida via color-mix num elemento-sonda
+// descartável, nunca hex fixo.
 (function () {
   var lead = document.getElementById('fundamentosLead');
   var visual = lead ? lead.querySelector('.fundamentos-lead__visual') : null;
@@ -312,4 +312,39 @@
       scrollTrigger: { trigger: presentTitle, start: 'top 85%' },
     });
   }
+})();
+
+// Vídeos decorativos de fundo (autoplay/loop) só carregam quando chegam
+// perto da tela — sem isso, um <video autoplay> baixa o arquivo inteiro no
+// load da página mesmo estando várias seções abaixo da dobra. Marcar o
+// <video> com a classe "js-lazy-video", preload="none", SEM autoplay no
+// HTML, e trocar o `src` do <source> por `data-src` — este bloco troca de
+// volta e dá play assim que o vídeo entra (ou está perto de entrar) na tela.
+(function () {
+  var videos = Array.prototype.slice.call(document.querySelectorAll('video.js-lazy-video'));
+  if (!videos.length) return;
+
+  function startVideo(video) {
+    Array.prototype.slice.call(video.querySelectorAll('source[data-src]')).forEach(function (source) {
+      source.src = source.dataset.src;
+    });
+    video.load();
+    video.play().catch(function () {});
+  }
+
+  if (!window.IntersectionObserver) {
+    // Sem suporte ao observer: carrega direto, em vez de deixar vazio pra sempre.
+    videos.forEach(startVideo);
+    return;
+  }
+
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (!entry.isIntersecting) return;
+      startVideo(entry.target);
+      observer.unobserve(entry.target);
+    });
+  }, { rootMargin: '200px' });
+
+  videos.forEach(function (video) { observer.observe(video); });
 })();

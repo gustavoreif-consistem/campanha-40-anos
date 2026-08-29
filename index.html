@@ -69,11 +69,11 @@
     </a>
     <nav class="site-header__nav" id="siteNav" aria-label="Navegação principal">
       <a href="#home" aria-current="page">Home</a>
-      <a href="presenca.html">Manifesto</a>
+      <a href="historia.html">História</a>
       <a href="#trajetoria">Trajetória</a>
       <a href="#evolucao">Evolução</a>
     </nav>
-    <a class="btn btn--warm btn--sm site-header__cta" href="presenca.html">Saber mais</a>
+    <a class="btn btn--warm btn--sm site-header__cta" href="historia.html">Saber mais</a>
     <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteNav">
       <svg class="icon"><use href="#icon-menu"></use></svg>
     </button>
@@ -106,9 +106,8 @@
   </section>
 
   <!-- Texto que "abria" o hero (parágrafos 2 e 3 originais) agora abre esta seção,
-       revelado letra a letra via GSAP ScrollTrigger conforme o scroll avança —
-       mesmo mecanismo de .coverage-lead (presenca.html), adaptado pra este
-       bloco (ver #fundamentosLead em main.js). -->
+       revelado letra a letra via GSAP ScrollTrigger conforme o scroll avança
+       (ver #fundamentosLead em main.js). -->
   <section class="section-pad section--light" id="fundamentos">
     <div class="container">
       <p class="fundamentos-lead" id="fundamentosLead" aria-label="Essa trajetória foi construída acompanhando mudanças na indústria, evoluindo produtos, ampliando conhecimento e mantendo relações que atravessam diferentes ciclos de negócio. Em 2026, celebramos o caminho percorrido e seguimos olhando para o que ainda podemos construir.">
@@ -145,46 +144,45 @@
         <div class="card-quote">
           <h3 class="text-h3">A Consistem evolui junto da indústria</h3>
           <p class="text-p text-p-lg">Uma história marcada pela confiança, pela solidez operacional e pela capacidade de acompanhar mudanças sem perder sua essência.</p>
-          <!-- Destino "história completa" ainda não existe como página própria — placeholder até essa página nascer. -->
-          <a class="btn btn--warm btn--sm" href="#">Explore a história</a>
+          <a class="btn btn--warm btn--sm" href="historia.html">Explore a história</a>
         </div>
         <div class="evolve__photo">
-          <video autoplay muted loop playsinline aria-label="Animação de um card de produto Consistem em uso">
-            <source src="assets/video/card.mp4" type="video/mp4" />
+          <video class="js-lazy-video" muted loop playsinline preload="none" aria-label="Animação de um card de produto Consistem em uso">
+            <source data-src="assets/video/card.mp4" type="video/mp4" />
           </video>
         </div>
       </div>
       <div class="evolve__campaign">
-        <img src="assets/fabrica-industria.jpg" alt="Operador de fábrica acompanhando indicadores em tablet no chão de fábrica" />
+        <img src="assets/fabrica-industria.jpg" alt="Operador de fábrica acompanhando indicadores em tablet no chão de fábrica" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
 
   <!-- Experiência que gera eficiência -->
   <section class="experience" id="experiencia">
-    <div class="container">
+    <div class="container experience__stack">
       <div class="experience__intro">
         <h2 class="text-h2">Experiência que gera eficiência</h2>
         <p class="text-p text-p-lg">Chegar aos 40 anos representa acumular conhecimento sobre processos, tecnologia e, principalmente, sobre o impacto que um sistema de gestão tem na rotina de uma empresa.</p>
       </div>
       <div class="experience__grid">
         <div class="experience-item">
-          <img class="experience-item__icon" src="assets/icons-experiencia/conhecimento-operacao.png" alt="" />
+          <img class="experience-item__icon" src="assets/icons-experiencia/conhecimento-operacao.png" alt="" loading="lazy" decoding="async" />
           <h3 class="text-h4">Conhecimento da operação</h3>
           <p class="text-p">Conviver com diferentes realidades industriais ampliou nossa capacidade de compreender processos complexos e transformar necessidades de gestão em soluções aplicáveis.</p>
         </div>
         <div class="experience-item">
-          <img class="experience-item__icon" src="assets/icons-experiencia/continuidade.png" alt="" />
+          <img class="experience-item__icon" src="assets/icons-experiencia/continuidade.png" alt="" loading="lazy" decoding="async" />
           <h3 class="text-h4">Continuidade</h3>
           <p class="text-p">Para uma indústria, evolução tecnológica precisa considerar o que já funciona. Segurança, estabilidade e previsibilidade fazem parte das decisões sobre produto desde o desenvolvimento até a atualização.</p>
         </div>
         <div class="experience-item">
-          <img class="experience-item__icon" src="assets/icons-experiencia/relacionamento.png" alt="" />
+          <img class="experience-item__icon" src="assets/icons-experiencia/relacionamento.png" alt="" loading="lazy" decoding="async" />
           <h3 class="text-h4">Relacionamento</h3>
           <p class="text-p">Os processos mudam, as empresas crescem e novos desafios aparecem. A proximidade permite acompanhar essas mudanças e manter o produto conectado à realidade de quem utiliza o sistema.</p>
         </div>
         <div class="experience-item">
-          <img class="experience-item__icon" src="assets/icons-experiencia/evolucao-responsavel.png" alt="" />
+          <img class="experience-item__icon" src="assets/icons-experiencia/evolucao-responsavel.png" alt="" loading="lazy" decoding="async" />
           <h3 class="text-h4">Evolução responsável</h3>
           <p class="text-p">A tecnologia avança continuamente. Nosso critério é incorporá-la quando existe aplicação real para melhorar produtividade, análise, controle e capacidade de decisão.</p>
         </div>
@@ -240,7 +238,7 @@
       </div>
       <div class="future__grid">
         <div class="future-item">
-          <img class="future-item__art" src="assets/img-futuro/nova-marca.png" alt="" />
+          <img class="future-item__art" src="assets/img-futuro/nova-marca.png" alt="" loading="lazy" decoding="async" />
           <h3 class="text-h3">Uma identidade mais precisa</h3>
           <p class="text-p">Em 2026, renovamos nossa identidade para expressar com mais clareza a Consistem de hoje: uma empresa que combina experiência, conhecimento técnico, proximidade e capacidade de evoluir com responsabilidade.</p>
           <p class="text-p">A confiança permanece no centro dessa construção e agora ganha uma expressão mais contemporânea em nossos canais, produtos e experiências.</p>
@@ -248,7 +246,7 @@
           <a class="btn btn--warm btn--md" href="#">Conheça a nova marca</a>
         </div>
         <div class="future-item">
-          <img class="future-item__art" src="assets/img-futuro/clara-ia.png" alt="" />
+          <img class="future-item__art" src="assets/img-futuro/clara-ia.png" alt="" loading="lazy" decoding="async" />
           <h3 class="text-h3">Inteligência aplicada à gestão</h3>
           <p class="text-p">A Consistem Clara IA passa a representar nossa suíte de inteligência artificial, conectando assistência, agentes, criação e orquestração à realidade da gestão empresarial.</p>
           <p class="text-p">A proposta é aproximar a IA dos dados e processos da empresa e permitir que ela ajude a transformar informação em decisão e decisão em ação, com permissões, rastreabilidade e supervisão humana.</p>
@@ -268,7 +266,7 @@
         <a class="btn btn--warm btn--md" href="#evolucao">Fale com a gente</a>
       </div>
       <div class="about__media">
-        <img src="assets/executivo-lideranca.webp" alt="Executivo Consistem caminhando por um escritório com um tablet em mãos" />
+        <img src="assets/executivo-lideranca.webp" alt="Executivo Consistem caminhando por um escritório com um tablet em mãos" loading="lazy" decoding="async" />
       </div>
     </div>
   </section>
@@ -284,7 +282,7 @@
       </div>
       <nav class="site-footer__nav" aria-label="Navegação institucional">
         <a href="#home" aria-current="page">Home</a>
-        <a href="presenca.html">Manifesto</a>
+        <a href="historia.html">História</a>
         <a href="#trajetoria">Trajetória</a>
         <a href="#evolucao">Evolução</a>
       </nav>
