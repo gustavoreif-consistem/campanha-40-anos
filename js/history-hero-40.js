@@ -140,9 +140,17 @@
     clearTimeout(resizeTimer);
     resizeTimer = setTimeout(function () {
       resize();
-      // Sem loop de rAF rodando nesse modo — sem isso o canvas ficaria em
-      // branco após redimensionar (o backing store reseta no resize()).
-      if (reduceMotion && formationDone) drawStatic();
+      // canvas.width/height (dentro de resize()) sempre limpa o buffer,
+      // mesmo sem mudar de tamanho de verdade — no mobile, rolar a página
+      // colapsa a barra de endereço e dispara resize por conta disso o
+      // tempo todo. Sem forçar um frame novo aqui, o "40" ficava em
+      // branco pra sempre depois do primeiro resize com o loop já
+      // congelado (ocioso, sem hover) — nada mais chamava frame() de novo.
+      if (reduceMotion) {
+        if (formationDone) drawStatic();
+      } else if (!rafId) {
+        rafId = requestAnimationFrame(frame);
+      }
     }, 120);
   }, { passive: true });
 

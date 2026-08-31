@@ -747,24 +747,37 @@ section { position: relative; }
 
 /* Ficha técnica (fundação/sede/atuação/produto) — 4 colunas com divisórias
    via ::after (mesma técnica de .experience-item, sem elemento extra). */
+/* Ficha técnica v2 — chips com borda própria (não mais grid com
+   divisórias hairline via ::after, que aliás usava --color-border-inverse,
+   pensado pra fundo escuro — ficava invisível na hero clara). flex-wrap
+   resolve desktop e mobile com a mesma regra, sem breakpoint dedicado. */
+/* Ficha técnica v3 — sem caixa/borda nenhuma (as 2 tentativas com chip
+   bordado ficaram com o rótulo colado na borda, mesmo com padding
+   generoso — mais simples e à prova de bug tirar a borda de vez). Só
+   texto com respiro generoso entre os itens; flex-wrap resolve
+   desktop e mobile com a mesma regra. */
+/* Ficha técnica v4 — proposta nova de verdade: preenchimento sólido
+   (--color-surface-alt, o #f5f5f5 do DS) em vez de borda — as 2
+   tentativas anteriores usavam linha/borda e sempre sobrava algum jeito
+   do texto encostar nela; com fundo sólido não tem aresta pra encostar. */
 .history-facts {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--ds-space-6);
-  margin-top: var(--ds-space-12);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--ds-space-3);
+  width: 100%;
+  margin-top: var(--ds-space-10);
 }
-.history-fact { position: relative; display: flex; flex-direction: column; gap: var(--ds-space-1); }
-.history-fact:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: calc(var(--ds-space-6) / -2 - 0.5px);
-  width: 1px;
-  background: var(--color-border-inverse);
+.history-fact {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-1);
+  padding: var(--ds-space-4) var(--ds-space-6); /* --ds-space-5 não existe na escala (pula de 4 pra 6) — por isso o padding sumia sempre */
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
 }
 .history-fact__label { color: var(--color-accent-warm); opacity: 0.9; }
-.history-fact__value { opacity: 0.88; }
+.history-fact__value { opacity: 0.88; font-weight: var(--ds-weight-medium); }
 
 /* Envelope da timeline inteira — só existe pra dar à barra sticky um
    container com começo/fim (aparece ao entrar, some ao sair da era
@@ -1020,7 +1033,7 @@ section { position: relative; }
 .history-present__intro {
   max-width: 1176px;
   margin-inline: auto;
-  text-align: center;
+  text-align: left;
   display: flex;
   flex-direction: column;
   gap: var(--ds-space-4);
@@ -1054,14 +1067,6 @@ section { position: relative; }
   background: radial-gradient(ellipse 70% 65% at 50% 50%, transparent 68%, var(--color-surface-default) 100%);
   pointer-events: none;
 }
-.history-present__photo-label {
-  position: absolute;
-  top: var(--ds-space-6);
-  left: var(--ds-space-6);
-  z-index: 1;
-  color: var(--color-accent-warm);
-}
-
 /* Fechamento — depoimento Appel Home (reaproveita .about/.about__grid,
    já genéricos, não específicos de nenhuma subpágina) + CTA final. */
 .history-video-placeholder { width: 100%; max-width: 320px; aspect-ratio: 9 / 16; margin-inline: auto; }
@@ -1144,11 +1149,10 @@ section { position: relative; }
      --section-padding-block) já aperta sozinho pro padrão de 64px de
      mobile redefinido acima. Dobra 2 (texto+foto) empilha como qualquer
      outro grid 2 colunas do site. */
-  .history-hero { padding-top: 96px; }
-  .history-hero-intro { grid-template-columns: 1fr; gap: var(--ds-space-8); text-align: center; }
-  .history-hero-intro__text { align-items: center; text-align: center; }
-  .history-facts { grid-template-columns: repeat(2, 1fr); row-gap: var(--ds-space-6); }
-  .history-fact::after { display: none; }
+  .history-hero { padding-top: 120px; } /* 96px de folga do header + 24px extra pedido */
+  .history-hero__logo { display: none; } /* pedido explícito — só aparece no desktop */
+  .history-hero-intro { grid-template-columns: 1fr; gap: var(--ds-space-8); text-align: left; }
+  .history-hero-intro__text { align-items: flex-start; text-align: left; }
 
   /* Timeline: desliga o efeito de stack (mesmo ponto de corte de
      .about__grid/.evolve__grid acima) — vira coluna única, texto sempre
@@ -1192,23 +1196,13 @@ section { position: relative; }
 
   /* Pedido explícito: no mobile, texto alinhado à esquerda nas seções
      abaixo do hero (hero e fotos da timeline ficam de fora — ver
-     .history-hero-intro acima, que continua centralizado). Presente
-     (2026) e fecho final nascem centralizados no desktop — só eles
-     precisam de override aqui; .history-block__sticky e
-     #depoimento-appel .about__content já nascem à esquerda por padrão,
-     não precisam de regra nenhuma. */
-  .history-present__intro,
+     .history-hero-intro acima, que continua centralizado). Fecho final
+     nasce centralizado no desktop — só ele precisa de override aqui; os
+     outros (2026, .history-block__sticky, depoimento) já nascem à
+     esquerda por padrão, não precisam de regra nenhuma. */
   .history-closing {
     text-align: left;
     align-items: flex-start;
-  }
-
-  /* Ilustração da fachada (2026) — maior só no mobile (pedido explícito;
-     no desktop mantém 100%, tamanho normal), sempre centralizada mesmo
-     ultrapassando o container. */
-  .history-present__photo {
-    width: 140%;
-    margin-left: -20%; /* (140% - 100%) / 2 — centraliza o excesso pros 2 lados */
   }
 
   /* Depoimento no mobile: texto antes do vídeo (no desktop é vídeo à
@@ -1253,5 +1247,4 @@ section { position: relative; }
   .history-nav { gap: var(--ds-space-1); padding: var(--ds-space-1) var(--ds-space-2); }
   .history-nav__item { padding: var(--ds-space-1); }
   .history-nav__item span:not(.history-nav__index) { display: none; }
-  .history-facts { grid-template-columns: 1fr; row-gap: var(--ds-space-4); }
 }
