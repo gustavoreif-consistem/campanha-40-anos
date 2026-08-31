@@ -1640,6 +1640,12 @@ h1.manifesto-hero__title {
   .container { padding-inline: 20px; }
   .text-h1 { font-size: 44px; }
   .text-h2 { font-size: 32px; }
+  /* Evolução: "Ao longo de 40 anos..." e os títulos de produto da suíte
+     Clara IA usam --font-heading-md-size (40px) direto, não a classe
+     .text-h3 (que não tem override de mobile) — reduzido igual, mesmo
+     degrau do texto-h2 acima. */
+  .evo-statement { font-size: 32px; }
+  .clara-row__title { font-size: 32px; }
 
   .about__grid { grid-template-columns: 1fr; }
   .about--media-right .about__media,
@@ -1824,6 +1830,8 @@ h1.manifesto-hero__title {
   .experience__grid { grid-template-columns: 1fr; }
   .stats__grid { grid-template-columns: 1fr; }
   .fundamentos-lead { font-size: 22px; }
+  .evo-statement { font-size: 26px; }
+  .clara-row__title { font-size: 28px; }
   .experience__lead { font-size: 22px; }
   .site-footer { padding: var(--ds-space-10) var(--ds-space-6); }
 
