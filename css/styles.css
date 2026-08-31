@@ -1167,18 +1167,21 @@ h1.manifesto-hero__title {
    ESCAPA do .manifesto-hero__stack (max-width:860px) de propósito — a
    1ª tentativa de aumentar (812->934px) não teve efeito NENHUM porque o
    PAI já travava tudo em 860px antes do vídeo chegar a valer seu próprio
-   max-width (bug real, não só "não aumentou o bastante"). Técnica
-   left:50%+translateX(-50%) centraliza um elemento MAIOR que o pai,
-   quebrando o container sem depender da largura exata dele (funciona em
-   qualquer viewport, ao contrário de margin negativa fixa). Largura alvo
-   1100px — na altura (aspect-ratio 16:9 ainda intacto), empurra o fundo
-   do vídeo pra além dos 100vh na maioria das telas, deixando claro que
-   tem mais conteúdo abaixo (pedido explícito). max-width em vw garante
-   que nunca estoura a tela em viewports estreitos. */
+   max-width (bug real, não só "não aumentou o bastante"). O stack já é
+   flex + align-items:center — isso SOZINHO já centraliza um item mais
+   largo que o container (o overflow sobra igual dos dois lados), sem
+   precisar de nenhum truque extra. A 2ª tentativa (left:50% +
+   translateX(-50%), pensada pra "quebrar" o container) foi um bug: as
+   duas porcentagens são calculadas em cima de bases DIFERENTES (largura
+   do container vs. largura do próprio vídeo), não se cancelam, e
+   empurravam o vídeo ~120px pra esquerda do centro real. Removida —
+   basta a largura fixa (1100px) + max-width em vw pra nunca estourar a
+   tela; o align-items do pai faz o resto. Largura alvo 1100px — na
+   altura (aspect-ratio 16:9 ainda intacto), empurra o fundo do vídeo pra
+   além dos 100vh na maioria das telas, deixando claro que tem mais
+   conteúdo abaixo (pedido explícito). */
 .manifesto-hero__video {
   position: relative;
-  left: 50%;
-  transform: translateX(-50%);
   width: 1100px;
   max-width: calc(100vw - 40px);
   aspect-ratio: 16 / 9;
