@@ -131,9 +131,9 @@
 <main>
 
   <!-- Hero — vídeo institucional de fundo em loop, 100vh/100vw, navbar
-       flutuando por cima. hero-poster.jpg como poster/fallback — preto
-       sólido de propósito (não mais "1º frame real"), pra casar com o
-       fade-in que agora abre o próprio vídeo (ver abaixo).
+       flutuando por cima. hero-poster.jpg como poster/fallback — frame
+       REAL e visível do vídeo (não mais preto sólido — ver 2026-08-31
+       "pôster preto" logo abaixo pro histórico dessa ida e vinda).
        SEM `autoplay` e com `data-src` de propósito: `autoplay` faz o browser IGNORAR
        preload="none" e baixar o vídeo inteiro já no load, mesmo 100% coberto pela
        cortina do preloader, roubando banda do preloader.js e das imagens (histórico
@@ -147,10 +147,17 @@
        mesmo peso final (webm 748KB / mp4 804KB, ambos MENORES que os 2,4MB do loop de
        115s anterior, com resolução maior: 1280×720 em vez de 640×360). O fade
        mascara a costura do loop (`loop` nativo do <video> reinicia direto no fim do
-       arquivo) — por isso o poster também precisou virar preto: sem isso, a 1ª
-       reprodução saltava do poster (cena real) pro 1º frame do vídeo (preto, por
-       causa do fade-in), um flash perceptível. WebM (VP9) vem primeiro — melhor
-       qualidade por byte — com MP4 (H.264) como fallback, ordem padrão de
+       arquivo) — nessa época o poster tinha virado preto sólido pra casar com o 1º
+       frame real do vídeo (que é preto por causa do fade-in), evitando um flash
+       perceptível na 1ª reprodução.
+       2026-08-31 (mesmo dia, revisto): poster preto REVERTIDO pra um frame real e
+       visível — autoplay falha "muitas vezes" no mobile por limitação do próprio
+       sistema (pedido explícito), e nesse caso o poster é a única coisa que a
+       pessoa vê pra sempre; um poster preto nesse cenário parece página quebrada.
+       Troca aceita conscientemente: com autoplay funcionando, volta a existir um
+       flash sutil (poster visível -> vídeo entra preto -> funde) — pior que um
+       poster preto permanente quando autoplay falha. WebM (VP9) vem primeiro —
+       melhor qualidade por byte — com MP4 (H.264) como fallback, ordem padrão de
        progressive enhancement do <source>. -->
   <section class="hero" id="home">
     <div class="hero__media" aria-hidden="true">

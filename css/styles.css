@@ -1363,7 +1363,13 @@ h1.manifesto-hero__title {
   .mtimeline__marks { flex-direction: column; padding-inline: 0; gap: var(--ds-space-8); }
   .mtimeline__mark { flex-direction: row; align-items: center; gap: var(--ds-space-4); }
   .mtimeline__meta { flex-direction: row; width: 128px; flex-shrink: 0; justify-content: flex-start; }
-  .mtimeline__shot { width: auto; flex: 1; margin-top: 0; }
+  /* min-width:0 é o pulo do gato aqui — <img> é elemento substituído, e
+     todo item de flex tem min-width:auto por padrão (não encolhe abaixo
+     do tamanho intrínseco do conteúdo). Sem isso, flex:1 não tinha efeito
+     nenhum de verdade: a imagem recusava encolher abaixo do próprio
+     tamanho natural (até 520px de origem) e estourava a largura da tela
+     — bug real causando rolagem horizontal no mobile. */
+  .mtimeline__shot { width: auto; min-width: 0; flex: 1; margin-top: 0; }
 }
 
 /* ---------- Fechamento (.manifesto-close) ----------
@@ -1488,7 +1494,28 @@ h1.manifesto-hero__title {
      é o mecanismo que foi reaproveitado, não o número exato). */
   .mfoto { display: none; }
   .mfoto-mobile { display: flex; flex-direction: column; gap: var(--ds-space-8); }
-  .manifesto-comp__tag { max-width: 70%; font-size: 16px; padding: var(--ds-space-3) var(--ds-space-4); }
+
+  /* Composição sobre fotografia (.manifesto-comp) no mobile — geometria
+     real do Figma (node 1018:863, a versão mobile já usada em
+     "LP Rebrand/build-ftp/styles.css", regra "#manifesto .comp" — mesma
+     técnica, mesmos números, referência trazida explicitamente pelo
+     guardião pra corrigir a versão anterior, que ficava "toda quebrada"
+     aqui por só encolher a fonte, sem recompor a caixa). No desktop é
+     uma caixa larga/baixa (1233×491); no mobile vira uma caixa em PÉ,
+     alta/estreita (380×546) — outline e as 2 tags são reposicionados do
+     zero pra essa proporção nova, não é a mesma composição encolhida. */
+  .manifesto-comp { aspect-ratio: 380 / 546; }
+  .manifesto-comp__outline {
+    left: 10.789%; top: 7.692%; transform: none;
+    width: 78.421%; height: 75.824%;
+  }
+  .manifesto-comp__tag {
+    width: 62%; max-width: none;
+    font-size: 16px;
+    padding: var(--ds-space-3) var(--ds-space-4);
+  }
+  .manifesto-comp__tag--white { left: 6.053%; top: 11.172%; }
+  .manifesto-comp__tag--warm { left: 31.316%; top: 63.553%; }
   .history-hero__logo { display: none; } /* pedido explícito — só aparece no desktop */
   .history-hero-intro { grid-template-columns: 1fr; gap: var(--ds-space-8); text-align: left; }
   .history-hero-intro__text { align-items: flex-start; text-align: left; }
