@@ -1490,7 +1490,10 @@ h1.manifesto-hero__title {
 .clara-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: var(--ds-space-16);
+  /* Colunas continuam 50/50 — o respiro extra entre conteúdo e imagem
+     (96-128px, maior que o --ds-space-16/64px padrão) é o que "encolhe"
+     a ilustração visualmente. Fluido entre os dois extremos pedidos. */
+  gap: clamp(var(--ds-space-16), 6vw, var(--section-padding-block));
   align-items: center;
 }
 .clara-row + .clara-row { margin-top: var(--section-padding-block); }
@@ -1498,17 +1501,14 @@ h1.manifesto-hero__title {
 .clara-row--reverse .clara-row__art { order: 1; }
 .clara-row__content { display: flex; flex-direction: column; gap: var(--ds-space-6); }
 .clara-row__badge { display: flex; align-items: center; gap: var(--ds-space-4); }
+/* Badge oficial da suíte, fiel ao Figma (node 1447:41901): quadrado
+   accent-warm com borda amarelo-700 e ícone sólido/preenchido branco —
+   os 4 produtos usam o mesmo tratamento. */
 .clara-row__icon {
   display: flex; align-items: center; justify-content: center;
   width: 56px; height: 56px; flex-shrink: 0;
   border-radius: var(--radius-md);
   background: var(--color-accent-warm);
-  color: var(--color-text-default);
-}
-/* Badge oficial da suíte (Assistente/Studio/OS) — ícone sólido/preenchido
-   fiel ao Figma (node 1447:41901), com a borda amarelo-700 do frame
-   original; Clara Agentes fica de fora, mantém o ícone de traço acima. */
-.clara-row__icon--badge {
   border: 1px solid var(--color-accent-warm-active);
   color: var(--color-text-inverse);
 }
@@ -1607,6 +1607,10 @@ h1.manifesto-hero__title {
   .clara-row--reverse .clara-row__content { order: 2; }
   .clara-row__art,
   .clara-row--reverse .clara-row__art { order: 1; }
+  /* Empilhado, cada produto vira um bloco visualmente denso (imagem +
+     conteúdo) — pediu mais respiro entre um produto e o próximo do que
+     o --section-padding-block padrão dá nesse contexto. */
+  .clara-row + .clara-row { margin-top: calc(var(--section-padding-block) + var(--ds-space-10)); }
   .gov__grid { grid-template-columns: repeat(2, 1fr); gap: var(--ds-space-10); }
   .apps__grid { grid-template-columns: repeat(2, 1fr); }
 
