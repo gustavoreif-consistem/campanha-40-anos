@@ -1109,6 +1109,10 @@ section { position: relative; }
   gap: var(--ds-space-4); /* 16px, exato do Figma */
   width: 100%;
 }
+/* evita palavra órfã sozinha numa 2ª linha (ex. "Quatro décadas reúnem
+   mudanças de estrutura, produto, processos e relacionamento." em
+   manifesto.html) — vale pro card em qualquer página que o reaproveite. */
+.history-closing__text p { text-wrap: balance; }
 /* Larguras exatas do Figma pros 2 parágrafos (não um max-width único pro
    grupo inteiro) — o 1º respira mais que o 2º dentro do mesmo card. */
 .history-closing .text-p { opacity: 0.82; max-width: 1034px; }
@@ -1131,7 +1135,6 @@ section { position: relative; }
   gap: var(--ds-space-4);
   text-align: center;
 }
-.manifesto-hero__eyebrow { color: var(--color-accent-warm); }
 /* Pedido explícito: nunca quebra linha. Tamanho fluido (mesma técnica de
    .hero__heading na Home) em vez dos degraus fixos padrão de .text-h1,
    porque com nowrap um degrau fixo pode transbordar em alguma largura de
@@ -1140,62 +1143,274 @@ section { position: relative; }
    media queries mais abaixo redefinem .text-h1 em telas ≤960px/≤640px, e
    com a MESMA especificidade quem vier depois no arquivo venceria —
    aumentar a especificidade aqui garante que o fluido nunca seja
-   sobrescrito. Vale conferir num celular real; sem ferramenta de preview
-   neste ambiente pra calibrar visualmente. */
-h1.manifesto-hero__title { white-space: nowrap; font-size: clamp(22px, 6.5vw, var(--font-heading-xl-size)); }
-.manifesto-hero__lead { display: flex; flex-direction: column; gap: var(--ds-space-4); margin-top: var(--ds-space-2); }
-.manifesto-hero__lead .text-p { max-width: 60ch; opacity: 0.88; }
-.manifesto-hero__video { width: 100%; margin-top: var(--ds-space-6); }
-.manifesto-hero__video video {
+   sobrescrito. Peso regular por padrão (Figma: só "Confiança" é negrito,
+   o resto do título é regular — .text-h1 sozinho seria semibold uniforme).
+   Vale conferir num celular real; sem ferramenta de preview neste
+   ambiente pra calibrar visualmente. */
+h1.manifesto-hero__title {
+  white-space: nowrap;
+  font-size: clamp(22px, 6.5vw, var(--font-heading-xl-size));
+  font-weight: var(--ds-weight-regular);
+}
+.manifesto-hero__title strong { font-weight: var(--ds-weight-bold); }
+/* Gap interno do bloco H1+parágrafo (24px, Figma) menor que o gap geral
+   da hero (48px, ver .manifesto-hero__stack) — hierarquia de dois
+   níveis, não um gap uniforme. */
+.manifesto-hero__head { display: flex; flex-direction: column; align-items: center; gap: var(--ds-space-6); }
+.manifesto-hero__lead-p { max-width: 60ch; opacity: 0.88; text-wrap: balance; }
+/* margin-block (não gap do stack) de propósito — pedido explícito de mais
+   respiro só ao redor do vídeo, maior que o gap dos outros elementos da
+   hero. +15% de tamanho (812px -> 934px, pedido explícito). aspect-ratio
+   no CONTAINER (não nos vídeos) porque agora são 2 vídeos empilhados
+   (preview + real, ambos position:absolute/inset:0) — precisam de uma
+   caixa com altura já definida pra se encaixarem. */
+.manifesto-hero__video { position: relative; width: 100%; max-width: 934px; aspect-ratio: 16 / 9; margin-block: 24px; }
+.manifesto-hero__preview,
+.manifesto-hero__real {
+  position: absolute; inset: 0;
   display: block;
-  width: 100%;
-  aspect-ratio: 16 / 9;
+  width: 100%; height: 100%;
   object-fit: cover;
   border-radius: var(--radius-lg);
   background: #000; /* letterbox — mesmo #000 literal de .video-modal__dialog */
 }
+/* Preview (loop mudo) fica visível por padrão; o vídeo real nasce
+   invisível/inerte embaixo dele até o clique no play (classe
+   .is-engaged, ver main.js) — depois disso o real assume de vez (nunca
+   mais volta pro preview, mesmo se pausar). */
+.manifesto-hero__preview { z-index: 1; }
+.manifesto-hero__real { z-index: 0; opacity: 0; pointer-events: none; }
+.manifesto-hero__video.is-engaged .manifesto-hero__real { opacity: 1; pointer-events: auto; z-index: 2; }
+.manifesto-hero__video.is-engaged .manifesto-hero__preview { opacity: 0; pointer-events: none; }
 
-/* Corpo do manifesto — seção escura por OMISSÃO de .section--light (mesmo
-   mecanismo de .evolve/.experience: mostra o grafite-500 padrão do body),
-   texto revelado char-a-char no scroll (ver revealCharsOnScroll em
-   main.js). Parágrafos alinhados à ESQUERDA (v1 era centralizado —
-   blocos curtos centralizados pareciam soltos/desconectados; à esquerda
-   lê como texto corrido) e com gap menor que antes (space-4, não
-   space-6) — os dois ajustes juntos resolvem a sensação de "parágrafos
-   muito longe" relatada pelo guardião. Uma foto quebra o bloco ao meio
-   (.manifesto-body__photo) — antes era só texto boiando no vazio.
-   Estrofe final e fecho continuam centralizados (funciona bem pra linhas
-   curtas tipo poema — texto maior, ver override de text-align abaixo).
-   Tamanhos vêm todos da escala tipográfica já existente
-   (text-p-lg/h4/h3/h2) — nenhum valor novo. */
+/* Botão de play custom, 64×64px, círculo amarelo — pedido explícito.
+   Some ao clicar (.is-engaged, permanente — não volta ao pausar depois). */
+.manifesto-hero__play {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 64px; height: 64px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--color-accent-warm);
+  color: var(--color-text-default);
+  cursor: pointer;
+  transition: background-color 0.15s ease, opacity 0.2s ease, visibility 0.2s ease;
+}
+.manifesto-hero__play:hover, .manifesto-hero__play:focus-visible { background: var(--color-accent-warm-hover); }
+.manifesto-hero__play svg { width: 26px; height: 26px; margin-left: 3px; } /* leve deslocamento — o triângulo do ícone não é opticamente centralizado */
+.manifesto-hero__video.is-engaged .manifesto-hero__play { opacity: 0; visibility: hidden; pointer-events: none; }
+@media (prefers-reduced-motion: reduce) { .manifesto-hero__play { transition: none; } }
+
+/* Barras decorativas — mesmo recurso gráfico do gráfico "40" do hero de
+   História (.history-hero-graphic__bar), aqui sobre o vídeo em vez de ao
+   redor dele (não há moldura/canvas extra sobrando neste layout). Somem
+   junto com o play ao engajar — na tela de controles nativos do vídeo
+   real elas concorreriam com a barra de progresso/botões. */
+.manifesto-hero__bar {
+  position: absolute;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-warm);
+  z-index: 3;
+  transition: opacity 0.2s ease;
+}
+.manifesto-hero__bar--a { top: 14%; right: 0; width: 22%; }
+.manifesto-hero__bar--b { bottom: 14%; left: 0; width: 18%; }
+.manifesto-hero__video.is-engaged .manifesto-hero__bar { opacity: 0; pointer-events: none; }
+.manifesto-hero__meta { max-width: 700px; width: 100%; }
+/* .btn tem align-self:flex-start fixo (pensado pra blocos alinhados à
+   esquerda) — a hero inteira é centralizada, então precisa da própria
+   sobrescrita, senão o CTA cola na esquerda (mesmo bug já resolvido em
+   .history-closing .btn). */
+.manifesto-hero__stack .btn { align-self: center; }
+
+/* ===== Corpo do manifesto — refeito fiel ao Figma (node 1436:40632) =====
+   Seção escura por OMISSÃO de .section--light (mesmo mecanismo de
+   .evolve/.experience: mostra o grafite-500 padrão do body). Container
+   mais largo que a v1 desta seção (1210px, não 720px) — o Figma usa a
+   MESMA largura pra grade de fotos e pra prosa corrida, não uma coluna
+   de leitura estreitada à parte. */
 .manifesto-body { padding-block: var(--section-padding-block); }
-.manifesto-body__stack { max-width: 720px; margin-inline: auto; }
-.manifesto-body__visual { display: flex; flex-direction: column; gap: var(--ds-space-10); text-align: left; }
-.manifesto-body__group { display: flex; flex-direction: column; gap: var(--ds-space-4); }
-.manifesto-body__photo { margin: 0; }
-.manifesto-body__photo img {
-  display: block;
+.manifesto-body__stack {
+  max-width: 1210px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--section-padding-block);
+}
+.manifesto-body__visual { display: flex; flex-direction: column; gap: var(--ds-space-4); text-align: left; }
+.manifesto-body__p { width: 100%; font-size: var(--font-manifesto-p-size); line-height: 1.25; }
+
+/* ---------- Grade de 3 colunas com fotos (.mfoto) ----------
+   Estrutura, animação de parallax (--p escrito pelo JS) e responsividade
+   mobile REAPROVEITADAS ao pé da letra de
+   "2026/LP Rebrand/build-ftp/index.html" (seção #fotografia, classe
+   .foto) — mesmo mecanismo, só cor de fundo/texto mudou (lá é seção
+   clara/grafite sobre branco, aqui é texto branco sobre o escuro padrão
+   desta página). Radius 10px (não --radius-lg=24px do DS) e aspect-ratio
+   exatos batem com o Figma desta seção — extensão local documentada,
+   mesmo espírito de --font-body-lg-size em tokens.css. */
+.mfoto { --p: 0; display: flex; align-items: center; gap: clamp(24px, 3vw, 40px); }
+.mfoto__col { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; gap: clamp(20px, 2.4vw, 32px); will-change: transform; }
+.mfoto__col--1 { gap: clamp(36px, 4.8vw, 64px); transform: translateY(calc(var(--p) * -70px)); }
+.mfoto__col--2 { transform: translateY(calc(var(--p) * 60px)); }
+.mfoto__col--3 { transform: translateY(calc(var(--p) * -100px)); }
+.mfoto__title { display: flex; flex-direction: column; gap: var(--ds-space-3); }
+.mfoto__eyebrow { color: var(--color-accent-warm); }
+.mfoto__h2 { margin: 0; font-weight: var(--ds-weight-regular); font-size: var(--font-heading-md-size); line-height: 1.12; letter-spacing: -0.02em; color: var(--color-text-inverse); max-width: 380px; }
+.mfoto__img { margin: 0; border-radius: 10px; overflow: hidden; }
+.mfoto__img img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.mfoto__img--gestora { aspect-ratio: 400 / 666; }
+.mfoto__img--analista { aspect-ratio: 400 / 306; }
+.mfoto__img--agro { aspect-ratio: 400 / 391; }
+.mfoto__img--operador { aspect-ratio: 400 / 306; }
+.mfoto__img--executivo { aspect-ratio: 400 / 293; }
+.mfoto__img--fabrica { aspect-ratio: 400 / 268; }
+.mfoto__sub { padding-block: clamp(16px, 2vw, 24px); }
+.mfoto__sub p { margin: 0 0 20px; font-size: var(--font-manifesto-p-size); line-height: 1.25; color: var(--color-text-inverse); }
+.mfoto__sub p:last-child { margin-bottom: 0; }
+@media (prefers-reduced-motion: reduce) { .mfoto__col { transform: none; } }
+
+/* versão mobile — carrossel automático (trilha duplicada, anda 0→-50%:
+   como a 2ª cópia é idêntica à 1ª, o loop fecha sem costura). Escondida
+   no desktop; troca de visibilidade acontece só no breakpoint ≤960px
+   (ver bloco @media mais abaixo). */
+.mfoto-mobile { display: none; }
+.mfoto-mobile__head { display: flex; flex-direction: column; gap: var(--ds-space-3); }
+.mfoto-mobile__sub { margin-top: var(--ds-space-6); display: flex; flex-direction: column; gap: var(--ds-space-4); }
+.mfoto-mobile__sub p { margin: 0; font-size: var(--font-manifesto-p-size); line-height: 1.25; color: var(--color-text-inverse); }
+.mfoto-mobile__viewport {
+  overflow: hidden;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
-  border-radius: var(--radius-lg);
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
-.manifesto-body__stanza {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-2);
-  text-align: center;
+.mfoto-mobile__track { display: flex; align-items: center; gap: 20px; width: max-content; animation: mfotoMobileScroll 36s linear infinite; }
+.mfoto-mobile__item { flex: none; margin: 0; width: min(60vw, 260px); border-radius: 10px; overflow: hidden; }
+.mfoto-mobile__item img { display: block; width: 100%; height: 100%; object-fit: cover; }
+@keyframes mfotoMobileScroll { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  .mfoto-mobile__track { animation: none; }
+  .mfoto-mobile__viewport { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+  .mfoto-mobile__item { scroll-snap-align: start; }
+  .mfoto-mobile__viewport { scroll-snap-type: x proximity; }
 }
-.manifesto-body__closing {
-  display: flex;
-  flex-direction: column;
-  gap: var(--ds-space-2);
+
+/* ---------- Timeline "Terminal → Consistem 8.0" (.mtimeline) ----------
+   Elemento novo, sem precedente no site. Cada marco (.mtimeline__mark) já
+   carrega SEU PRÓPRIO marcador (dot) — não um dot solto pra 4 rótulos —
+   e SUA foto junto; a linha (.mtimeline__line) é um elemento à parte,
+   absoluto, cruzando por trás de todos os dots. No desktop os marcos
+   ficam lado a lado (dot+label empilhados em cima, foto embaixo, linha
+   horizontal); no mobile cada marco vira uma LINHA (dot+label numa
+   coluna estreita à esquerda, foto à direita, linha vertical) — pedido
+   explícito, timeline 100% vertical em telas pequenas. Geometria
+   aproximada do Figma (não pixel a pixel: a largura do container aqui é
+   diferente), 4 capturas de tela reais exportadas do Figma e otimizadas. */
+.mtimeline { padding-block: var(--ds-space-12); }
+/* .mtimeline__line vive DENTRO de .mtimeline__marks (não de .mtimeline) —
+   position:absolute mede a partir do container onde os dots realmente
+   nascem; posicionada fora disso, a linha ficava alguns px longe do
+   centro real dos dots (bug encontrado: "bolinhas deslocadas abaixo da
+   linha"). top:4.5px = metade da altura do dot (9px), centraliza os
+   dois. */
+.mtimeline__line { position: absolute; left: 4%; right: 4%; top: 4.5px; height: 1px; background: var(--color-border-inverse); }
+.mtimeline__marks { position: relative; display: flex; justify-content: space-between; gap: clamp(16px, 2.5vw, 32px); padding-inline: 4%; }
+.mtimeline__mark { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; }
+.mtimeline__meta { display: flex; flex-direction: column; align-items: center; gap: var(--ds-space-3); }
+.mtimeline__dot { width: 9px; height: 9px; border-radius: var(--radius-full); background: var(--color-accent-warm); flex-shrink: 0; }
+.mtimeline__label { color: var(--color-text-inverse); opacity: 0.8; font-size: var(--font-caption-size); white-space: nowrap; }
+.mtimeline__shot { display: block; width: 100%; height: auto; margin-top: var(--ds-space-6); border-radius: var(--radius-sm); }
+
+@media (max-width: 960px) {
+  /* Vertical: a linha gira 90°, uma coluna estreita fixa à esquerda
+     (largura de .mtimeline__meta) com dot+label empilhados, foto ocupando
+     o resto da largura à direita — "2 colunas", pedido explícito. */
+  .mtimeline__line { left: 4.5px; right: auto; top: 0; bottom: 0; width: 1px; height: auto; }
+  .mtimeline__marks { flex-direction: column; padding-inline: 0; gap: var(--ds-space-8); }
+  .mtimeline__mark { flex-direction: row; align-items: center; gap: var(--ds-space-4); }
+  .mtimeline__meta { flex-direction: row; width: 128px; flex-shrink: 0; justify-content: flex-start; }
+  .mtimeline__shot { width: auto; flex: 1; margin-top: 0; }
+}
+
+/* ---------- Fechamento (.manifesto-close) ----------
+   Estático, sem reveal char-a-char (pedido explícito — o efeito fica só
+   nos 4 parágrafos de #manifestoBodyA). */
+.manifesto-close { display: flex; flex-direction: column; align-items: center; gap: var(--ds-space-12); }
+.manifesto-close__logo { height: 32px; width: auto; }
+.manifesto-close__visual { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--ds-space-2); }
+.manifesto-close__line { width: 100%; }
+.manifesto-close__line--accent { color: var(--color-accent-warm); }
+.manifesto-close__lead {
+  max-width: 60ch;
   margin-top: var(--ds-space-4);
-  text-align: center;
+  opacity: 0.9;
+  font-size: var(--font-manifesto-p-size);
+  line-height: 1.25;
+  text-wrap: balance; /* evita "pratica" órfão numa 2ª linha sozinho */
 }
-/* strong não é revelado pelo wrapChars (ver main.js) — nasce sólido em
-   accent-warm desde o load, como assinatura final da seção. */
-.manifesto-body__closing strong { color: var(--color-accent-warm); font-weight: inherit; }
+
+/* ---------- Composição sobre fotografia (.manifesto-comp) ----------
+   Mesma TÉCNICA de ".comp" da página de origem (foto + moldura branca +
+   tags com leve parallax próprio, brandbook p.58) — geometria e cores
+   exatas desta seção do Figma, não os mesmos números daquela página
+   (é a mesma ideia de marca, não a mesma composição). --p reaproveita o
+   mecanismo já escrito pelo JS pra .mfoto. */
+.manifesto-comp { --p: 0; position: relative; width: 100%; aspect-ratio: 1233 / 491; border-radius: var(--radius-lg); overflow: visible; }
+.manifesto-comp__foto { position: absolute; inset: 0; margin: 0; border-radius: var(--radius-lg); overflow: hidden; }
+.manifesto-comp__foto img { width: 100%; height: 100%; object-fit: cover; }
+.manifesto-comp__outline {
+  position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+  width: 43.6%; height: 83%;
+  border: 1.5px solid var(--color-text-inverse);
+  border-radius: var(--radius-sm);
+}
+.manifesto-comp__tag {
+  position: absolute; z-index: 1;
+  max-width: 320px; margin: 0;
+  padding: var(--ds-space-4) var(--ds-space-6);
+  border-radius: var(--radius-sm);
+  font-size: 18px; line-height: 1.3; font-weight: var(--ds-weight-medium);
+  color: var(--color-text-default);
+}
+.manifesto-comp__tag strong { font-weight: var(--ds-weight-bold); }
+.manifesto-comp__tag--white {
+  left: 9.6%; top: 14.4%;
+  background: var(--color-surface-default);
+  transform: translateY(calc(var(--p) * -20px));
+}
+.manifesto-comp__tag--warm {
+  left: 61%; top: 65.3%;
+  background: var(--color-accent-warm);
+  transform: translateY(calc(var(--p) * -32px));
+}
+@media (prefers-reduced-motion: reduce) { .manifesto-comp__tag { transform: none; } }
+
+/* ---------- Badge "confiança" — seção "Por que falar de confiança"
+   (Figma node 1436:40650) ----------
+   Caixa amarela com a palavra em extrabold, "pendurada" no canto
+   inferior esquerdo da foto — de propósito ultrapassa a borda de baixo
+   da imagem (top:85.46% + a própria altura da caixa já passa da borda),
+   não é bug de posicionamento; overflow:visible no wrapper permite isso.
+   Posição em % (calculada a partir do frame original 608×453.83px do
+   Figma) acompanha o redimensionamento responsivo da foto. */
+.manifesto-why__media { position: relative; overflow: visible; }
+.manifesto-why__tag {
+  position: absolute;
+  left: 28.78%;
+  top: 85.46%;
+  margin: 0;
+  padding: clamp(10px, 1.4vw, 18px) clamp(14px, 2vw, 24px);
+  background: var(--color-accent-warm);
+  color: var(--color-text-inverse);
+  border-radius: var(--radius-md);
+  font-weight: var(--ds-weight-extrabold);
+  font-size: clamp(28px, 5.5vw, 56px);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  white-space: nowrap;
+}
 
 /* ===== Responsivo =====
    Padrão de respiro em telas ≤960px (tablet e celular): 20px de padding
@@ -1234,6 +1449,14 @@ h1.manifesto-hero__title { white-space: nowrap; font-size: clamp(22px, 6.5vw, va
      outro grid 2 colunas do site. */
   .history-hero { padding-top: 120px; } /* 96px de folga do header + 24px extra pedido */
   .manifesto-hero { padding-top: 120px; } /* mesma folga de header — ver comentário acima */
+
+  /* Manifesto: grade de 3 colunas vira o carrossel mobile (mesmo
+     ponto de corte de outros grids 2-col do site — a página de origem
+     usa 860px, mas aqui segue o breakpoint único já estabelecido, 960px,
+     é o mecanismo que foi reaproveitado, não o número exato). */
+  .mfoto { display: none; }
+  .mfoto-mobile { display: flex; flex-direction: column; gap: var(--ds-space-8); }
+  .manifesto-comp__tag { max-width: 70%; font-size: 16px; padding: var(--ds-space-3) var(--ds-space-4); }
   .history-hero__logo { display: none; } /* pedido explícito — só aparece no desktop */
   .history-hero-intro { grid-template-columns: 1fr; gap: var(--ds-space-8); text-align: left; }
   .history-hero-intro__text { align-items: flex-start; text-align: left; }

@@ -19,7 +19,12 @@
   font-family: 'DM Sans';
   src: url('../assets/fonts/dm-sans.woff2') format('woff2-variations'),
        url('../assets/fonts/dm-sans.woff2') format('woff2');
-  font-weight: 400 700;
+  /* Faixa 400-800 (não só 400-700): o arquivo variável em si vai de 100 a
+     1000 (conferido via fontTools), mas só regular/medium/semibold/bold
+     eram usados até agora — 800 abre pra --ds-weight-extrabold (ver
+     comentário lá), único uso hoje. Sem isso, pedir peso 800 seria
+     arredondado pro limite declarado aqui (700), sem efeito nenhum. */
+  font-weight: 400 800;
   font-style: normal;
   font-display: swap;
 }
@@ -68,6 +73,12 @@
   --ds-weight-medium: 500;
   --ds-weight-semibold: 600;
   --ds-weight-bold: 700;
+  /* Extensão local: a escala oficial do DS pra peso vai só até bold (700)
+     — este degrau (800) só existe pro badge "confiança" da seção "Por
+     que falar de confiança" de manifesto.html (Figma node 1436:40650 usa
+     DM Sans ExtraBold ali, de propósito, pedido "idêntico ao Figma").
+     DM Sans (fonte variável) suporta o peso; não é usado em mais nada. */
+  --ds-weight-extrabold: 800;
 
   --ds-size-64: 64px;
   --ds-size-48: 48px;
@@ -195,6 +206,14 @@
   */
   --font-body-lg-size: var(--ds-size-20);
   --font-body-lg-leading: 24px;
+
+  /*
+    Extensão local da página manifesto.html: corpo de texto de 24px usado
+    no Figma (node 1436:40632) pra prosa dentro da seção escura do
+    manifesto — nem body-lg (20px) nem heading-sm (28px) batem, é um
+    degrau próprio dessa seção específica. Fiel ao Figma, não inventado.
+  */
+  --font-manifesto-p-size: 24px;
 
   --font-caption-size: var(--ds-size-14);
   --font-caption-weight: var(--ds-weight-regular);

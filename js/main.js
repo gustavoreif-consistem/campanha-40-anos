@@ -266,15 +266,57 @@ function revealCharsOnScroll(trigger, visual, colorVar, endTrigger) {
   revealCharsOnScroll(lead, visual, '--color-text-default', 'top 25%');
 })();
 
-// Scroll-reveal letra a letra no corpo do manifesto (manifesto.html) —
-// mesma técnica acima, mas: (1) cor alvo é --color-text-inverse (seção
-// escura, sem .section--light, mesmo mecanismo de .evolve/.experience) e
-// (2) o gatilho de término é 'bottom 25%' — o texto aqui é bem maior que o
-// da Home, cobrindo vários parágrafos.
+// Paralaxe leve (--p, 0→1) da grade de fotos do manifesto (.mfoto) e da
+// composição de fechamento (.manifesto-comp) — mesmo mecanismo de
+// "2026/LP Rebrand/build-ftp/index.html" (.foto/.comp): cada elemento
+// escreve seu próprio progresso de 0 a 1 conforme atravessa a tela, e o
+// CSS já sabe traduzir isso em transform (ver .mfoto__col--*/
+// .manifesto-comp__tag--* em styles.css). Sem GSAP de propósito — é o
+// mesmo scroll listener simples que a página de origem já usa.
 (function () {
-  var body = document.getElementById('manifestoBody');
-  var visual = body ? body.querySelector('.manifesto-body__visual') : null;
-  revealCharsOnScroll(body, visual, '--color-text-inverse', 'bottom 25%');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  var mfotos = document.querySelectorAll('.mfoto');
+  var comps = document.querySelectorAll('.manifesto-comp');
+  if (!mfotos.length && !comps.length) return;
+
+  function progress(el, span) {
+    var r = el.getBoundingClientRect();
+    var vh = window.innerHeight;
+    return Math.min(Math.max((vh - r.top) / (vh * span), 0), 1);
+  }
+
+  function update() {
+    if (reduceMotion.matches) return;
+    mfotos.forEach(function (el) { el.style.setProperty('--p', progress(el, 1.6).toFixed(3)); });
+    comps.forEach(function (el) { el.style.setProperty('--p', progress(el, 1.35).toFixed(3)); });
+  }
+
+  update();
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update, { passive: true });
+  reduceMotion.addEventListener('change', update);
+})();
+
+// Timeline do manifesto (.mtimeline, manifesto.html) — os 4 marcos
+// aparecem em sequência (slide-in-up com atraso entre cada um, pedido
+// explícito) ao entrar na tela, não cada um por conta própria — por isso
+// UM gsap.from() só, com stagger, disparado pelo trigger do container
+// inteiro (.mtimeline), não por marco individual (diferente do reveal de
+// cards de História, que é independente por card).
+(function () {
+  var marks = document.querySelectorAll('.mtimeline__mark');
+  if (!marks.length || !window.gsap || !window.ScrollTrigger) return;
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.from(marks, {
+    opacity: 0,
+    y: 40,
+    duration: 0.6,
+    ease: 'Power2.easeOut',
+    stagger: 0.15,
+    scrollTrigger: { trigger: '.mtimeline', start: 'top 85%' },
+  });
 })();
 
 // Timeline de "História" (historia.html) — estado ativo da barra de eras.
@@ -526,4 +568,25 @@ function revealCharsOnScroll(trigger, visual, colorVar, endTrigger) {
   }, { rootMargin: '200px' });
 
   videos.forEach(function (video) { observer.observe(video); });
+})();
+
+// Botão de play custom sobre o vídeo do manifesto (manifesto.html, hero) —
+// dois vídeos empilhados: .manifesto-hero__preview (loop mudo, mesmo
+// recorte de 10s do hero da Home, carrega sozinho via .js-lazy-video) por
+// baixo, .manifesto-hero__real (vídeo completo, com áudio) por cima,
+// invisível até o clique. Ao clicar, pausa a prévia e toca o real — depois
+// disso o real fica pra sempre (não volta pra prévia ao pausar/terminar,
+// classe .is-engaged nunca é removida).
+(function () {
+  var wrap = document.querySelector('.manifesto-hero__video');
+  var preview = wrap ? wrap.querySelector('.manifesto-hero__preview') : null;
+  var real = wrap ? wrap.querySelector('.manifesto-hero__real') : null;
+  var playBtn = wrap ? wrap.querySelector('.manifesto-hero__play') : null;
+  if (!wrap || !real || !playBtn) return;
+
+  playBtn.addEventListener('click', function () {
+    wrap.classList.add('is-engaged');
+    if (preview) preview.pause();
+    real.play();
+  });
 })();

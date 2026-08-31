@@ -46,84 +46,219 @@
 
 <main>
 
-  <!-- Hero: eyebrow + H1 "Confiança em cada decisão" (mesmo título do hero
-       da Home — a tagline da campanha) + os 2 parágrafos de abertura do
-       manifesto + o vídeo, tudo contido dentro do .container (radius-lg,
-       mesmo espírito do vídeo de #sustentacao na Home) — v1 desta seção
-       tentava um vídeo full-bleed/edge-to-edge; revertido a pedido do
-       guardião ("não gostei"), volta ao tratamento contido/arredondado
-       que o resto do site já usa. Copy oficial, 40-anos/manifesto-40-anos.md. -->
+  <!-- Hero — refeito 100% fiel ao Figma (node 1436:40559): SEM eyebrow
+       (não existe nesse frame — "Manifesto 40 anos" só aparece na seção
+       seguinte, sobre a grade de fotos). H1 com peso misto (Confiança em
+       negrito, resto regular — mesma técnica de <strong>/peso variável já
+       usada no .hero__heading da Home) + 1º parágrafo + vídeo contido
+       (radius-lg, mantido da rodada anterior) + 2º parágrafo + régua
+       1986—2026 (reaproveita .history-hero__meta/__meta-line, já usada no
+       hero de História) + CTA "Veja o manifesto" (rola até o corpo).
+       Copy oficial, 40-anos/manifesto-40-anos.md. -->
   <section class="manifesto-hero section--light" id="manifesto-intro">
     <div class="container manifesto-hero__stack">
-      <p class="text-tag manifesto-hero__eyebrow">Manifesto 40 anos</p>
-      <h1 class="text-h1 manifesto-hero__title">Confiança em cada decisão</h1>
-      <div class="manifesto-hero__lead">
-        <p class="text-p text-p-lg">Durante quatro décadas, acompanhamos empresas em momentos de crescimento, mudança e adaptação.</p>
-        <p class="text-p text-p-lg">O manifesto dos 40 anos traduz essa experiência a partir de algo que está presente em todos esses movimentos: a confiança construída pela prática, pelas relações e pelo compromisso com decisões que afetam operações reais.</p>
+      <div class="manifesto-hero__head">
+        <h1 class="text-h1 manifesto-hero__title"><strong>Confiança</strong> em cada decisão</h1>
+        <p class="text-p text-p-lg manifesto-hero__lead-p">Durante quatro décadas, acompanhamos empresas em momentos de crescimento, mudança e adaptação.</p>
       </div>
+      <!-- Prévia em loop mudo (mesmo recorte de 10s do hero da Home,
+           .js-lazy-video já genérico em main.js) por trás do vídeo real —
+           pedido explícito, pra não ficar "capa estática" antes do
+           clique. Ao clicar em .manifesto-hero__play, a prévia pausa e o
+           vídeo real (com áudio e controles nativos) assume — ver
+           handler em main.js. -->
       <div class="manifesto-hero__video">
-        <video controls playsinline preload="none" poster="assets/manifesto-poster.jpg" aria-label="Vídeo do manifesto Consistem 40 anos">
+        <video class="manifesto-hero__preview js-lazy-video" muted loop playsinline preload="none" aria-hidden="true">
+          <source data-src="assets/video/manifesto-loop.webm" type="video/webm" />
+          <source data-src="assets/video/manifesto-loop.mp4" type="video/mp4" />
+        </video>
+        <video class="manifesto-hero__real" controls playsinline preload="none" poster="assets/manifesto-poster.jpg" aria-label="Vídeo do manifesto Consistem 40 anos">
           <source src="assets/video/manifesto.mp4" type="video/mp4" />
         </video>
+        <button class="manifesto-hero__play" type="button" aria-label="Reproduzir vídeo do manifesto">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7z" fill="currentColor" /></svg>
+        </button>
+        <span class="manifesto-hero__bar manifesto-hero__bar--a" aria-hidden="true"></span>
+        <span class="manifesto-hero__bar manifesto-hero__bar--b" aria-hidden="true"></span>
       </div>
+      <p class="text-p text-p-lg manifesto-hero__lead-p">O manifesto dos 40 anos traduz essa experiência a partir de algo que está presente em todos esses movimentos: a confiança construída pela prática, pelas relações e pelo compromisso com decisões que afetam operações reais.</p>
+      <div class="history-hero__meta manifesto-hero__meta">
+        <span class="text-small">1986</span>
+        <span class="history-hero__meta-line" aria-hidden="true"></span>
+        <span class="text-small">2026</span>
+      </div>
+      <a class="btn btn--warm btn--md js-no-transition" href="#corpo-manifesto">Veja o manifesto</a>
     </div>
   </section>
 
-  <!-- Corpo do manifesto — seção escura por omissão de .section--light
-       (mesmo mecanismo de .evolve/.experience: mostra o grafite-500
-       padrão do body). Texto completo revelado char-a-char no scroll (ver
-       revealCharsOnScroll em js/main.js — mesma técnica de
-       #fundamentosLead na Home, com endTrigger cobrindo a altura do bloco
-       inteiro, não só a entrada, porque este texto é bem mais longo).
-       Wrapper com aria-label (texto real, pra leitor de tela) + visual
-       aria-hidden (o que a animação manipula) — mesmo padrão de a11y do
-       fundamentos-lead. Parágrafos alinhados à ESQUERDA (v1 era
-       centralizado — pedido de revisão do guardião: blocos centralizados
-       curtos pareciam "soltos"/desconectados; à esquerda lê como texto
-       corrido de verdade) e quebrados ao meio por uma foto
-       (presenca-hero.webp, chão de fábrica — ilustra literalmente "as
-       equipes que mantêm operações funcionando", tema do parágrafo
-       seguinte) — dá um respiro visual no meio do bloco escuro, que antes
-       era só texto boiando no vazio. Estrofe final e fecho continuam
-       centralizados com tipografia maior (text-h4/h3/h2, escala já
-       existente do DS) — funciona bem pra linhas curtas tipo poema, não
-       mudou. "Confiança em cada decisão" fica em <strong> de propósito —
-       o wrapChars pula STRONG (ver main.js), então essa linha nasce
-       sólida em accent-warm, sem animação, como assinatura final. -->
+  <!-- Corpo do manifesto — refeito 100% fiel ao Figma (node 1436:40632).
+       Seção escura por omissão de .section--light (mesmo mecanismo de
+       .evolve/.experience: mostra o grafite-500 padrão do body).
+
+       Estrutura (de cima pra baixo):
+       1. Grade de 3 colunas com fotos (.mfoto) — estrutura, animação de
+          parallax e responsividade mobile (carrossel automático)
+          REAPROVEITADAS ao pé da letra de outra página já construída
+          (LP Rebrand, build-ftp/index.html, seção #fotografia/.foto) —
+          só cor de fundo/texto mudou (lá é seção clara, aqui é escura).
+          Eyebrow "Manifesto 40 anos" + heading moram na 1ª coluna; o
+          parágrafo "Nas escolhas..."/"Foi assim..." mora embutido na 3ª
+          coluna, junto das fotos.
+          3 das 6 fotos foram trocadas por fotos reais da página História
+          (fundador/1986, estande da Febratex/2012, obra da nova
+          fábrica/2025) — pedido explícito, criando uma ponte visual com
+          a página que o CTA final leva ("Confira a trajetória"); aceito
+          o desnível de estilo (fotos mais documentais em vez de stock)
+          conscientemente.
+       2. Prosa corrida (os 4 parágrafos, incluindo "É para elas que a
+          Consistem evolui...", movido pra cá — antes ficava sozinho
+          DEPOIS da timeline). SEM reveal char-a-char — removido a pedido
+          do guardião, não funcionava bem pra esse tanto de texto (a
+          técnica seguiu em uso só onde nasceu, #fundamentosLead na Home,
+          que é 1-2 frases curtas).
+       3. Timeline "Terminal → Consistem 8.0" (.mtimeline) — elemento
+          novo, sem precedente no site; 4 capturas de tela (Figma,
+          otimizadas e salvas em assets/manifesto-corpo/). Marcos
+          aparecem em sequência (slide-in-up com stagger, GSAP) ao entrar
+          na tela — pedido explícito. Cada marco
+          carrega seu próprio marcador (dot) — não um dot solto pra 4
+          rótulos. No mobile vira 100% vertical (linha à esquerda, foto
+          à direita de cada marco, 4 empilhados).
+       4. Fechamento (.manifesto-close): logo + "40 anos de
+          Consistem."/"Confiança em cada decisão." + composição sobre
+          fotografia com 2 tags (.manifesto-comp) — mecanismo de tags com parallax
+          leve inspirado no MESMO padrão da página de origem
+          (.comp/.comp__*, brandbook p.58), mas com posições/cores exatas
+          do Figma desta seção (não são a mesma composição, só a mesma
+          técnica). -->
   <section class="manifesto-body" id="corpo-manifesto">
     <div class="container manifesto-body__stack">
-      <div
-        id="manifestoBody"
-        aria-label="Confiança não nasce de promessas. Ela se constrói no tempo. Nas escolhas de todos os dias e na presença de quem entende o peso de cada decisão. É a tranquilidade de saber que existe alguém ao lado quando os desafios surgem. Foi assim que chegamos até aqui. Por quarenta anos, acompanhamos o crescimento de empresas, vimos operações ganharem força e o início de novos ciclos. Em cada mudança, seguimos presentes para entender contextos, conectar pessoas, integrar processos e apoiar histórias construídas com clareza, proximidade e compromisso. Porque antes de qualquer sistema, existem negócios que começaram como sonhos, equipes que transformam planos em resultados e pessoas que fazem a indústria seguir em movimento. É para elas que a Consistem evolui. Com soluções que apoiam decisões e inovação responsável para fortalecer o que não pode parar. Ao longo de nossa trajetória, aprendemos que confiança não se promete. Confiança se pratica. Na transparência das relações. Na solidez das entregas. No cuidado com o que já funciona. E na coragem de melhorar o que vem pela frente. 40 anos de Consistem. Confiança em cada decisão."
-      >
-        <div class="manifesto-body__visual" aria-hidden="true">
-          <div class="manifesto-body__group">
-            <p class="text-p text-p-lg">Confiança não nasce de promessas. Ela se constrói no tempo.</p>
-            <p class="text-p text-p-lg">Nas escolhas de todos os dias e na presença de quem entende o peso de cada decisão. É a tranquilidade de saber que existe alguém ao lado quando os desafios surgem.</p>
-            <p class="text-p text-p-lg">Foi assim que chegamos até aqui.</p>
+
+      <div class="mfoto" id="manifestoFoto">
+        <div class="mfoto__col mfoto__col--1">
+          <div class="mfoto__title">
+            <p class="text-tag mfoto__eyebrow">Manifesto 40 anos</p>
+            <h2 class="mfoto__h2">Confiança não nasce de promessas. Ela se constrói no tempo.</h2>
           </div>
-          <figure class="manifesto-body__photo">
-            <img src="assets/presenca-hero.webp" alt="Colaborador acompanhando indicadores em tablet no chão de fábrica" width="1200" height="896" loading="lazy" decoding="async" />
+          <figure class="mfoto__img mfoto__img--gestora">
+            <img src="assets/manifesto-corpo/foto-gestora.webp" alt="Gestora do setor têxtil analisando dados em tablet em mezanino com vista para o chão de fábrica" loading="eager" decoding="async" />
           </figure>
-          <div class="manifesto-body__group">
-            <p class="text-p text-p-lg">Por quarenta anos, acompanhamos o crescimento de empresas, vimos operações ganharem força e o início de novos ciclos.</p>
-            <p class="text-p text-p-lg">Em cada mudança, seguimos presentes para entender contextos, conectar pessoas, integrar processos e apoiar histórias construídas com clareza, proximidade e compromisso.</p>
-            <p class="text-p text-p-lg">Porque antes de qualquer sistema, existem negócios que começaram como sonhos, equipes que transformam planos em resultados e pessoas que fazem a indústria seguir em movimento.</p>
-            <p class="text-p text-p-lg">É para elas que a Consistem evolui. Com soluções que apoiam decisões e inovação responsável para fortalecer o que não pode parar.</p>
-            <p class="text-p text-p-lg">Ao longo de nossa trajetória, aprendemos que confiança não se promete. Confiança se pratica.</p>
+        </div>
+        <div class="mfoto__col mfoto__col--2">
+          <figure class="mfoto__img mfoto__img--analista">
+            <img src="assets/manifesto-corpo/foto-fundador.webp" alt="Retrato de época do fundador da Consistem em seu escritório" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="mfoto__img mfoto__img--agro">
+            <img src="assets/manifesto-corpo/foto-agro.webp" alt="Gestor do agronegócio consultando dados em tablet em frente a silos" loading="lazy" decoding="async" />
+          </figure>
+          <figure class="mfoto__img mfoto__img--operador">
+            <img src="assets/manifesto-corpo/foto-febratex.webp" alt="Estande da Consistem na feira Febratex" loading="lazy" decoding="async" />
+          </figure>
+        </div>
+        <div class="mfoto__col mfoto__col--3">
+          <figure class="mfoto__img mfoto__img--executivo">
+            <img src="assets/manifesto-corpo/foto-executivo.webp" alt="Executivo caminhando por corredor de escritório com colegas em movimento ao fundo" loading="lazy" decoding="async" />
+          </figure>
+          <div class="mfoto__sub">
+            <p>Nas escolhas de todos os dias e na presença de quem entende o peso de cada decisão. É a tranquilidade de saber que existe alguém ao lado quando os desafios surgem.</p>
+            <p>Foi assim que chegamos até aqui.</p>
           </div>
-          <div class="manifesto-body__stanza">
-            <p class="text-h4">Na transparência das relações.</p>
-            <p class="text-h4">Na solidez das entregas.</p>
-            <p class="text-h4">No cuidado com o que já funciona.</p>
-            <p class="text-h4">E na coragem de melhorar o que vem pela frente.</p>
+          <figure class="mfoto__img mfoto__img--fabrica">
+            <img src="assets/manifesto-corpo/foto-obra-fabrica.webp" alt="Obras de ampliação da fábrica de software e serviços da Consistem" loading="lazy" decoding="async" />
+          </figure>
+        </div>
+      </div>
+
+      <!-- versão mobile da grade — mesmo mecanismo de carrossel automático
+           (trilha duplicada, loop sem costura) da página de origem. -->
+      <div class="mfoto-mobile" id="manifestoFotoMobile">
+        <div class="mfoto-mobile__head">
+          <p class="text-tag mfoto__eyebrow">Manifesto 40 anos</p>
+          <h2 class="mfoto__h2">Confiança não nasce de promessas. Ela se constrói no tempo.</h2>
+          <div class="mfoto-mobile__sub">
+            <p>Nas escolhas de todos os dias e na presença de quem entende o peso de cada decisão. É a tranquilidade de saber que existe alguém ao lado quando os desafios surgem.</p>
+            <p>Foi assim que chegamos até aqui.</p>
           </div>
-          <div class="manifesto-body__closing">
-            <p class="text-h3">40 anos de Consistem.</p>
-            <p class="text-h2"><strong>Confiança em cada decisão.</strong></p>
+        </div>
+        <div class="mfoto-mobile__viewport">
+          <div class="mfoto-mobile__track">
+            <figure class="mfoto-mobile__item"><img src="assets/manifesto-corpo/foto-gestora.webp" alt="Gestora do setor têxtil analisando dados em tablet" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item"><img src="assets/manifesto-corpo/foto-agro.webp" alt="Gestor do agronegócio consultando dados em tablet em frente a silos" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item"><img src="assets/manifesto-corpo/foto-fundador.webp" alt="Retrato de época do fundador da Consistem em seu escritório" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item"><img src="assets/manifesto-corpo/foto-febratex.webp" alt="Estande da Consistem na feira Febratex" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item"><img src="assets/manifesto-corpo/foto-obra-fabrica.webp" alt="Obras de ampliação da fábrica de software e serviços da Consistem" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item"><img src="assets/manifesto-corpo/foto-executivo.webp" alt="Executivo caminhando por corredor de escritório" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item" aria-hidden="true"><img src="assets/manifesto-corpo/foto-gestora.webp" alt="" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item" aria-hidden="true"><img src="assets/manifesto-corpo/foto-agro.webp" alt="" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item" aria-hidden="true"><img src="assets/manifesto-corpo/foto-fundador.webp" alt="" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item" aria-hidden="true"><img src="assets/manifesto-corpo/foto-febratex.webp" alt="" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item" aria-hidden="true"><img src="assets/manifesto-corpo/foto-obra-fabrica.webp" alt="" loading="lazy" decoding="async" /></figure>
+            <figure class="mfoto-mobile__item" aria-hidden="true"><img src="assets/manifesto-corpo/foto-executivo.webp" alt="" loading="lazy" decoding="async" /></figure>
           </div>
         </div>
       </div>
+
+      <!-- Estático, sem reveal char-a-char — removido a pedido do
+           guardião: o efeito não funcionava bem pra esse tanto de texto
+           corrido (funcionava para 1-2 frases curtas, não pra 4
+           parágrafos). -->
+      <div class="manifesto-body__visual">
+          <p class="text-p manifesto-body__p">Por quarenta anos, acompanhamos o crescimento de empresas, vimos operações ganharem força e o início de novos ciclos.</p>
+          <p class="text-p manifesto-body__p">Em cada mudança, seguimos presentes para entender contextos, conectar pessoas, integrar processos e apoiar histórias construídas com clareza, proximidade e compromisso.</p>
+          <p class="text-p manifesto-body__p">Porque antes de qualquer sistema, existem negócios que começaram como sonhos, equipes que transformam planos em resultados e pessoas que fazem a indústria seguir em movimento.</p>
+          <p class="text-p manifesto-body__p">É para elas que a Consistem evolui. Com soluções que apoiam decisões e inovação responsável para fortalecer o que não pode parar.</p>
+      </div>
+
+      <!-- Marcador (dot) fica DENTRO de cada .mtimeline__mark, um por marco
+           (não um único dot solto) — e cada mark já carrega a foto junto
+           (.mtimeline__shot): no desktop os 4 marks viram colunas lado a
+           lado (dot+label empilhados em cima, foto embaixo — a LINHA
+           horizontal, elemento à parte, cruza por trás dos 4 dots); no
+           mobile (≤960px) cada mark vira uma LINHA (dot+label à esquerda
+           numa coluna estreita, foto à direita) e a linha gira 90°,
+           vertical, atravessando as 4 linhas por trás dos dots. -->
+      <div class="mtimeline" role="img" aria-label="Linha do tempo da evolução do sistema: Terminal, Consistem 6.5, Consistem 7.0 e Consistem 8.0">
+        <div class="mtimeline__marks" aria-hidden="true">
+          <span class="mtimeline__line" aria-hidden="true"></span>
+          <div class="mtimeline__mark">
+            <div class="mtimeline__meta"><span class="mtimeline__dot"></span><span class="mtimeline__label">Terminal</span></div>
+            <img class="mtimeline__shot" src="assets/manifesto-corpo/timeline-terminal.webp" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="mtimeline__mark">
+            <div class="mtimeline__meta"><span class="mtimeline__dot"></span><span class="mtimeline__label">Consistem 6.5</span></div>
+            <img class="mtimeline__shot" src="assets/manifesto-corpo/timeline-consistem-6-5.webp" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="mtimeline__mark">
+            <div class="mtimeline__meta"><span class="mtimeline__dot"></span><span class="mtimeline__label">Consistem 7.0</span></div>
+            <img class="mtimeline__shot" src="assets/manifesto-corpo/timeline-consistem-7-0.webp" alt="" loading="lazy" decoding="async" />
+          </div>
+          <div class="mtimeline__mark">
+            <div class="mtimeline__meta"><span class="mtimeline__dot"></span><span class="mtimeline__label">Consistem 8.0</span></div>
+            <img class="mtimeline__shot" src="assets/manifesto-corpo/timeline-consistem-8-0.webp" alt="" loading="lazy" decoding="async" />
+          </div>
+        </div>
+      </div>
+
+      <div class="manifesto-close">
+        <img class="manifesto-close__logo" src="assets/logo-consistem.svg" alt="Consistem" />
+        <!-- Texto estático — o reveal char-a-char foi removido da seção
+             inteira (pedido explícito, não funcionava bem pra muito
+             texto). -->
+        <div class="manifesto-close__visual">
+          <p class="text-h3 manifesto-close__line">40 anos de Consistem.</p>
+          <p class="text-h2 manifesto-close__line manifesto-close__line--accent">Confiança em cada decisão.</p>
+          <p class="text-p text-p-lg manifesto-close__lead">Ao longo de nossa trajetória, aprendemos que confiança não se promete. Confiança se pratica.</p>
+        </div>
+        <div class="manifesto-comp" aria-label="Composição sobre fotografia de colaboradora em ambiente industrial, com as frases: Na transparência das relações, na solidez das entregas, no cuidado com o que já funciona, e na coragem de melhorar o que vem pela frente.">
+          <figure class="manifesto-comp__foto">
+            <img src="assets/manifesto-corpo/composicao-chao-fabrica.webp" alt="" loading="lazy" decoding="async" />
+          </figure>
+          <div class="manifesto-comp__outline" aria-hidden="true"></div>
+          <p class="manifesto-comp__tag manifesto-comp__tag--white">Na transparência das relações. <strong>Na solidez das entregas.</strong></p>
+          <p class="manifesto-comp__tag manifesto-comp__tag--warm">No cuidado com o que já funciona. <strong>E na coragem de melhorar o que vem pela frente.</strong></p>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -142,8 +277,9 @@
         <p class="text-p text-p-lg">Confiança para a Consistem está relacionada à capacidade de compreender o contexto, entregar com consistência, comunicar com clareza e acompanhar as mudanças com responsabilidade.</p>
         <p class="text-p text-p-lg">O manifesto leva essa ideia para situações do cotidiano. O foco está nas pessoas que tomam decisões, nas equipes que mantêm operações funcionando e nas relações que dão continuidade a histórias construídas ao longo do tempo.</p>
       </div>
-      <div class="about__media">
+      <div class="about__media manifesto-why__media">
         <img src="assets/agronegocio-silos.jpg" alt="Profissional analisando indicadores em tablet em frente a silos de armazenamento" width="1400" height="1045" loading="lazy" decoding="async" />
+        <p class="manifesto-why__tag" aria-hidden="true">confiança</p>
       </div>
     </div>
   </section>
