@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Consistem 40 anos — Manifesto</title>
+<meta name="description" content="Assista ao manifesto dos 40 anos da Consistem e conheça a narrativa que conecta confiança, decisões, indústria, pessoas e evolução responsável." />
+<link rel="icon" type="image/png" href="assets/favicon-selo-40anos.png" />
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- Transição de entrada/navegação — mesma peça das outras páginas do hotsite. -->
+<div class="page-transition" id="pageTransition" aria-hidden="true">
+  <div class="page-transition__panel"></div>
+</div>
+
+<!-- Sprite de ícones — mesmo contrato de ids das outras páginas. -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-menu" viewBox="0 0 24 24">
+    <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24">
+    <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="site-header__pill">
+    <a class="site-header__brand" href="index.html#home" aria-label="Consistem — início">
+      <img class="site-header__logo" src="assets/logo-consistem.svg" alt="Consistem" />
+    </a>
+    <nav class="site-header__nav" id="siteNav" aria-label="Navegação principal">
+      <a href="index.html#home">Home</a>
+      <a href="historia.html">História</a>
+      <a href="manifesto.html" aria-current="page">Manifesto</a>
+      <a href="index.html#evolucao">Evolução</a>
+    </nav>
+    <a class="btn btn--warm btn--sm site-header__cta" href="index.html#futuro">Saber mais</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteNav">
+      <svg class="icon"><use href="#icon-menu"></use></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero: eyebrow + H1 "Confiança em cada decisão" (mesmo título do hero
+       da Home — a tagline da campanha) + os 2 parágrafos de abertura do
+       manifesto + o vídeo, tudo contido dentro do .container (radius-lg,
+       mesmo espírito do vídeo de #sustentacao na Home) — v1 desta seção
+       tentava um vídeo full-bleed/edge-to-edge; revertido a pedido do
+       guardião ("não gostei"), volta ao tratamento contido/arredondado
+       que o resto do site já usa. Copy oficial, 40-anos/manifesto-40-anos.md. -->
+  <section class="manifesto-hero section--light" id="manifesto-intro">
+    <div class="container manifesto-hero__stack">
+      <p class="text-tag manifesto-hero__eyebrow">Manifesto 40 anos</p>
+      <h1 class="text-h1 manifesto-hero__title">Confiança em cada decisão</h1>
+      <div class="manifesto-hero__lead">
+        <p class="text-p text-p-lg">Durante quatro décadas, acompanhamos empresas em momentos de crescimento, mudança e adaptação.</p>
+        <p class="text-p text-p-lg">O manifesto dos 40 anos traduz essa experiência a partir de algo que está presente em todos esses movimentos: a confiança construída pela prática, pelas relações e pelo compromisso com decisões que afetam operações reais.</p>
+      </div>
+      <div class="manifesto-hero__video">
+        <video controls playsinline preload="none" poster="assets/manifesto-poster.jpg" aria-label="Vídeo do manifesto Consistem 40 anos">
+          <source src="assets/video/manifesto.mp4" type="video/mp4" />
+        </video>
+      </div>
+    </div>
+  </section>
+
+  <!-- Corpo do manifesto — seção escura por omissão de .section--light
+       (mesmo mecanismo de .evolve/.experience: mostra o grafite-500
+       padrão do body). Texto completo revelado char-a-char no scroll (ver
+       revealCharsOnScroll em js/main.js — mesma técnica de
+       #fundamentosLead na Home, com endTrigger cobrindo a altura do bloco
+       inteiro, não só a entrada, porque este texto é bem mais longo).
+       Wrapper com aria-label (texto real, pra leitor de tela) + visual
+       aria-hidden (o que a animação manipula) — mesmo padrão de a11y do
+       fundamentos-lead. Parágrafos alinhados à ESQUERDA (v1 era
+       centralizado — pedido de revisão do guardião: blocos centralizados
+       curtos pareciam "soltos"/desconectados; à esquerda lê como texto
+       corrido de verdade) e quebrados ao meio por uma foto
+       (presenca-hero.webp, chão de fábrica — ilustra literalmente "as
+       equipes que mantêm operações funcionando", tema do parágrafo
+       seguinte) — dá um respiro visual no meio do bloco escuro, que antes
+       era só texto boiando no vazio. Estrofe final e fecho continuam
+       centralizados com tipografia maior (text-h4/h3/h2, escala já
+       existente do DS) — funciona bem pra linhas curtas tipo poema, não
+       mudou. "Confiança em cada decisão" fica em <strong> de propósito —
+       o wrapChars pula STRONG (ver main.js), então essa linha nasce
+       sólida em accent-warm, sem animação, como assinatura final. -->
+  <section class="manifesto-body" id="corpo-manifesto">
+    <div class="container manifesto-body__stack">
+      <div
+        id="manifestoBody"
+        aria-label="Confiança não nasce de promessas. Ela se constrói no tempo. Nas escolhas de todos os dias e na presença de quem entende o peso de cada decisão. É a tranquilidade de saber que existe alguém ao lado quando os desafios surgem. Foi assim que chegamos até aqui. Por quarenta anos, acompanhamos o crescimento de empresas, vimos operações ganharem força e o início de novos ciclos. Em cada mudança, seguimos presentes para entender contextos, conectar pessoas, integrar processos e apoiar histórias construídas com clareza, proximidade e compromisso. Porque antes de qualquer sistema, existem negócios que começaram como sonhos, equipes que transformam planos em resultados e pessoas que fazem a indústria seguir em movimento. É para elas que a Consistem evolui. Com soluções que apoiam decisões e inovação responsável para fortalecer o que não pode parar. Ao longo de nossa trajetória, aprendemos que confiança não se promete. Confiança se pratica. Na transparência das relações. Na solidez das entregas. No cuidado com o que já funciona. E na coragem de melhorar o que vem pela frente. 40 anos de Consistem. Confiança em cada decisão."
+      >
+        <div class="manifesto-body__visual" aria-hidden="true">
+          <div class="manifesto-body__group">
+            <p class="text-p text-p-lg">Confiança não nasce de promessas. Ela se constrói no tempo.</p>
+            <p class="text-p text-p-lg">Nas escolhas de todos os dias e na presença de quem entende o peso de cada decisão. É a tranquilidade de saber que existe alguém ao lado quando os desafios surgem.</p>
+            <p class="text-p text-p-lg">Foi assim que chegamos até aqui.</p>
+          </div>
+          <figure class="manifesto-body__photo">
+            <img src="assets/presenca-hero.webp" alt="Colaborador acompanhando indicadores em tablet no chão de fábrica" width="1200" height="896" loading="lazy" decoding="async" />
+          </figure>
+          <div class="manifesto-body__group">
+            <p class="text-p text-p-lg">Por quarenta anos, acompanhamos o crescimento de empresas, vimos operações ganharem força e o início de novos ciclos.</p>
+            <p class="text-p text-p-lg">Em cada mudança, seguimos presentes para entender contextos, conectar pessoas, integrar processos e apoiar histórias construídas com clareza, proximidade e compromisso.</p>
+            <p class="text-p text-p-lg">Porque antes de qualquer sistema, existem negócios que começaram como sonhos, equipes que transformam planos em resultados e pessoas que fazem a indústria seguir em movimento.</p>
+            <p class="text-p text-p-lg">É para elas que a Consistem evolui. Com soluções que apoiam decisões e inovação responsável para fortalecer o que não pode parar.</p>
+            <p class="text-p text-p-lg">Ao longo de nossa trajetória, aprendemos que confiança não se promete. Confiança se pratica.</p>
+          </div>
+          <div class="manifesto-body__stanza">
+            <p class="text-h4">Na transparência das relações.</p>
+            <p class="text-h4">Na solidez das entregas.</p>
+            <p class="text-h4">No cuidado com o que já funciona.</p>
+            <p class="text-h4">E na coragem de melhorar o que vem pela frente.</p>
+          </div>
+          <div class="manifesto-body__closing">
+            <p class="text-h3">40 anos de Consistem.</p>
+            <p class="text-h2"><strong>Confiança em cada decisão.</strong></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Por que falar de confiança — volta ao registro explicativo, claro,
+       sem animação (contraste de ritmo depois da seção escura/animada
+       acima). Ganhou imagem (pedido do guardião — "senti falta de
+       imagens"): agronegocio-silos.jpg, pessoa analisando dados em
+       tablet, ilustra literalmente "pessoas que tomam decisões" do texto
+       ao lado. Reaproveita .about/.about__grid (mesmo componente já usado
+       em index.html e historia.html), não uma classe nova. -->
+  <section class="about section--light" id="por-que-confianca">
+    <div class="container about__grid">
+      <div class="about__content">
+        <h2 class="text-h2">Por que falar de confiança</h2>
+        <p class="text-p text-p-lg">Uma empresa de tecnologia participa de decisões que têm consequência direta sobre pessoas, processos, dados e resultados.</p>
+        <p class="text-p text-p-lg">Confiança para a Consistem está relacionada à capacidade de compreender o contexto, entregar com consistência, comunicar com clareza e acompanhar as mudanças com responsabilidade.</p>
+        <p class="text-p text-p-lg">O manifesto leva essa ideia para situações do cotidiano. O foco está nas pessoas que tomam decisões, nas equipes que mantêm operações funcionando e nas relações que dão continuidade a histórias construídas ao longo do tempo.</p>
+      </div>
+      <div class="about__media">
+        <img src="assets/agronegocio-silos.jpg" alt="Profissional analisando indicadores em tablet em frente a silos de armazenamento" width="1400" height="1045" loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Fechamento — CTA pra História (linha do tempo por trás desta
+       narrativa), reaproveitando o MESMO card escuro arredondado que
+       fecha a página História (.history-closing-card), pra manter a
+       assinatura de encerramento consistente entre as duas páginas. -->
+  <section class="section-pad section--light pre-footer" id="marcos">
+    <div class="container">
+      <div class="history-closing-card">
+        <div class="history-closing">
+          <h2 class="text-h2">Conheça os marcos por trás dessa história</h2>
+          <div class="history-closing__text">
+            <p class="text-p text-p-lg">Quatro décadas reúnem mudanças de estrutura, produto, processos e relacionamento.</p>
+          </div>
+          <a class="btn btn--warm btn--md" href="historia.html">Confira a trajetória</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <img class="site-footer__logo" src="assets/logo-consistem.svg" alt="Consistem" />
+        <p class="text-p site-footer__tagline">40 anos de presença, evolução e confiança.</p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Navegação institucional">
+        <a href="index.html#home">Home</a>
+        <a href="historia.html">História</a>
+        <a href="manifesto.html" aria-current="page">Manifesto</a>
+        <a href="index.html#evolucao">Evolução</a>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="text-small site-footer__copyright">© 2026 | Consistem LTDA.</p>
+      <nav class="site-footer__legal" aria-label="Institucional">
+        <a href="#">Política de privacidade</a>
+        <a href="#">Direitos autorais</a>
+        <a href="#">FAQ</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

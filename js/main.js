@@ -186,20 +186,25 @@
   });
 })();
 
-// Scroll-reveal LETRA A LETRA no texto "fundamentos" da Home (index.html) —
-// o parágrafo inteiro revela de uma cor bem apagada até a cor sólida do
-// texto, sem trecho fixo/destacado. A cor inicial (20% do token de texto
-// sobre transparente) é resolvida via color-mix num elemento-sonda
-// descartável, nunca hex fixo.
-(function () {
-  var lead = document.getElementById('fundamentosLead');
-  var visual = lead ? lead.querySelector('.fundamentos-lead__visual') : null;
-  if (!lead || !visual || !window.gsap || !window.ScrollTrigger) return;
+// Utilitário compartilhado — revela o texto de um container LETRA A LETRA
+// no scroll, de uma cor bem apagada até a cor sólida do token informado
+// (sem trecho fixo/destacado). A cor inicial (20% do token sobre
+// transparente) é resolvida via color-mix num elemento-sonda descartável,
+// nunca hex fixo. `trigger` decide a posição de leitura do scroll (pode
+// ser um wrapper diferente de `visual`, ver uso com aria-label abaixo);
+// `endTrigger` deixa cada chamada calibrar a janela de scroll pro próprio
+// tamanho do bloco — texto curto termina de revelar quase na entrada
+// ('top 25%'), bloco de página inteira precisa cobrir a altura toda
+// ('bottom 25%'), senão só o topo anima e o resto já nasce sólido antes
+// de entrar na tela. Usado pelo lead da Home (fundamentosLead) e pelo
+// corpo do manifesto (manifesto.html).
+function revealCharsOnScroll(trigger, visual, colorVar, endTrigger) {
+  if (!trigger || !visual || !window.gsap || !window.ScrollTrigger) return;
 
   gsap.registerPlugin(ScrollTrigger);
 
   var probe = document.createElement('span');
-  probe.style.color = 'color-mix(in srgb, var(--color-text-default) 20%, transparent)';
+  probe.style.color = 'color-mix(in srgb, var(' + colorVar + ') 20%, transparent)';
   probe.style.position = 'absolute';
   probe.style.visibility = 'hidden';
   document.body.appendChild(probe);
@@ -207,13 +212,22 @@
   document.body.removeChild(probe);
 
   var targetColor = getComputedStyle(document.documentElement)
-    .getPropertyValue('--color-text-default')
+    .getPropertyValue(colorVar)
     .trim();
 
   function wrapChars(root) {
     var chars = [];
     Array.prototype.slice.call(root.childNodes).forEach(function (node) {
       if (node.nodeType === Node.TEXT_NODE) {
+        // Texto só de espaço/quebra de linha (a indentação entre tags <p> no
+        // próprio HTML) fica INTOCADO — não vira <span>. Motivo: um container
+        // flex trata texto puramente em branco como colapsável (não gera
+        // item), mas um <span> real, mesmo vazio/espaço, sempre vira item de
+        // flex de verdade — cada espaço de indentação virava sua própria
+        // "linha" na coluna, puxando o `gap` do container a cada um (bug real
+        // encontrado no corpo do manifesto, onde .manifesto-body__group é
+        // flex-column: os parágrafos pareciam a quilômetros de distância).
+        if (!node.textContent.trim()) return;
         var frag = document.createDocumentFragment();
         node.textContent.split('').forEach(function (ch) {
           var span = document.createElement('span');
@@ -237,12 +251,30 @@
     ease: 'none',
     stagger: 0.01,
     scrollTrigger: {
-      trigger: lead,
+      trigger: trigger,
       start: 'top 85%',
-      end: 'top 25%',
+      end: endTrigger,
       scrub: true,
     },
   });
+}
+
+// Scroll-reveal letra a letra no texto "fundamentos" da Home (index.html).
+(function () {
+  var lead = document.getElementById('fundamentosLead');
+  var visual = lead ? lead.querySelector('.fundamentos-lead__visual') : null;
+  revealCharsOnScroll(lead, visual, '--color-text-default', 'top 25%');
+})();
+
+// Scroll-reveal letra a letra no corpo do manifesto (manifesto.html) —
+// mesma técnica acima, mas: (1) cor alvo é --color-text-inverse (seção
+// escura, sem .section--light, mesmo mecanismo de .evolve/.experience) e
+// (2) o gatilho de término é 'bottom 25%' — o texto aqui é bem maior que o
+// da Home, cobrindo vários parágrafos.
+(function () {
+  var body = document.getElementById('manifestoBody');
+  var visual = body ? body.querySelector('.manifesto-body__visual') : null;
+  revealCharsOnScroll(body, visual, '--color-text-inverse', 'bottom 25%');
 })();
 
 // Timeline de "História" (historia.html) — estado ativo da barra de eras.
@@ -447,17 +479,18 @@
     return;
   }
 
-  // Rede de segurança: se o preloader.js não chegar a rodar (falha de rede,
-  // erro), a cortina some sozinha e o vídeo entra assim mesmo — o hero nunca
-  // fica preso atrás de uma cortina permanente nem sem vídeo.
-  setTimeout(function () {
-    if (started) return;
-    document.documentElement.classList.remove('preloader-active');
-    var curtain = document.getElementById('preloader');
-    if (curtain) curtain.style.display = 'none';
-    document.body.style.overflow = '';
-    startHeroVideo();
-  }, 8000);
+  // Pedido explícito do guardião: a cortina NUNCA some sozinha, só por ação
+  // do usuário (clique no CTA, scroll ou swipe — ver dismiss() em
+  // js/preloader.js). Havia aqui uma "rede de segurança" que forçava a
+  // cortina a sumir depois de 8s caso preloader.js não chegasse a rodar
+  // (falha de rede) — removida de propósito. Trade-off aceito: se
+  // preloader.js falhar ao carregar por completo (não só os dados do
+  // formato "40"), a cortina fica presa sem forma de dispensar — cenário
+  // raro (bloqueio de rede/extensão), mas agora sem rede de segurança
+  // nenhuma. Os casos de falha PARCIAL (shape data não chega a tempo, erro
+  // durante a formação) continuam com saída própria: preloader.js revela o
+  // CTA direto, sem animação, em vez de dispensar sozinho — ver comentário
+  // em js/preloader.js.
 })();
 
 // Vídeos decorativos de fundo (autoplay/loop) só carregam quando chegam

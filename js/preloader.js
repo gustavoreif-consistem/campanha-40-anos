@@ -331,6 +331,20 @@
   cta.addEventListener('click', dismiss);
 
   // ---- Boot -----------------------------------------------------------------
+  // Pedido explícito do guardião: a cortina nunca dispensa sozinha, só por
+  // ação do usuário. Os dois fallbacks abaixo (JS-erro na formação, dados do
+  // formato "40" que não chegam a tempo) ANTES chamavam finish() — dispensa
+  // automática, sem gesto nenhum. Agora só revelam o CTA direto (sem a
+  // animação de partículas, que depende dos dados/da formação) — o usuário
+  // ainda decide quando sair, clicando ou rolando; só quem falha é a
+  // coreografia visual, nunca a saída forçada. `preloader`/`cta` já existem
+  // no DOM neste ponto (checados antes de chegar aqui), então revelar o CTA
+  // é sempre possível.
+  function revealCtaWithoutFormation() {
+    ctaRevealed = true;
+    cta.classList.add('is-visible');
+  }
+
   function boot() {
     try {
       resize();
@@ -341,14 +355,16 @@
       formStart = performance.now();
       rafId = requestAnimationFrame(frame);
     } catch (err) {
-      finish();
+      revealCtaWithoutFormation();
     }
   }
 
   // js/shape-40-data.js chega por um <script async> à parte (mesmo
   // fetchpriority do próprio preloader.js) — sem garantia de qual dos dois
   // termina de baixar primeiro. Se os pontos já estão lá, boota direto; senão
-  // espera em polling curto antes de desistir (cai no fallback: finish()).
+  // espera em polling curto — se demorar demais (falha de rede nesse arquivo
+  // especificamente), desiste só da ANIMAÇÃO e revela o CTA (ver comentário
+  // acima), nunca dispensa sozinho.
   if (window.SHAPE_40_POINTS) {
     boot();
   } else {
@@ -360,7 +376,7 @@
         boot();
       } else if (waited >= 2000) {
         clearInterval(waitTimer);
-        finish();
+        revealCtaWithoutFormation();
       }
     }, 20);
   }

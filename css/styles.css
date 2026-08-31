@@ -1114,6 +1114,89 @@ section { position: relative; }
 .history-closing .text-p { opacity: 0.82; max-width: 1034px; }
 .history-closing .text-p:last-of-type { max-width: 800px; }
 
+/* ===== Manifesto (manifesto.html) ===== */
+
+/* Hero: eyebrow + H1 + 2 parágrafos de abertura (centralizados) + vídeo
+   contido logo abaixo (radius-lg), tudo dentro do mesmo .container — v1
+   do vídeo era full-bleed/edge-to-edge; revertido a pedido do guardião
+   ("não gostei"), volta ao tratamento contido que o resto do site usa
+   (mesmo espírito do vídeo de #sustentacao na Home). */
+.manifesto-hero { padding-top: 160px; padding-bottom: var(--section-padding-block); }
+.manifesto-hero__stack {
+  max-width: 860px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--ds-space-4);
+  text-align: center;
+}
+.manifesto-hero__eyebrow { color: var(--color-accent-warm); }
+/* Pedido explícito: nunca quebra linha. Tamanho fluido (mesma técnica de
+   .hero__heading na Home) em vez dos degraus fixos padrão de .text-h1,
+   porque com nowrap um degrau fixo pode transbordar em alguma largura de
+   tela intermediária — o fluido acompanha continuamente. Seletor
+   composto (h1.manifesto-hero__title, não só a classe) de propósito: as
+   media queries mais abaixo redefinem .text-h1 em telas ≤960px/≤640px, e
+   com a MESMA especificidade quem vier depois no arquivo venceria —
+   aumentar a especificidade aqui garante que o fluido nunca seja
+   sobrescrito. Vale conferir num celular real; sem ferramenta de preview
+   neste ambiente pra calibrar visualmente. */
+h1.manifesto-hero__title { white-space: nowrap; font-size: clamp(22px, 6.5vw, var(--font-heading-xl-size)); }
+.manifesto-hero__lead { display: flex; flex-direction: column; gap: var(--ds-space-4); margin-top: var(--ds-space-2); }
+.manifesto-hero__lead .text-p { max-width: 60ch; opacity: 0.88; }
+.manifesto-hero__video { width: 100%; margin-top: var(--ds-space-6); }
+.manifesto-hero__video video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+  background: #000; /* letterbox — mesmo #000 literal de .video-modal__dialog */
+}
+
+/* Corpo do manifesto — seção escura por OMISSÃO de .section--light (mesmo
+   mecanismo de .evolve/.experience: mostra o grafite-500 padrão do body),
+   texto revelado char-a-char no scroll (ver revealCharsOnScroll em
+   main.js). Parágrafos alinhados à ESQUERDA (v1 era centralizado —
+   blocos curtos centralizados pareciam soltos/desconectados; à esquerda
+   lê como texto corrido) e com gap menor que antes (space-4, não
+   space-6) — os dois ajustes juntos resolvem a sensação de "parágrafos
+   muito longe" relatada pelo guardião. Uma foto quebra o bloco ao meio
+   (.manifesto-body__photo) — antes era só texto boiando no vazio.
+   Estrofe final e fecho continuam centralizados (funciona bem pra linhas
+   curtas tipo poema — texto maior, ver override de text-align abaixo).
+   Tamanhos vêm todos da escala tipográfica já existente
+   (text-p-lg/h4/h3/h2) — nenhum valor novo. */
+.manifesto-body { padding-block: var(--section-padding-block); }
+.manifesto-body__stack { max-width: 720px; margin-inline: auto; }
+.manifesto-body__visual { display: flex; flex-direction: column; gap: var(--ds-space-10); text-align: left; }
+.manifesto-body__group { display: flex; flex-direction: column; gap: var(--ds-space-4); }
+.manifesto-body__photo { margin: 0; }
+.manifesto-body__photo img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+.manifesto-body__stanza {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2);
+  text-align: center;
+}
+.manifesto-body__closing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--ds-space-2);
+  margin-top: var(--ds-space-4);
+  text-align: center;
+}
+/* strong não é revelado pelo wrapChars (ver main.js) — nasce sólido em
+   accent-warm desde o load, como assinatura final da seção. */
+.manifesto-body__closing strong { color: var(--color-accent-warm); font-weight: inherit; }
+
 /* ===== Responsivo =====
    Padrão de respiro em telas ≤960px (tablet e celular): 20px de padding
    horizontal de seção, 64px de padding vertical, títulos de seção (h2) em
@@ -1150,6 +1233,7 @@ section { position: relative; }
      mobile redefinido acima. Dobra 2 (texto+foto) empilha como qualquer
      outro grid 2 colunas do site. */
   .history-hero { padding-top: 120px; } /* 96px de folga do header + 24px extra pedido */
+  .manifesto-hero { padding-top: 120px; } /* mesma folga de header — ver comentário acima */
   .history-hero__logo { display: none; } /* pedido explícito — só aparece no desktop */
   .history-hero-intro { grid-template-columns: 1fr; gap: var(--ds-space-8); text-align: left; }
   .history-hero-intro__text { align-items: flex-start; text-align: left; }

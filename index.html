@@ -49,6 +49,7 @@
      CTA ou primeiro scroll/gesto) revelando ele. Ver js/preloader.js e
      css/preloader.css. Inerte/invisível sem .preloader-active na <html>. -->
 <div class="preloader" id="preloader">
+  <img class="preloader__logo" src="assets/logo-consistem.svg" alt="Consistem" />
   <canvas class="preloader__canvas" id="preloaderCanvas" aria-hidden="true"></canvas>
   <button class="preloader__cta" id="preloaderCta" type="button">
     <span class="preloader__cta-label">Clique e saiba mais</span>
@@ -117,7 +118,7 @@
     <nav class="site-header__nav" id="siteNav" aria-label="Navegação principal">
       <a href="#home" aria-current="page">Home</a>
       <a href="historia.html">História</a>
-      <a href="#trajetoria">Trajetória</a>
+      <a href="manifesto.html">Manifesto</a>
       <a href="#evolucao">Evolução</a>
     </nav>
     <a class="btn btn--warm btn--sm site-header__cta" href="historia.html">Saber mais</a>
@@ -129,16 +130,32 @@
 
 <main>
 
-  <!-- Hero — vídeo institucional de fundo em loop (manifesto-loop.mp4), 100vh/100vw,
-       navbar flutuando por cima. hero-poster.jpg (1º frame real do vídeo) como poster/fallback.
+  <!-- Hero — vídeo institucional de fundo em loop, 100vh/100vw, navbar
+       flutuando por cima. hero-poster.jpg como poster/fallback — preto
+       sólido de propósito (não mais "1º frame real"), pra casar com o
+       fade-in que agora abre o próprio vídeo (ver abaixo).
        SEM `autoplay` e com `data-src` de propósito: `autoplay` faz o browser IGNORAR
-       preload="none" e baixar os 2.5MB do vídeo já no load — 83% do peso da página, e
-       tudo isso enquanto o vídeo está 100% coberto pela cortina do preloader, roubando
-       banda do preloader.js e das imagens. Quem dá play é startHeroVideo() em js/main.js,
-       chamado assim que a cortina sai (ou de imediato, quando não há preloader). -->
+       preload="none" e baixar o vídeo inteiro já no load, mesmo 100% coberto pela
+       cortina do preloader, roubando banda do preloader.js e das imagens (histórico
+       real: chegou a ser 83% do peso da página numa versão anterior). Quem dá play é
+       startHeroVideo() em js/main.js, chamado assim que a cortina sai (ou de imediato,
+       quando não há preloader).
+       2026-08-31: trocado de "vídeo inteiro (115s) silenciado" pra um RECORTE curto
+       (5s, começo do vídeo — 2 cenas de escritório, antes do cartão de título
+       "confiança {") com fade-in/fade-out de 0.4s cada, pedido explícito por causa de
+       reclamação de qualidade — um trecho curto permite bitrate bem mais alto pro
+       mesmo peso final (webm 748KB / mp4 804KB, ambos MENORES que os 2,4MB do loop de
+       115s anterior, com resolução maior: 1280×720 em vez de 640×360). O fade
+       mascara a costura do loop (`loop` nativo do <video> reinicia direto no fim do
+       arquivo) — por isso o poster também precisou virar preto: sem isso, a 1ª
+       reprodução saltava do poster (cena real) pro 1º frame do vídeo (preto, por
+       causa do fade-in), um flash perceptível. WebM (VP9) vem primeiro — melhor
+       qualidade por byte — com MP4 (H.264) como fallback, ordem padrão de
+       progressive enhancement do <source>. -->
   <section class="hero" id="home">
     <div class="hero__media" aria-hidden="true">
       <video class="js-hero-video" muted loop playsinline preload="none" poster="assets/hero-poster.jpg">
+        <source data-src="assets/video/manifesto-loop.webm" type="video/webm" />
         <source data-src="assets/video/manifesto-loop.mp4" type="video/mp4" />
       </video>
     </div>
@@ -335,7 +352,7 @@
       <nav class="site-footer__nav" aria-label="Navegação institucional">
         <a href="#home" aria-current="page">Home</a>
         <a href="historia.html">História</a>
-        <a href="#trajetoria">Trajetória</a>
+        <a href="manifesto.html">Manifesto</a>
         <a href="#evolucao">Evolução</a>
       </nav>
     </div>

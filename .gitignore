@@ -1,1 +1,7 @@
 .DS_Store
+
+# Fonte bruta do vídeo do manifesto (4K, ~464MB) — nunca deve ir pro repo.
+# As versões otimizadas pra web (assets/video/manifesto.mp4 e
+# manifesto-loop.mp4) são geradas a partir dela; o arquivo em si fica só
+# localmente pra reprocessar se precisar de outro corte/qualidade no futuro.
+assets/video/VT Manifesto 40 anos.mp4

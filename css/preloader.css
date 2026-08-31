@@ -43,6 +43,27 @@ html.preloader-active .preloader {
   height: 100%;
 }
 
+/* Logo (mesmo arquivo da navbar) em cima do numeral "40" — tamanho contido
+   pra ficar em proporção parecida com o CTA (não um logo "de hero", só
+   uma assinatura discreta no topo). top:10% (espelhando ingenuamente o
+   bottom:10% do CTA) ficou colado no numeral — o centro do "40" NÃO é
+   centralizado na tela: cy = H*0.42 e fit = min(W,H)*0.56 (ver layout()
+   em js/preloader.js), de propósito deixando mais espaço embaixo pro
+   CTA. Isso põe o topo do numeral em ~H*(0.42-0.28) ≈ 14% da tela — um
+   top:10% de logo (mais ~32px de altura) sobrava quase nada de vão.
+   6% dá folga de verdade sem aproximar demais do topo real da tela.
+   Não é simetria perfeita com o CTA (o design já não é simétrico de
+   propósito), é só respiro suficiente pra não parecer colado. */
+.preloader__logo {
+  position: absolute;
+  top: 6%;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 32px;
+  width: auto;
+  z-index: 1;
+}
+
 .preloader__cta {
   position: fixed;
   left: 50%;
