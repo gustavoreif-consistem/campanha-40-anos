@@ -295,58 +295,6 @@ section { position: relative; }
 .hero__support { max-width: 44ch; margin: 0; }
 .hero__buttons { display: flex; gap: var(--ds-space-4); flex-shrink: 0; }
 
-/* ===== Modal de vídeo — manifesto completo, com áudio ===== */
-.video-modal {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  padding: var(--ds-space-6);
-}
-.video-modal.is-open { display: flex; }
-.video-modal__backdrop {
-  position: absolute;
-  inset: 0;
-  background: rgba(10, 10, 11, 0.88);
-}
-.video-modal__dialog {
-  position: relative;
-  z-index: 1;
-  width: 80vw;
-  max-width: 1200px;
-  height: 90vh;
-  display: flex;
-  background: #000;
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5);
-}
-.video-modal__dialog video {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: #000;
-}
-.video-modal__close {
-  position: absolute;
-  top: var(--ds-space-4);
-  right: var(--ds-space-4);
-  z-index: 2;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: var(--radius-full);
-  background: rgba(0, 0, 0, 0.55);
-  color: var(--color-text-inverse);
-  border: none;
-  transition: background-color 0.15s ease;
-}
-.video-modal__close:hover { background: rgba(0, 0, 0, 0.8); }
-
 /* ===== About-us (duas variações: mídia à esquerda / mídia à direita) ===== */
 .about {
   padding-block: var(--section-padding-block);
@@ -382,7 +330,7 @@ section { position: relative; }
    bem apagada até a cor sólida do texto. A peça inteira revela (sem trecho
    fixo/destacado), alinhado à esquerda, não centralizado. ===== */
 .fundamentos-lead {
-  max-width: 1158px;
+  max-width: none;
   font-size: 40px;
   font-weight: var(--ds-weight-regular);
   line-height: 1.24;
@@ -544,62 +492,46 @@ section { position: relative; }
    margem própria, resultando nos 32px de respiro do Figma antes do título. */
 .future-item__art { width: 100%; height: auto; margin-bottom: var(--ds-space-2); }
 
-/* ===== Footer — próximo do componente oficial (logo + link list + linha legal) ===== */
+/* ===== Footer — padrão institucional de LP (Figma node 955:4810), adotado
+   pra todo hotsite/LP daqui pra frente. Adaptação desta LP: logo é a mesma
+   já usada no header (não existe um "logotema" à parte pro 40 anos), frase
+   de apoio é a que já existia. Sem nav/links legais — o Figma não pede, e
+   a navegação já vive inteira no header; os links "institucionais" que
+   existiam aqui eram só placeholder (href="#"), não perdem função real. */
 .site-footer {
   position: relative;
   background: var(--color-brand-primary);
   color: var(--color-text-inverse);
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-  padding-block: var(--ds-space-16) var(--ds-space-8);
+  border-radius: 32px 32px 0 0;
+  padding: var(--ds-space-16) 80px;
   /* O canto arredondado corta um pedaço do próprio rodapé — sem isto, o que
      aparece por trás do corte é o fundo escuro do <body>, não a seção clara
      logo acima, e o radius fica invisível (mesma cor dos dois lados). Puxar
      o rodapé para cima por cima do respiro extra da seção anterior resolve:
-     o corte passa a revelar branco de verdade. */
-  margin-top: calc(-1 * var(--radius-lg));
+     o corte passa a revelar branco de verdade. -32px acompanha o radius
+     acima (era -var(--radius-lg)/-24px antes, quando o corte também era
+     24px — o Figma pede 32px agora). */
+  margin-top: -32px;
 }
-.site-footer__top {
+.site-footer__stack {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: var(--ds-space-10);
-  padding-bottom: var(--ds-space-10);
-  border-bottom: 1px solid var(--color-border-inverse);
-}
-.site-footer__brand { display: flex; flex-direction: column; gap: var(--ds-space-4); max-width: 320px; }
-.site-footer__logo { width: 180px; height: auto; }
-.site-footer__tagline { opacity: 0.68; }
-
-/* Link Style=List (docs/DESIGN.md): label-sm, 60% opacidade, sem ícone */
-.site-footer__nav { display: flex; gap: var(--ds-space-8); flex-wrap: wrap; }
-.site-footer__nav a {
-  font-size: var(--font-label-sm-size);
-  font-weight: var(--font-label-sm-weight);
-  letter-spacing: var(--font-label-sm-tracking);
-  opacity: 0.6;
-  transition: opacity 0.15s ease, color 0.15s ease;
-}
-.site-footer__nav a:hover { opacity: 1; }
-.site-footer__nav a[aria-current="page"] {
-  opacity: 1;
-  color: var(--color-accent-warm);
-  font-weight: var(--ds-weight-bold);
-}
-
-.site-footer__bottom {
-  display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--ds-space-4);
-  padding-top: var(--ds-space-8);
+  gap: var(--ds-space-8);
+  max-width: 1600px;
+  margin-inline: auto;
+  text-align: center;
 }
-/* Link Style=CTA (docs/DESIGN.md): body, opacidade cheia */
-.site-footer__legal { display: flex; gap: var(--ds-space-6); flex-wrap: wrap; }
-.site-footer__legal a { font-size: var(--font-body-size); opacity: 0.82; }
-.site-footer__legal a:hover { opacity: 1; text-decoration: underline; }
-.site-footer__copyright { opacity: 0.6; }
+/* width/height fixos nas 2 dimensões do slot do Figma (205x40, proporção
+   diferente) esmagavam o logotema real (180x28, mais "baixo e largo") —
+   height:auto deixa a proporção nativa do arquivo mandar. */
+.site-footer__logo { width: 180px; height: auto; }
+.site-footer__tagline { margin: 0; font-size: var(--font-body-lg-size); color: var(--ds-grafite-300); }
+.site-footer__copyright { margin: 0; font-size: var(--font-caption-size); color: var(--color-text-inverse); }
+.site-footer__social { display: flex; align-items: center; gap: var(--ds-space-4); }
+.site-footer__social a { display: flex; color: var(--color-text-inverse); opacity: 0.8; transition: opacity 0.15s ease; }
+.site-footer__social a:hover, .site-footer__social a:focus-visible { opacity: 1; }
+.site-footer__social-icon { width: 16px; height: 16px; fill: currentColor; }
 
 /* ===== Página "História" — componentes novos desta subpágina =====
    Mecanismo original de referência: https://icarda.org/icarda-at-50
@@ -986,21 +918,7 @@ section { position: relative; }
   opacity: 1;
 }
 
-/* Placeholder visual reutilizado (card de foto, foto larga do "presente",
-   vídeo vertical do depoimento) — sem fotos reais ainda; reserva o espaço
-   final já no aspect-ratio certo pra troca por `src` sem mexer em layout. */
-.history-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px dashed var(--color-border-inverse);
-  background: var(--color-surface-inverse-alt);
-  border-radius: var(--radius-md);
-  overflow: hidden;
-}
-.history-placeholder__label { max-width: 20ch; text-align: center; opacity: 0.55; }
-/* Foto real no lugar do placeholder — mesma moldura (radius, overflow),
-   sem a borda tracejada. object-fit:cover porque as fotos de arquivo
+/* Moldura de foto do card — object-fit:cover porque as fotos de arquivo
    (1986-2009, 480x480) e as recentes (16:9/3:2) não batem com o
    aspect-ratio do container; sempre cropam, nunca distorcem. */
 .history-photo {
@@ -1194,7 +1112,7 @@ h1.manifesto-hero__title {
   width: 100%; height: 100%;
   object-fit: cover;
   border-radius: var(--radius-lg);
-  background: #000; /* letterbox — mesmo #000 literal de .video-modal__dialog */
+  background: #000; /* letterbox — evita flash branco antes do vídeo/poster carregar */
 }
 /* Preview (loop mudo) fica visível por padrão; o vídeo real nasce
    invisível/inerte embaixo dele até o clique no play (classe
@@ -1452,12 +1370,14 @@ h1.manifesto-hero__title {
 
 /* ===== Evolução (evolucao.html) ===== */
 
-/* Hero — só texto (a copy oficial não pede vídeo/gráfico próprio aqui,
-   diferente de História/Manifesto), mesma folga de topo/stack já usada
-   nos outros heros claros do site. */
-.evo-hero { padding-top: 160px; padding-bottom: var(--section-padding-block); }
+/* Hero — reajustado no Figma (node 1447:41905): sem eyebrow, 1 parágrafo
+   de lead só, e composição foto+moldura+tags do chão de fábrica. */
+.evo-hero { padding-top: 180px; padding-bottom: var(--section-padding-block); }
 .evo-hero__stack {
-  max-width: 820px;
+  /* 912px = largura exata do H1 no Figma (node 1447:41911) — quebra em
+     "A experiência acumulada orienta" / "os próximos movimentos". Valor
+     antigo (820px) era de antes deste reajuste e cortava a linha errado. */
+  max-width: 912px;
   margin-inline: auto;
   display: flex;
   flex-direction: column;
@@ -1465,8 +1385,52 @@ h1.manifesto-hero__title {
   gap: var(--ds-space-6);
   text-align: center;
 }
-.evo-hero__eyebrow { color: var(--color-accent-warm); }
-.evo-hero__lead { max-width: 62ch; opacity: 0.88; text-wrap: balance; }
+.evo-hero__stack .is-light { font-weight: var(--ds-weight-regular); }
+.evo-hero__lead { max-width: 772px; opacity: 0.88; text-wrap: balance; }
+
+.evo-hero__comp-wrap { margin-top: var(--ds-space-16); }
+.evo-comp { position: relative; width: 100%; aspect-ratio: 1280 / 546; border-radius: var(--radius-md); overflow: visible; }
+.evo-comp__foto { position: absolute; inset: 0; margin: 0; border-radius: var(--radius-md); overflow: hidden; }
+.evo-comp__foto img { width: 100%; height: 100%; object-fit: cover; }
+.evo-comp__outline {
+  position: absolute; left: 26.64%; top: 7.69%; width: 46.72%; height: 66.48%;
+  border: 1.5px solid var(--color-text-inverse);
+  border-radius: var(--radius-sm);
+  pointer-events: none;
+}
+.evo-comp__tag {
+  position: absolute; z-index: 1; margin: 0;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-body-lg-size); font-weight: var(--ds-weight-medium);
+  line-height: 1.2; letter-spacing: -0.02em;
+}
+.evo-comp__tag--warm {
+  left: 20.625%; top: 22.34%;
+  padding: 14px 18px;
+  background: var(--color-accent-warm);
+  color: var(--color-text-inverse);
+  white-space: nowrap;
+}
+.evo-comp__tag--white {
+  left: 61.48%; top: 51.47%;
+  width: 200px;
+  padding: 20px 24px;
+  background: var(--color-surface-default);
+  color: var(--color-text-default);
+}
+
+/* .future tem padding-block simétrico (usado também na Home) — aqui o
+   Figma só pede pb-128 (node 1447:41923): o espaço de cima já vem do
+   pb-180 da hero (#evolucao-intro) logo acima, então zera só aqui. */
+#movimentos { padding-top: 0; }
+
+/* Parágrafos realocados da hero (Figma node 1447:41923) — estatística em
+   destaque (40px, início em negrito via <strong>, resto no peso regular
+   que a própria tag <p> já usa por padrão) + parágrafo de apoio comum. */
+.evo-statement__stack { display: flex; flex-direction: column; gap: var(--ds-space-6); align-items: flex-start; margin-bottom: var(--ds-space-12); }
+.evo-statement { margin: 0; max-width: 1080px; font-size: var(--font-heading-md-size); font-weight: var(--ds-weight-regular); line-height: 1.1; letter-spacing: -0.02em; color: var(--color-text-default); }
+.evo-statement strong { font-weight: var(--ds-weight-bold); }
+.evo-statement__lead { max-width: 1091px; opacity: 0.88; }
 
 /* ---------- Consistem Clara IA (.clara-suite) ----------
    Seção escura por OMISSÃO de .section--light (mesmo mecanismo de
@@ -1484,7 +1448,20 @@ h1.manifesto-hero__title {
   text-align: center;
   margin-bottom: var(--section-padding-block);
 }
-.clara-suite__eyebrow { color: var(--color-accent-warm); }
+/* Substitui o eyebrow de texto "Consistem Clara IA" — reajuste do Figma
+   (node 1447:42243). Gap com o H2 abaixo é maior (48px) que o gap interno
+   H2→parágrafos (16px, do .clara-suite__intro), por isso a margem própria
+   em vez de subir o gap do pai inteiro. */
+.clara-suite__mark {
+  width: 120px; height: 119px; flex-shrink: 0;
+  /* Único filho com tamanho fixo do flex column — os outros (h2/p) esticam
+     por padrão (align-items:stretch) e o text-align:center cuida deles;
+     o ícone, por ter width/height explícitos, não estica e ficava colado
+     à esquerda sem isto (bug real, visto ao vivo). */
+  align-self: center;
+  fill: currentColor; color: var(--color-text-inverse); margin-bottom: var(--ds-space-8);
+}
+.clara-suite__intro h2, .clara-suite__intro p { width: 100%; }
 .clara-suite__intro .text-p { opacity: 0.85; }
 
 .clara-row {
@@ -1540,24 +1517,115 @@ h1.manifesto-hero__title {
 .clara-list__more .text-small { color: var(--color-text-inverse); opacity: 0.75; }
 
 /* ---------- Governança (.gov) ---------- */
-.gov__intro { max-width: 720px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; gap: var(--ds-space-4); margin-bottom: var(--ds-space-16); }
+/* 894px = largura exata do H2 no Figma (node 1452:42592) — 720px (valor
+   antigo, de antes deste reajuste) forçava quebra de linha que o Figma
+   não tem. */
+.gov__intro { max-width: 894px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; gap: var(--ds-space-4); margin-bottom: var(--ds-space-16); }
 .gov__eyebrow { color: var(--color-accent-warm); }
-.gov__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--ds-space-8); margin-bottom: var(--section-padding-block); }
-.gov-card { display: flex; flex-direction: column; gap: var(--ds-space-3); }
+.gov__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--ds-space-6); margin-bottom: var(--ds-space-16); }
+.gov-card {
+  display: flex; flex-direction: column; gap: var(--ds-space-3);
+  height: 172px;
+  padding: var(--ds-space-6);
+  background: var(--color-surface-alt);
+  border-radius: var(--radius-md);
+}
 .gov-card__icon { color: var(--color-accent-warm); }
-.gov__controls { max-width: 760px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; gap: var(--ds-space-3); }
-.gov__terms { color: var(--color-accent-warm); }
-.gov__terms span { opacity: 0.5; margin-inline: var(--ds-space-2); }
+.gov__controls { max-width: 760px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; gap: var(--ds-space-6); }
+/* Termos viram chips (pill) — reajuste do Figma, antes eram só texto
+   separado por "·". */
+.gov__terms { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 13px; }
+.gov__chip {
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 4px 16px;
+  border-radius: var(--radius-full);
+  background: var(--color-accent-warm);
+  color: var(--color-text-default);
+  font-size: var(--font-body-lg-size); font-weight: var(--ds-weight-medium);
+  line-height: 24px;
+}
 .gov__closing { opacity: 0.82; margin-top: var(--ds-space-2); }
 
 /* ---------- Aplicações (.apps) ---------- */
-.apps__intro { max-width: 720px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; gap: var(--ds-space-4); margin-bottom: var(--ds-space-16); }
-.apps__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--ds-space-8); }
-.apps-card { display: flex; flex-direction: column; gap: var(--ds-space-2); padding: var(--ds-space-6); background: var(--color-surface-alt); border-radius: var(--radius-lg); }
-.apps-card__icon { color: var(--color-accent-warm); margin-bottom: var(--ds-space-2); }
-.apps-card__area { color: var(--color-text-default); opacity: 0.6; }
-.apps-card .text-h5 { max-width: 26ch; }
-.apps-card .text-p { opacity: 0.8; }
+/* Coluna da foto voltou a 1fr igual à do conteúdo — a versão com coluna
+   fixa mais larga (620px) espremia o conteúdo e quebrava o H2 em 3
+   linhas; revertido a pedido explícito. */
+/* align-items: end (pedido explícito) — a foto acompanha a base do
+   accordion em vez de flutuar centralizada. */
+.apps__layout { display: grid; grid-template-columns: 1fr 1fr; gap: 96px; align-items: end; }
+.apps__intro { display: flex; flex-direction: column; gap: var(--ds-space-4); margin-bottom: var(--ds-space-8); }
+/* Largura exata do Figma (node 1447:42334, 608px) — quebra em exatamente
+   2 linhas ("Aplicações conectadas a situações reais / de gestão"); um
+   max-width em ch (aproximado) não garantia essa quebra específica. */
+.apps__intro .text-h2 { max-width: 608px; }
+.apps__subtitle { margin: 0; font-size: var(--font-body-lg-size); font-weight: var(--font-body-weight); line-height: var(--font-body-lg-leading); max-width: 401px; }
+
+/* Accordion — 1 item aberto por vez (Financeiro inicia aberto, JS em
+   js/main.js). Trilha (__rail) fixa + marca colorida (__active-mark)
+   que o JS reposiciona (top/height) por cima do item aberto — evita
+   fixar os 123px do Figma, que só valiam pra aquele texto específico. */
+.apps-accordion { position: relative; padding-left: var(--ds-space-6); display: flex; flex-direction: column; }
+.apps-accordion__rail { position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: var(--color-border); }
+.apps-accordion__active-mark {
+  position: absolute; left: 0; width: 3px; border-radius: 2px;
+  background: var(--color-accent-warm);
+  transition: top 0.25s ease, height 0.25s ease;
+}
+.apps-item__heading { margin: 0; }
+.apps-item__trigger {
+  display: flex; flex-direction: column; gap: var(--ds-space-1);
+  width: 100%; padding: var(--ds-space-3) 0;
+  background: none; border: none; text-align: left; cursor: pointer;
+  font: inherit;
+}
+/* Label da área (FINANCEIRO etc.) só aparece com o item aberto — some no
+   fechado pra reduzir a altura da linha (pedido explícito). O ícone ao
+   lado do título substitui a função de "dar contexto" que o label dava
+   antes em todo item, agora só o item aberto tem o label por extenso. */
+.apps-item__area { display: none; color: var(--color-text-default); opacity: 0.6; }
+.apps-item__trigger[aria-expanded="true"] .apps-item__area { display: block; }
+.apps-item__row { display: flex; align-items: center; gap: var(--ds-space-3); }
+.apps-item__icon { color: var(--color-accent-warm); flex-shrink: 0; }
+.apps-item__title {
+  font-size: var(--font-body-lg-size); font-weight: var(--ds-weight-regular);
+  letter-spacing: -0.02em; color: var(--color-text-default); opacity: 0.6;
+  transition: opacity 0.2s ease;
+}
+.apps-item__trigger[aria-expanded="true"] .apps-item__title {
+  font-weight: var(--ds-weight-semibold); opacity: 1;
+}
+.apps-item__panel { max-height: 0; overflow: hidden; transition: max-height 0.25s ease; }
+.apps-item__body { margin: 0 0 var(--ds-space-3); font-size: var(--font-body-lg-size); opacity: 0.8; color: var(--color-text-default); }
+
+/* Composição foto — mesma técnica de camadas do Figma (node 1452:42760):
+   card desfocado ao fundo (chão de fábrica) + recorte nítido em primeiro
+   plano (mulher com tablet, espelhado — export do Figma vem "cru", o
+   espelhamento é feito aqui, igual ao ícone da Clara OS) + badge
+   flutuante com a marca da suíte. Percentuais calculados a partir das
+   coordenadas absolutas do frame original (bounding box combinado das 3
+   camadas, 556.24×548.39). */
+.apps__art { display: flex; justify-content: center; }
+/* Voltou ao max-width nativo do Figma (494px) — o aumento pra 620px
+   espremia a coluna de conteúdo e quebrava o H2 em 3 linhas; revertido a
+   pedido explícito. */
+.apps-photo { position: relative; width: 100%; max-width: 494px; aspect-ratio: 556.24 / 548.39; }
+.apps-photo__bg-wrap {
+  position: absolute; left: 5.775%; top: 16.475%; width: 88.858%; height: 83.507%;
+  border-radius: 11px; overflow: hidden;
+  box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1);
+}
+.apps-photo__bg-wrap img { width: 100%; height: 100%; object-fit: cover; }
+.apps-photo__fg { position: absolute; left: 11.347%; top: 0; width: 88.654%; height: 100%; object-fit: contain; }
+.apps-photo__tag {
+  position: absolute; left: 0; top: 11.418%; width: 17.834%; aspect-ratio: 1;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--color-accent-warm);
+  border: 1px solid var(--color-accent-warm-active);
+  border-radius: var(--radius-md);
+  color: var(--color-text-inverse);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+.apps-photo__tag-icon { width: 60%; height: 60%; fill: currentColor; }
 
 /* ===== Responsivo =====
    Padrão de respiro em telas ≤960px (tablet e celular): 20px de padding
@@ -1598,21 +1666,46 @@ h1.manifesto-hero__title {
   .manifesto-hero { padding-top: 120px; } /* mesma folga de header — ver comentário acima */
   .evo-hero { padding-top: 120px; } /* mesma folga de header — ver comentário acima */
 
-  /* Evolução: blocos alternados da suíte Clara IA empilham (imagem
-     sempre acima do texto, mesma ordem visual do desktop pra --reverse
-     não bagunçar a leitura no mobile) e os grids de Governança/Aplicações
+  /* Composição sobre fotografia da hero de Evolução (.evo-comp) no mobile
+     — mesmo ajuste já feito em .manifesto-comp: no desktop é uma caixa
+     larga/baixa (1280×546), que no mobile vira ilegível/apertada só
+     encolhendo a fonte (outline vira uma tira fina, tags quase colam).
+     Recompõe do zero pra uma caixa em PÉ (mesma proporção 380×546 já
+     usada em .manifesto-comp — não veio frame mobile específico do
+     Figma pra esta composição, então reaproveita a mesma geometria
+     comprovada em vez de inventar números novos) — outline maior
+     preenchendo quase o frame todo, as 2 tags empilhadas na coluna
+     esquerda, nos mesmos 2 pontos-âncora de .manifesto-comp. */
+  .evo-comp { aspect-ratio: 380 / 546; }
+  .evo-comp__outline {
+    left: 10.789%; top: 7.692%;
+    width: 78.421%; height: 75.824%;
+  }
+  .evo-comp__tag { width: 62%; font-size: 15px; padding: var(--ds-space-3) var(--ds-space-4); }
+  .evo-comp__tag--warm { left: 6.053%; top: 11.172%; }
+  .evo-comp__tag--white { left: 31.316%; top: 63.553%; width: 62%; }
+
+  /* Evolução: blocos alternados da suíte Clara IA empilham — conteúdo
+     primeiro, imagem depois (pedido explícito; antes era imagem primeiro,
+     mesma ordem do desktop) — e os grids de Governança/Aplicações
      reduzem de 4/3 colunas pra 2. */
   .clara-row { grid-template-columns: 1fr; gap: var(--ds-space-8); }
   .clara-row__content,
-  .clara-row--reverse .clara-row__content { order: 2; }
+  .clara-row--reverse .clara-row__content { order: 1; }
   .clara-row__art,
-  .clara-row--reverse .clara-row__art { order: 1; }
+  .clara-row--reverse .clara-row__art { order: 2; }
   /* Empilhado, cada produto vira um bloco visualmente denso (imagem +
      conteúdo) — pediu mais respiro entre um produto e o próximo do que
      o --section-padding-block padrão dá nesse contexto. */
   .clara-row + .clara-row { margin-top: calc(var(--section-padding-block) + var(--ds-space-10)); }
   .gov__grid { grid-template-columns: repeat(2, 1fr); gap: var(--ds-space-10); }
-  .apps__grid { grid-template-columns: repeat(2, 1fr); }
+  /* Altura fixa (172px) só faz sentido na grade 4-col do desktop — em 2
+     colunas o texto quebra mais linhas e a caixa fixa cortaria conteúdo. */
+  .gov-card { height: auto; }
+  /* Aplicações: accordion empilha, foto primeiro (mesma ordem de leitura
+     de .clara-row acima). */
+  .apps__layout { grid-template-columns: 1fr; gap: var(--ds-space-10); }
+  .apps__art { order: -1; }
 
   /* Manifesto: grade de 3 colunas vira o carrossel mobile (mesmo
      ponto de corte de outros grids 2-col do site — a página de origem
@@ -1732,7 +1825,7 @@ h1.manifesto-hero__title {
   .stats__grid { grid-template-columns: 1fr; }
   .fundamentos-lead { font-size: 22px; }
   .experience__lead { font-size: 22px; }
-  .site-footer__top { flex-direction: column; }
+  .site-footer { padding: var(--ds-space-10) var(--ds-space-6); }
 
   /* História: barra de progresso condensa — só o índice numerado fica
      visível (o rótulo do período some), continua sticky normalmente. */
@@ -1740,8 +1833,14 @@ h1.manifesto-hero__title {
   .history-nav__item { padding: var(--ds-space-1); }
   .history-nav__item span:not(.history-nav__index) { display: none; }
 
-  /* Evolução: Governança/Aplicações voltam pra 1 coluna só em telas bem
-     estreitas (2 colunas já aperta demais nesse ponto). */
+  /* Evolução: Governança volta pra 1 coluna só em telas bem estreitas (2
+     colunas já aperta demais nesse ponto). */
   .gov__grid { grid-template-columns: 1fr; gap: var(--ds-space-8); }
-  .apps__grid { grid-template-columns: 1fr; }
+
+  /* Evolução: composição da hero (tags) e marca da suíte encolhem —
+     números do Figma (hero 1280×546) não têm frame mobile próprio, então
+     é ajuste proporcional pra não estourar em telas estreitas. */
+  .evo-comp__tag { font-size: 15px; padding: 10px 14px; }
+  .evo-comp__tag--white { width: 150px; padding: 12px 16px; }
+  .clara-suite__mark { width: 72px; height: 71px; }
 }

@@ -150,42 +150,6 @@
   }, { passive: true });
 })();
 
-// Modal do vídeo manifesto — abre com áudio e controles nativos, fecha por
-// botão, clique no fundo ou Esc.
-(function () {
-  var trigger = document.getElementById('watchManifestoBtn');
-  var modal = document.getElementById('videoModal');
-  if (!trigger || !modal) return;
-
-  var video = document.getElementById('manifestoVideo');
-  var closeBtn = document.getElementById('videoModalClose');
-  var backdrop = modal.querySelector('[data-modal-close]');
-
-  function openModal() {
-    modal.classList.add('is-open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    video.currentTime = 0;
-    video.play().catch(function () {});
-    closeBtn.focus();
-  }
-
-  function closeModal() {
-    modal.classList.remove('is-open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    video.pause();
-    trigger.focus();
-  }
-
-  trigger.addEventListener('click', openModal);
-  closeBtn.addEventListener('click', closeModal);
-  backdrop.addEventListener('click', closeModal);
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal();
-  });
-})();
-
 // Utilitário compartilhado — revela o texto de um container LETRA A LETRA
 // no scroll, de uma cor bem apagada até a cor sólida do token informado
 // (sem trecho fixo/destacado). A cor inicial (20% do token sobre
@@ -588,5 +552,74 @@ function revealCharsOnScroll(trigger, visual, colorVar, endTrigger) {
     wrap.classList.add('is-engaged');
     if (preview) preview.pause();
     real.play();
+  });
+})();
+
+// Accordion de Aplicações (evolucao.html) — 1 item aberto por vez.
+// A marca colorida da trilha (.apps-accordion__active-mark) é posicionada
+// via JS medindo a altura real do item aberto, em vez de fixar os 123px
+// do Figma (que só valiam pra aquele texto específico naquele frame) —
+// assim funciona certo qualquer que seja o item aberto ou a largura da tela.
+(function () {
+  var accordion = document.querySelector('.apps-accordion');
+  if (!accordion) return;
+  var items = accordion.querySelectorAll('.apps-item');
+  var mark = accordion.querySelector('.apps-accordion__active-mark');
+
+  // Soma alturas ESTÁTICAS (trigger.offsetHeight nunca anima; scrollHeight
+  // do painel é sempre a altura natural do conteúdo, mesmo com overflow:
+  // hidden/max-height:0) em vez de ler getBoundingClientRect() de itens
+  // vizinhos — esses SIM estão no meio de uma transition (o painel que
+  // está fechando por cima empurra tudo pra baixo aos poucos), então medir
+  // a caixa ao vivo pegava um valor de transição pela metade e a barra
+  // aparecia deslocada (bug real, visto ao vivo — 2º item abria e a barra
+  // ficava alinhada com o 3º/4º). Somar alturas-alvo direto ignora
+  // completamente em que pé a animação está.
+  function topOf(targetItem) {
+    var top = 0;
+    for (var i = 0; i < items.length; i++) {
+      var el = items[i];
+      if (el === targetItem) break;
+      top += heightOf(el);
+    }
+    return top;
+  }
+
+  function heightOf(item) {
+    var trigger = item.querySelector('.apps-item__trigger');
+    var panel = item.querySelector('.apps-item__panel');
+    var isOpen = item.classList.contains('is-open');
+    return trigger.offsetHeight + (isOpen ? panel.scrollHeight : 0);
+  }
+
+  function updateMark(item) {
+    if (!mark) return;
+    mark.style.top = topOf(item) + 'px';
+    mark.style.height = heightOf(item) + 'px';
+  }
+
+  function openItem(item) {
+    items.forEach(function (el) {
+      var isTarget = el === item;
+      var btn = el.querySelector('.apps-item__trigger');
+      var panel = el.querySelector('.apps-item__panel');
+      btn.setAttribute('aria-expanded', isTarget ? 'true' : 'false');
+      el.classList.toggle('is-open', isTarget);
+      panel.style.maxHeight = isTarget ? panel.scrollHeight + 'px' : '';
+    });
+    updateMark(item);
+  }
+
+  items.forEach(function (item) {
+    var btn = item.querySelector('.apps-item__trigger');
+    btn.addEventListener('click', function () { openItem(item); });
+  });
+
+  var initial = accordion.querySelector('.apps-item.is-open') || items[0];
+  if (initial) openItem(initial);
+
+  window.addEventListener('resize', function () {
+    var current = accordion.querySelector('.apps-item.is-open');
+    if (current) updateMark(current);
   });
 })();
