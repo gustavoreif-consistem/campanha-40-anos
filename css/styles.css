@@ -1160,11 +1160,30 @@ h1.manifesto-hero__title {
 .manifesto-hero__lead-p { max-width: 60ch; opacity: 0.88; text-wrap: balance; }
 /* margin-block (não gap do stack) de propósito — pedido explícito de mais
    respiro só ao redor do vídeo, maior que o gap dos outros elementos da
-   hero. +15% de tamanho (812px -> 934px, pedido explícito). aspect-ratio
-   no CONTAINER (não nos vídeos) porque agora são 2 vídeos empilhados
-   (preview + real, ambos position:absolute/inset:0) — precisam de uma
-   caixa com altura já definida pra se encaixarem. */
-.manifesto-hero__video { position: relative; width: 100%; max-width: 934px; aspect-ratio: 16 / 9; margin-block: 24px; }
+   hero. aspect-ratio no CONTAINER (não nos vídeos) porque agora são 2
+   vídeos empilhados (preview + real, ambos position:absolute/inset:0) —
+   precisam de uma caixa com altura já definida pra se encaixarem.
+
+   ESCAPA do .manifesto-hero__stack (max-width:860px) de propósito — a
+   1ª tentativa de aumentar (812->934px) não teve efeito NENHUM porque o
+   PAI já travava tudo em 860px antes do vídeo chegar a valer seu próprio
+   max-width (bug real, não só "não aumentou o bastante"). Técnica
+   left:50%+translateX(-50%) centraliza um elemento MAIOR que o pai,
+   quebrando o container sem depender da largura exata dele (funciona em
+   qualquer viewport, ao contrário de margin negativa fixa). Largura alvo
+   1100px — na altura (aspect-ratio 16:9 ainda intacto), empurra o fundo
+   do vídeo pra além dos 100vh na maioria das telas, deixando claro que
+   tem mais conteúdo abaixo (pedido explícito). max-width em vw garante
+   que nunca estoura a tela em viewports estreitos. */
+.manifesto-hero__video {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1100px;
+  max-width: calc(100vw - 40px);
+  aspect-ratio: 16 / 9;
+  margin-block: 24px;
+}
 .manifesto-hero__preview,
 .manifesto-hero__real {
   position: absolute; inset: 0;
@@ -1215,8 +1234,18 @@ h1.manifesto-hero__title {
   z-index: 3;
   transition: opacity 0.2s ease;
 }
-.manifesto-hero__bar--a { top: 14%; right: 0; width: 22%; }
-.manifesto-hero__bar--b { bottom: 14%; left: 0; width: 18%; }
+/* right/left NEGATIVOS de propósito — não travam na borda do vídeo
+   (right:0/left:0, tentativa anterior), atravessam ela de verdade: a
+   barra nasce um pouco FORA (na margem que sobra do quebra-container
+   acima) e se estende pra dentro do vídeo, exatamente como em
+   .history-hero-graphic__bar (lá sobra espaço de canvas ao redor do
+   vídeo pro mesmo efeito; aqui não tem canvas extra, então a barra
+   precisa "vazar" pra fora do próprio vídeo pra conseguir a mesma
+   sobreposição). .manifesto-hero__video não recorta overflow (só os
+   vídeos/play internos têm border-radius+seu próprio clip), então a
+   parte "de fora" da barra aparece normalmente. */
+.manifesto-hero__bar--a { top: 14%; right: -6%; width: 24%; }
+.manifesto-hero__bar--b { bottom: 14%; left: -6%; width: 20%; }
 .manifesto-hero__video.is-engaged .manifesto-hero__bar { opacity: 0; pointer-events: none; }
 .manifesto-hero__meta { max-width: 700px; width: 100%; }
 /* .btn tem align-self:flex-start fixo (pensado pra blocos alinhados à
