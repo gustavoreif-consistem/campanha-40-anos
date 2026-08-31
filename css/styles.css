@@ -1505,91 +1505,22 @@ h1.manifesto-hero__title {
   background: var(--color-accent-warm);
   color: var(--color-text-default);
 }
+/* Badge oficial da suíte (Assistente/Studio/OS) — ícone sólido/preenchido
+   fiel ao Figma (node 1447:41901), com a borda amarelo-700 do frame
+   original; Clara Agentes fica de fora, mantém o ícone de traço acima. */
+.clara-row__icon--badge {
+  border: 1px solid var(--color-accent-warm-active);
+  color: var(--color-text-inverse);
+}
+.clara-row__icon-glyph { display: block; width: 68%; height: 68%; fill: currentColor; }
 .clara-row__badge .text-h4 { line-height: 1.15; color: var(--color-text-inverse); }
 .clara-row__title { margin: 0; font-size: var(--font-heading-md-size); font-weight: var(--ds-weight-regular); line-height: 1.2; color: var(--color-text-inverse); }
 .clara-row__title strong { font-weight: var(--ds-weight-bold); }
 .clara-row .text-p { color: var(--color-text-inverse); opacity: 0.82; max-width: 46ch; }
 .clara-row__art { width: 100%; }
-
-/* Clara Assistente — mockup de chat */
-.clara-mock {
-  background: var(--color-surface-inverse-alt);
-  border: 1px solid var(--color-border-inverse);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-}
-.clara-mock__bar {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: var(--ds-space-3) var(--ds-space-4);
-  background: var(--color-accent-highlight);
-  color: var(--color-text-inverse);
-}
-.clara-mock__dots { display: flex; gap: var(--ds-space-1); }
-.clara-mock__dots i { width: 7px; height: 7px; border-radius: var(--radius-full); background: rgba(255, 255, 255, 0.6); display: block; }
-.clara-mock__body { display: flex; flex-direction: column; gap: var(--ds-space-4); padding: var(--ds-space-6); }
-.clara-mock__bubble { margin: 0; border-radius: var(--radius-md); padding: var(--ds-space-3) var(--ds-space-4); font-size: var(--font-caption-size); line-height: 1.4; }
-.clara-mock__bubble--user { align-self: flex-end; max-width: 78%; background: var(--color-surface-active); color: var(--color-text-default); }
-.clara-mock__bubble--clara { background: var(--color-surface-default); color: var(--color-text-default); }
-.clara-mock__from { display: block; color: var(--color-accent-highlight); margin-bottom: var(--ds-space-2); }
-.clara-mock__bubble--clara p { margin: 0 0 var(--ds-space-2); }
-.clara-mock__bubble--clara p:last-child { margin-bottom: 0; }
-.clara-mock__small { opacity: 0.7; }
-.clara-mock__input {
-  display: flex; align-items: center; justify-content: space-between;
-  margin: 0 var(--ds-space-6) var(--ds-space-6);
-  padding: var(--ds-space-3) var(--ds-space-4);
-  border-radius: var(--radius-md);
-  border: 1px solid var(--color-border-inverse);
-  color: var(--color-text-inverse);
-  opacity: 0.6;
-  font-size: var(--font-caption-size);
-}
-.clara-mock__send {
-  display: flex; align-items: center; justify-content: center;
-  width: 26px; height: 26px; border-radius: var(--radius-full);
-  background: var(--color-accent-warm); opacity: 1; flex-shrink: 0;
-}
-
-/* Clara Studio — "sistema solar" orbital (círculos concêntricos + pontos
-   coloridos genéricos, geometria fiel ao Figma, sem logos de terceiros —
-   ver comentário no HTML). Ângulo/raio de cada ponto vêm de --a/--r
-   inline, convertidos em posição via trig do próprio CSS. */
-.clara-orbit {
-  position: relative;
-  aspect-ratio: 1 / 1;
-  width: 100%;
-  max-width: 420px;
-  margin-inline: auto;
-  border-radius: var(--radius-full);
-  background: var(--color-surface-inverse-alt);
-}
-.clara-orbit__ring { position: absolute; inset: 0; margin: auto; border: 1px solid var(--color-border-inverse); border-radius: var(--radius-full); }
-.clara-orbit__ring--1 { width: 94%; height: 94%; }
-.clara-orbit__ring--2 { width: 66%; height: 66%; }
-.clara-orbit__ring--3 { width: 38%; height: 38%; }
-/* left/top calculados com sin()/cos() nativos do CSS (não transform:translate()
-   com % — nesse contexto a % se resolve contra o tamanho do PRÓPRIO ponto,
-   minúsculo, não do container; grudava tudo no centro, bug real encontrado
-   ao revisar). left/top em % resolvem corretamente contra o container
-   (.clara-orbit), então o cálculo aqui fica certo em qualquer tamanho de
-   tela — o translate(-50%,-50%) final só centraliza o ponto no X/Y calculado,
-   não codifica raio nenhum. */
-.clara-orbit__dot {
-  position: absolute;
-  left: calc(50% + (var(--r) * cos(var(--a))));
-  top: calc(50% + (var(--r) * sin(var(--a))));
-  width: 9%; height: 9%;
-  border-radius: var(--radius-full);
-  background: var(--color-accent-warm);
-  transform: translate(-50%, -50%);
-}
-.clara-orbit__dot:nth-child(4n+1) { background: var(--color-accent-highlight); }
-.clara-orbit__dot:nth-child(4n+2) { background: var(--color-surface-default); }
-.clara-orbit__center {
-  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 40px; height: 40px;
-  color: var(--color-text-inverse);
-}
+/* Assistente e OS: ilustração é o próprio SVG exportado do Figma (ver HTML),
+   não um componente construído em HTML/CSS — só precisa escalar. */
+.clara-row__art-img { width: 100%; height: auto; display: block; }
 
 /* Clara Agentes — lista de cards (mostra 3 + resumo do restante, como o
    slide original corta a lista pra fora do cartão). */
@@ -1607,40 +1538,6 @@ h1.manifesto-hero__title {
 .clara-list__more { display: flex; align-items: flex-start; gap: var(--ds-space-3); padding-inline: var(--ds-space-2); }
 .clara-list__more .icon { color: var(--color-accent-warm); flex-shrink: 0; margin-top: 2px; }
 .clara-list__more .text-small { color: var(--color-text-inverse); opacity: 0.75; }
-
-/* Clara OS — hub central + 3 nós conectados (versão simplificada do
-   diagrama do Figma, sem as linhas de conexão em SVG — a disposição em
-   L já comunica a hierarquia hub->nós sem precisar de vetor extra). */
-.clara-flow {
-  position: relative;
-  background: var(--color-surface-inverse-alt);
-  border: 1px solid var(--color-border-inverse);
-  border-radius: var(--radius-lg);
-  padding: var(--ds-space-10);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--ds-space-4);
-  place-items: center;
-}
-.clara-flow__hub {
-  grid-column: 1 / -1;
-  display: flex; align-items: center; justify-content: center;
-  width: 64px; height: 64px;
-  border-radius: var(--radius-md);
-  background: var(--color-accent-warm);
-  color: var(--color-text-default);
-  margin-bottom: var(--ds-space-2);
-}
-.clara-flow__node {
-  width: 100%;
-  background: var(--color-surface-default);
-  border-radius: var(--radius-md);
-  padding: var(--ds-space-4);
-  text-align: center;
-}
-.clara-flow__node .text-badge { color: var(--color-accent-highlight); display: block; margin-bottom: var(--ds-space-1); }
-.clara-flow__node .text-small { color: var(--color-text-default); opacity: 0.75; }
-.clara-flow__node--dados { grid-column: 1 / -1; max-width: 260px; }
 
 /* ---------- Governança (.gov) ---------- */
 .gov__intro { max-width: 720px; margin-inline: auto; text-align: center; display: flex; flex-direction: column; gap: var(--ds-space-4); margin-bottom: var(--ds-space-16); }
@@ -1843,6 +1740,4 @@ h1.manifesto-hero__title {
      estreitas (2 colunas já aperta demais nesse ponto). */
   .gov__grid { grid-template-columns: 1fr; gap: var(--ds-space-8); }
   .apps__grid { grid-template-columns: 1fr; }
-  .clara-flow { grid-template-columns: 1fr; padding: var(--ds-space-6); }
-  .clara-flow__node--dados { max-width: none; }
 }
