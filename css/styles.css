@@ -1444,7 +1444,7 @@ h1.manifesto-hero__title {
   margin-inline: auto;
   display: flex;
   flex-direction: column;
-  gap: var(--ds-space-4);
+  gap: 26px; /* reajuste do Figma (era --ds-space-4/16px, com 2 parágrafos) */
   text-align: center;
   margin-bottom: var(--section-padding-block);
 }
