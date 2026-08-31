@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Consistem 40 anos — Evolução</title>
+<meta name="description" content="A experiência construída em 40 anos orienta movimentos da Consistem, da nova identidade à Consistem Clara IA e à evolução da gestão empresarial." />
+<link rel="icon" type="image/png" href="assets/favicon-selo-40anos.png" />
+<link rel="stylesheet" href="css/tokens.css" />
+<link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+<!-- Transição de entrada/navegação — mesma peça das outras páginas do hotsite. -->
+<div class="page-transition" id="pageTransition" aria-hidden="true">
+  <div class="page-transition__panel"></div>
+</div>
+
+<!-- Sprite de ícones — os 8 já usados no site (menu/close aqui embaixo,
+     mais os herdados via id) + 14 novos desenhados do zero pra esta
+     página (grid 24px / traço 1.75 / sem preenchimento, brandbook Seção
+     5.5 — nunca reaproveitados de referência externa/terceiros). -->
+<svg style="display:none" aria-hidden="true">
+  <symbol id="icon-menu" viewBox="0 0 24 24">
+    <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-close" viewBox="0 0 24 24">
+    <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Clara Assistente — balão de chat -->
+  <symbol id="icon-chat" viewBox="0 0 24 24">
+    <path d="M4 5.5h16a1 1 0 011 1V15a1 1 0 01-1 1H9l-4 3.5V16H4a1 1 0 01-1-1V6.5a1 1 0 011-1z" stroke-linejoin="round"/>
+    <path d="M7 9.5h10M7 12.5h6" stroke-linecap="round"/>
+  </symbol>
+  <!-- Clara Studio — controles/configuração -->
+  <symbol id="icon-sliders" viewBox="0 0 24 24">
+    <path d="M4 7h4M12 7h8M4 17h8M16 17h4" stroke-linecap="round"/>
+    <circle cx="10" cy="7" r="2"/>
+    <circle cx="14" cy="17" r="2"/>
+  </symbol>
+  <!-- Clara Agentes — faísca/especialização -->
+  <symbol id="icon-spark" viewBox="0 0 24 24">
+    <path d="M12 3c.7 3.6 2 4.9 5.6 5.6-3.6.7-4.9 2-5.6 5.6-.7-3.6-2-4.9-5.6-5.6C10 7.9 11.3 6.6 12 3z" stroke-linejoin="round"/>
+    <path d="M19 15.5c.35 1.6.9 2.15 2.5 2.5-1.6.35-2.15.9-2.5 2.5-.35-1.6-.9-2.15-2.5-2.5 1.6-.35 2.15-.9 2.5-2.5z" stroke-linejoin="round"/>
+  </symbol>
+  <!-- Clara OS — orquestração/hub -->
+  <symbol id="icon-hub" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="2.5"/>
+    <circle cx="4.5" cy="6" r="1.75"/>
+    <circle cx="19.5" cy="6" r="1.75"/>
+    <circle cx="4.5" cy="18" r="1.75"/>
+    <circle cx="19.5" cy="18" r="1.75"/>
+    <path d="M9.8 10.2L6 7.3M14.2 10.2L18 7.3M9.8 13.8L6 16.7M14.2 13.8L18 16.7" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Governança: 4 níveis -->
+  <symbol id="icon-eye" viewBox="0 0 24 24">
+    <path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z" stroke-linejoin="round"/>
+    <circle cx="12" cy="12" r="3"/>
+  </symbol>
+  <symbol id="icon-bulb" viewBox="0 0 24 24">
+    <path d="M9.3 18h5.4M9.7 21h4.6M7.8 15.3a4.3 4.3 0 118.4 0c-.7.9-1.2 1.6-1.2 2.5H9c0-.9-.5-1.6-1.2-2.5z" stroke-linejoin="round"/>
+    <path d="M12 2.3v1.6M4.3 6.6l1.2 1M19.7 6.6l-1.2 1" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-shield-check" viewBox="0 0 24 24">
+    <path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z" stroke-linejoin="round"/>
+    <path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-workflow" viewBox="0 0 24 24">
+    <rect x="3" y="4" width="6" height="5" rx="1"/>
+    <rect x="15" y="4" width="6" height="5" rx="1"/>
+    <rect x="9" y="15" width="6" height="5" rx="1"/>
+    <path d="M6 9v2a2 2 0 002 2h1M18 9v2a2 2 0 01-2 2h-1" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Aplicações: 6 cenários -->
+  <symbol id="icon-coin" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="9"/>
+    <path d="M12 7.5v9M9.6 9.9c0-1.2 1.1-2 2.4-2s2.4.8 2.4 1.9c0 2.5-4.8 1.2-4.8 3.7 0 1.1 1.1 1.9 2.4 1.9s2.4-.8 2.4-1.9" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-gear" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="3"/>
+    <path d="M12 3v2.2M12 18.8V21M21 12h-2.2M5.2 12H3M18.4 5.6l-1.5 1.5M7.1 16.9l-1.5 1.5M18.4 18.4l-1.5-1.5M7.1 7.1L5.6 5.6" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-cart" viewBox="0 0 24 24">
+    <path d="M3 4h2l1.6 10.2A2 2 0 008.6 16h8.6a2 2 0 002-1.7L20.5 7.5H6" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="9.5" cy="20" r="1.3"/>
+    <circle cx="17" cy="20" r="1.3"/>
+  </symbol>
+  <symbol id="icon-trend" viewBox="0 0 24 24">
+    <path d="M3 17l6-6 4 4 8-8" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M15 6.5h6V12.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <symbol id="icon-shield-lock" viewBox="0 0 24 24">
+    <path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z" stroke-linejoin="round"/>
+    <rect x="9.5" y="11" width="5" height="4" rx="0.8"/>
+    <path d="M10.3 11V9.7a1.7 1.7 0 013.4 0V11" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="icon-network" viewBox="0 0 24 24">
+    <circle cx="6" cy="6" r="2"/>
+    <circle cx="18" cy="6" r="2"/>
+    <circle cx="12" cy="18" r="2"/>
+    <path d="M7.6 7.2L10.6 16M16.4 7.2L13.4 16M8 6h8" stroke-linecap="round"/>
+  </symbol>
+</svg>
+
+<header class="site-header">
+  <div class="site-header__pill">
+    <a class="site-header__brand" href="index.html#home" aria-label="Consistem — início">
+      <img class="site-header__logo" src="assets/logo-consistem.svg" alt="Consistem" />
+    </a>
+    <nav class="site-header__nav" id="siteNav" aria-label="Navegação principal">
+      <a href="index.html#home">Home</a>
+      <a href="historia.html">História</a>
+      <a href="manifesto.html">Manifesto</a>
+      <a href="evolucao.html" aria-current="page">Evolução</a>
+    </nav>
+    <a class="btn btn--warm btn--sm site-header__cta" href="index.html#futuro">Saber mais</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu" aria-expanded="false" aria-controls="siteNav">
+      <svg class="icon"><use href="#icon-menu"></use></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- Hero — só texto, sem vídeo/gráfico (a copy oficial desta página não
+       pede nenhum elemento visual próprio aqui, diferente de História e
+       Manifesto) — pedido explícito, mantendo raso. -->
+  <section class="evo-hero section--light" id="evolucao-intro">
+    <div class="container evo-hero__stack">
+      <p class="text-tag evo-hero__eyebrow">Evolução</p>
+      <h1 class="text-h1">A experiência acumulada orienta os próximos movimentos</h1>
+      <p class="text-p text-p-lg evo-hero__lead">Para a Consistem, ser relevante requer compreender cenários atuais e não perder de vista aquilo que sustenta a operação.</p>
+      <p class="text-p text-p-lg evo-hero__lead">Ao longo de 40 anos, acompanhamos transformações nas formas de produzir, vender, analisar dados e gerir empresas. Esse conhecimento orienta as decisões de agora.</p>
+      <p class="text-p text-p-lg evo-hero__lead">Em 2026, dois movimentos tornam essa evolução especialmente visível: a renovação da marca e a ampliação da Consistem Clara para uma suíte de inteligência artificial.</p>
+    </div>
+  </section>
+
+  <!-- 2 cards — reaproveitando ao pé da letra o componente .future/.future__grid/.future-item
+       já construído em index.html ("De olho no futuro"), com a copy OFICIAL desta página
+       (ligeiramente diferente da versão da Home) — pedido explícito. Sem .future__intro:
+       a copy desta página não dá um título pra este bloco (o parágrafo final do hero já
+       serve de transição). CTA da nova identidade é externa (mesmo destino já usado na
+       Home); CTA da Clara IA é âncora pra seção logo abaixo, já que aqui ela existe de
+       verdade na mesma página. -->
+  <section class="future section--light" id="movimentos">
+    <div class="container">
+      <div class="future__grid">
+        <div class="future-item">
+          <img class="future-item__art" src="assets/img-futuro/nova-marca.webp" alt="" width="528" height="262" loading="lazy" decoding="async" />
+          <h3 class="text-h3">Uma identidade para a Consistem de hoje</h3>
+          <p class="text-p">A nova marca organiza com mais clareza uma identidade construída sobre experiência, conhecimento, proximidade e confiança. A expressão visual evolui junto com a empresa e amplia a consistência em produtos, canais e experiências.</p>
+          <a class="btn btn--warm btn--md" href="https://consistem.com.br/nova-marca/" target="_blank" rel="noopener">Conheça a nova identidade</a>
+        </div>
+        <div class="future-item">
+          <img class="future-item__art" src="assets/img-futuro/clara-ia.webp" alt="" width="528" height="262" loading="lazy" decoding="async" />
+          <h3 class="text-h3">Inteligência artificial aplicada à gestão</h3>
+          <p class="text-p">A Consistem Clara IA amplia a forma como dados, processos e sistemas podem ser usados para apoiar decisões e colocar ações em movimento com governança. Assistência, agentes, criação e orquestração passam a fazer parte de uma mesma suíte.</p>
+          <a class="btn btn--warm btn--md js-no-transition" href="#clara-ia">Descubra a Clara IA</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Consistem Clara IA — seção escura por omissão de .section--light (mesmo
+       mecanismo de .evolve/.experience). 4 blocos alternados (texto/ilustração),
+       fiel à composição dos slides do Figma (node 1447:41678, "Suíte Clara IA")
+       — pedido explícito de fidelidade, mesmo sendo trabalho pesado: cartão
+       escuro arredondado, ícone quadrado em accent-warm + nome do produto,
+       título com ênfase parcial em negrito, ilustração fiel ao lado (mockup de
+       chat pra Assistente, lista de cards pra Agentes, diagrama de fluxo pro OS).
+       ÚNICA divergência deliberada: Clara Studio no Figma tem ~40 ícones REAIS
+       de apps de terceiros (Gmail, Slack, Instagram etc.) num "sistema solar" —
+       reproduzir logos de marcas de terceiros aqui seria uso indevido de marca
+       num material de marketing da Consistem, então a composição orbital foi
+       mantida fiel (mesma geometria, mesmos círculos concêntricos) trocando os
+       logos reais por ícones genéricos coloridos. -->
+  <section class="clara-suite" id="clara-ia">
+    <div class="container">
+      <div class="clara-suite__intro">
+        <p class="text-tag clara-suite__eyebrow">Consistem Clara IA</p>
+        <h2 class="text-h2">Uma suíte para transformar contexto em decisão e ação governada</h2>
+        <p class="text-p text-p-lg">A Consistem Clara IA conecta dados, processos, sistemas e conhecimento operacional em experiências complementares de inteligência artificial.</p>
+        <p class="text-p text-p-lg">Em vez de tratar a IA como um recurso isolado, a suíte organiza diferentes formas de utilizá-la dentro da gestão empresarial.</p>
+      </div>
+
+      <!-- Clara Assistente — mockup de chat fiel ao Figma (node 1447:41163). -->
+      <div class="clara-row">
+        <div class="clara-row__content">
+          <div class="clara-row__badge">
+            <span class="clara-row__icon"><svg class="icon icon--lg"><use href="#icon-chat"></use></svg></span>
+            <span class="text-h4">Clara<br />Assistente</span>
+          </div>
+          <h3 class="clara-row__title">A assistente que entende <strong>sua rotina</strong> no ERP.</h3>
+          <p class="text-p text-p-lg">Apoia o usuário na consulta de informações, entendimento de processos e interação com o ecossistema Consistem.</p>
+        </div>
+        <div class="clara-row__art">
+          <div class="clara-mock" aria-hidden="true">
+            <div class="clara-mock__bar">
+              <span class="text-badge">Clara Assistente</span>
+              <span class="clara-mock__dots"><i></i><i></i></span>
+            </div>
+            <div class="clara-mock__body">
+              <p class="clara-mock__bubble clara-mock__bubble--user">Quais insumos estão com estoque baixo?</p>
+              <div class="clara-mock__bubble clara-mock__bubble--clara">
+                <span class="text-badge clara-mock__from">Clara</span>
+                <p>Há 2 insumos com estoque abaixo do nível mínimo:</p>
+                <p class="clara-mock__small">Parafuso sextavado M6 x 20 — Nível crítico, cobertura para 2 dias. Porca M6 Inox — Nível baixo, o bastante para 7 dias.</p>
+              </div>
+            </div>
+            <div class="clara-mock__input">
+              <span>Pergunte alguma coisa...</span>
+              <span class="clara-mock__send" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h13M13 6l6 6-6 6" stroke="var(--color-text-default)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clara Studio — "sistema solar" fiel na geometria (node 1447:41489),
+           ícones genéricos coloridos em vez de logos reais de terceiros (ver
+           comentário acima do início da seção). -->
+      <div class="clara-row clara-row--reverse">
+        <div class="clara-row__content">
+          <div class="clara-row__badge">
+            <span class="clara-row__icon"><svg class="icon icon--lg"><use href="#icon-sliders"></use></svg></span>
+            <span class="text-h4">Clara<br />Studio</span>
+          </div>
+          <h3 class="clara-row__title">Crie e treine a <strong>IA do seu jeito</strong>.</h3>
+          <p class="text-p text-p-lg">Ambiente para criar, testar, configurar e publicar agentes de acordo com as necessidades e regras da empresa.</p>
+        </div>
+        <div class="clara-row__art">
+          <div class="clara-orbit" aria-hidden="true">
+            <span class="clara-orbit__ring clara-orbit__ring--1"></span>
+            <span class="clara-orbit__ring clara-orbit__ring--2"></span>
+            <span class="clara-orbit__ring clara-orbit__ring--3"></span>
+            <span class="clara-orbit__dot" style="--a: 20deg; --r: 46%;"></span>
+            <span class="clara-orbit__dot" style="--a: 65deg; --r: 32%;"></span>
+            <span class="clara-orbit__dot" style="--a: 100deg; --r: 46%;"></span>
+            <span class="clara-orbit__dot" style="--a: 140deg; --r: 20%;"></span>
+            <span class="clara-orbit__dot" style="--a: 175deg; --r: 38%;"></span>
+            <span class="clara-orbit__dot" style="--a: 210deg; --r: 46%;"></span>
+            <span class="clara-orbit__dot" style="--a: 250deg; --r: 28%;"></span>
+            <span class="clara-orbit__dot" style="--a: 285deg; --r: 46%;"></span>
+            <span class="clara-orbit__dot" style="--a: 320deg; --r: 34%;"></span>
+            <span class="clara-orbit__dot" style="--a: 350deg; --r: 20%;"></span>
+            <span class="clara-orbit__dot" style="--a: 40deg; --r: 46%;"></span>
+            <span class="clara-orbit__dot" style="--a: 305deg; --r: 20%;"></span>
+            <svg class="icon icon--lg clara-orbit__center"><use href="#icon-sliders"></use></svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clara Agentes — lista de cards fiel (node 1447:41343), com o conjunto
+           real de agentes citado no Figma (9 itens, mostra os 3 primeiros +
+           indicação de que há mais, como no slide original que corta o resto
+           da lista pra fora do cartão). -->
+      <div class="clara-row">
+        <div class="clara-row__content">
+          <div class="clara-row__badge">
+            <span class="clara-row__icon"><svg class="icon icon--lg"><use href="#icon-spark"></use></svg></span>
+            <span class="text-h4">Clara<br />Agentes</span>
+          </div>
+          <h3 class="clara-row__title">Agentes <strong>especializados</strong> no seu negócio.</h3>
+          <p class="text-p text-p-lg">Agentes preparados para analisar situações e executar tarefas dentro de contextos e limites definidos.</p>
+        </div>
+        <div class="clara-row__art">
+          <div class="clara-list" aria-hidden="true">
+            <div class="clara-list__card">
+              <svg class="icon"><use href="#icon-coin"></use></svg>
+              <p class="text-h5">Gestão Financeira</p>
+              <p class="text-small">Inteligência artificial para uma gestão financeira estratégica, com insights sobre o fluxo de caixa.</p>
+            </div>
+            <div class="clara-list__card">
+              <svg class="icon"><use href="#icon-cart"></use></svg>
+              <p class="text-h5">Gestão de Compras</p>
+              <p class="text-small">Melhores decisões e economia no processo de compras com o apoio da Clara.</p>
+            </div>
+            <div class="clara-list__card">
+              <svg class="icon"><use href="#icon-network"></use></svg>
+              <p class="text-h5">Gestão de Estoque</p>
+              <p class="text-small">Saldos e movimentações analisados com dados precisos e em tempo real.</p>
+            </div>
+            <div class="clara-list__more">
+              <svg class="icon icon--sm"><use href="#icon-spark"></use></svg>
+              <span class="text-small">Contábil e Fiscal, Custos e Produção, Entrada de Notas, WMS, Manutenção de Máquinas e Recursos Humanos também fazem parte da suíte.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clara OS — diagrama de orquestração fiel (node 1447:41453). -->
+      <div class="clara-row clara-row--reverse">
+        <div class="clara-row__content">
+          <div class="clara-row__badge">
+            <span class="clara-row__icon"><svg class="icon icon--lg"><use href="#icon-hub"></use></svg></span>
+            <span class="text-h4">Clara OS</span>
+          </div>
+          <h3 class="clara-row__title">Tudo com <strong>governança e controle</strong> humano.</h3>
+          <p class="text-p text-p-lg">Conecta agentes, dados, integrações e fluxos de trabalho em um ambiente de operação e governança.</p>
+        </div>
+        <div class="clara-row__art">
+          <div class="clara-flow" aria-hidden="true">
+            <span class="clara-flow__hub"><svg class="icon icon--lg"><use href="#icon-hub"></use></svg></span>
+            <div class="clara-flow__node">
+              <p class="text-badge">Agentes</p>
+              <p class="text-small">Executam tarefas com especialização.</p>
+            </div>
+            <div class="clara-flow__node">
+              <p class="text-badge">Automações</p>
+              <p class="text-small">Agilizam a operação com consistência.</p>
+            </div>
+            <div class="clara-flow__node clara-flow__node--dados">
+              <p class="text-badge">Dados</p>
+              <p class="text-small">Conectam contexto e decisão.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Governança — clara, 4 níveis de atuação (grid), trilha de controles e
+       fecho. Ícones novos redesenhados do zero (ver sprite no topo). -->
+  <section class="section-pad section--light gov" id="governanca">
+    <div class="container">
+      <div class="gov__intro">
+        <p class="text-tag gov__eyebrow">Governança</p>
+        <h2 class="text-h2">A autonomia cresce junto com o controle</h2>
+        <p class="text-p text-p-lg">Quatro níveis de atuação em uma camada comum de controle.</p>
+      </div>
+      <div class="gov__grid">
+        <div class="gov-card">
+          <svg class="icon icon--lg gov-card__icon"><use href="#icon-eye"></use></svg>
+          <h3 class="text-h4">Observa</h3>
+          <p class="text-p">Identifica informações, padrões e situações relevantes.</p>
+        </div>
+        <div class="gov-card">
+          <svg class="icon icon--lg gov-card__icon"><use href="#icon-bulb"></use></svg>
+          <h3 class="text-h4">Sugere</h3>
+          <p class="text-p">Analisa dados, contextos e recomenda caminhos.</p>
+        </div>
+        <div class="gov-card">
+          <svg class="icon icon--lg gov-card__icon"><use href="#icon-shield-check"></use></svg>
+          <h3 class="text-h4">Executa com limites</h3>
+          <p class="text-p">Realiza ações autorizadas dentro de regras definidas.</p>
+        </div>
+        <div class="gov-card">
+          <svg class="icon icon--lg gov-card__icon"><use href="#icon-workflow"></use></svg>
+          <h3 class="text-h4">Orquestra fluxos</h3>
+          <p class="text-p">Coordena etapas e sistemas em processos automatizados.</p>
+        </div>
+      </div>
+      <div class="gov__controls">
+        <p class="text-h5">Controles que acompanham a operação</p>
+        <p class="gov__terms text-p-lg">Permissões <span aria-hidden="true">·</span> Aprovações <span aria-hidden="true">·</span> Rastreabilidade <span aria-hidden="true">·</span> Consumo <span aria-hidden="true">·</span> Auditoria</p>
+        <p class="text-p text-p-lg gov__closing">Esse modelo permite que o uso de IA avance de acordo com a maturidade e as políticas de cada organização, mantendo registro das execuções e participação humana nas decisões críticas.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Aplicações — clara, 6 cenários por área. -->
+  <section class="section-pad section--light pre-footer apps" id="aplicacoes">
+    <div class="container">
+      <div class="apps__intro">
+        <h2 class="text-h2">Aplicações conectadas a situações reais de gestão</h2>
+        <p class="text-p text-p-lg">Veja como a Consistem Clara IA pode atuar em diversos cenários.</p>
+      </div>
+      <div class="apps__grid">
+        <div class="apps-card">
+          <svg class="icon icon--lg apps-card__icon"><use href="#icon-coin"></use></svg>
+          <p class="text-tag apps-card__area">Financeiro</p>
+          <h3 class="text-h5">Antecipar riscos e priorizar análises</h3>
+          <p class="text-p">Sinais, alertas e informações podem ser organizados para apoiar decisões sobre caixa e situações que exigem atenção.</p>
+        </div>
+        <div class="apps-card">
+          <svg class="icon icon--lg apps-card__icon"><use href="#icon-gear"></use></svg>
+          <p class="text-tag apps-card__area">Produção</p>
+          <h3 class="text-h5">Identificar exceções e avaliar impactos</h3>
+          <p class="text-p">A IA pode ajudar a destacar desvios e relacioná-los a ordens, prazos e outras informações da operação.</p>
+        </div>
+        <div class="apps-card">
+          <svg class="icon icon--lg apps-card__icon"><use href="#icon-cart"></use></svg>
+          <p class="text-tag apps-card__area">Compras</p>
+          <h3 class="text-h5">Acompanhar pendências e prioridades</h3>
+          <p class="text-p">Informações dispersas podem ser reunidas para facilitar o acompanhamento de abastecimento e decisões de compra.</p>
+        </div>
+        <div class="apps-card">
+          <svg class="icon icon--lg apps-card__icon"><use href="#icon-trend"></use></svg>
+          <p class="text-tag apps-card__area">Comercial</p>
+          <h3 class="text-h5">Dar contexto para análises e encaminhamentos</h3>
+          <p class="text-p">Dados do negócio podem apoiar análises e próximos passos com menos esforço de busca e consolidação.</p>
+        </div>
+        <div class="apps-card">
+          <svg class="icon icon--lg apps-card__icon"><use href="#icon-shield-lock"></use></svg>
+          <p class="text-tag apps-card__area">TI e governança</p>
+          <h3 class="text-h5">Manter visibilidade sobre o uso da IA</h3>
+          <p class="text-p">Permissões, registros, consumo e observabilidade ajudam a colocar inteligência artificial em operação com controle.</p>
+        </div>
+        <div class="apps-card">
+          <svg class="icon icon--lg apps-card__icon"><use href="#icon-network"></use></svg>
+          <p class="text-tag apps-card__area">Operação integrada</p>
+          <h3 class="text-h5">Conectar etapas que atravessam diferentes sistemas</h3>
+          <p class="text-p">Agentes, dados e integrações podem participar de fluxos que envolvem mais de uma área ou aplicação.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__top">
+      <div class="site-footer__brand">
+        <img class="site-footer__logo" src="assets/logo-consistem.svg" alt="Consistem" />
+        <p class="text-p site-footer__tagline">40 anos de presença, evolução e confiança.</p>
+      </div>
+      <nav class="site-footer__nav" aria-label="Navegação institucional">
+        <a href="index.html#home">Home</a>
+        <a href="historia.html">História</a>
+        <a href="manifesto.html">Manifesto</a>
+        <a href="evolucao.html" aria-current="page">Evolução</a>
+      </nav>
+    </div>
+    <div class="site-footer__bottom">
+      <p class="text-small site-footer__copyright">© 2026 | Consistem LTDA.</p>
+      <nav class="site-footer__legal" aria-label="Institucional">
+        <a href="#">Política de privacidade</a>
+        <a href="#">Direitos autorais</a>
+        <a href="#">FAQ</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<script src="js/vendor/gsap.min.js"></script>
+<script src="js/vendor/ScrollTrigger.min.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
