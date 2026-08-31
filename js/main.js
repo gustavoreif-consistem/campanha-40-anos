@@ -288,11 +288,11 @@
 
 // Timeline de "História" — reveal de entrada nos cards (que passam em
 // fluxo normal, não empilham mais — ver .history-card em styles.css) e no
-// título do bloco "presente". Puramente cosmético — sem GSAP, os cards
-// continuam visíveis normalmente (guard padrão).
+// bloco de texto do "presente" (2026). Puramente cosmético — sem GSAP, os
+// cards continuam visíveis normalmente (guard padrão).
 (function () {
   var cards = document.querySelectorAll('.history-card');
-  var presentTitle = document.querySelector('.history-present__title');
+  var presentTitle = document.querySelector('.history-present__intro');
   if ((!cards.length && !presentTitle) || !window.gsap || !window.ScrollTrigger) return;
 
   gsap.registerPlugin(ScrollTrigger);

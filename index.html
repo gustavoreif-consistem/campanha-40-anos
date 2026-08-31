@@ -14,6 +14,7 @@
      aparecer, e some com a concorrência de outras coisas (como o vídeo do
      hero, que fica coberto pelo preloader mesmo, sem benefício nenhum em
      carregar rápido enquanto ele não for dispensado). -->
+<link rel="preload" as="script" href="js/shape-40-data.js" fetchpriority="high" />
 <link rel="preload" as="script" href="js/preloader.js" fetchpriority="high" />
 <!-- Gate síncrono do preloader — precisa rodar ANTES do primeiro paint pra
      não piscar o hero normal e depois escondê-lo. Só ativa se: motion normal
@@ -365,6 +366,7 @@
 <script src="js/vendor/gsap.min.js"></script>
 <script src="js/vendor/ScrollTrigger.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/shape-40-data.js" async fetchpriority="high"></script>
 <script src="js/preloader.js" async fetchpriority="high"></script>
 </body>
 </html>

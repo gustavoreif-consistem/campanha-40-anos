@@ -46,36 +46,65 @@
 
 <main>
 
-  <!-- Hero de abertura — 100vh, texto + ficha técnica de um lado, espaço de
-       foto do outro (ainda placeholder). Copy oficial, 40-anos/historia-40-anos.md.
-       Fundo escuro padrão da página, sem section--light. -->
-  <section class="history-hero" id="historia-intro">
-    <div class="container history-hero__grid">
-      <div class="history-hero__content">
-        <p class="text-tag">Desde 1986</p>
-        <h1 class="text-h1">A história da Consistem</h1>
-        <p class="text-p text-p-lg">A Consistem nasceu em Jaraguá do Sul, em uma sala na antiga casa de seus fundadores, Laureci e Ivonete Sabel.</p>
-        <p class="text-p text-p-lg">O que começou em uma estrutura pequena cresceu acompanhando a própria transformação da tecnologia empresarial. Sistemas, processos, equipes e indústrias mudaram profundamente desde então, e cada etapa exigiu novas competências para continuar atendendo empresas com operações cada vez mais integradas e complexas.</p>
-        <div class="history-facts">
-          <div class="history-fact">
-            <span class="text-tag history-fact__label">Fundação</span>
-            <span class="text-p history-fact__value">1986</span>
+  <!-- Hero em 2 dobras (Figma: node 1413:1850) — claro via section--light,
+       mesmo mecanismo de .about/.pre-footer. Dobra 1: título + régua
+       "1986—2026" + ficha técnica + gráfico "40" (canvas de partículas em
+       js/history-hero-40.js, mesmos dados/física do preloader da home —
+       ver js/shape-40-data.js — só que contido e em grafite). Dobra 2: os
+       2 parágrafos que abriam a v1 desta seção, ao lado da foto do
+       fundador. Copy oficial, 40-anos/historia-40-anos.md. -->
+  <section class="history-hero section--light" id="historia-intro">
+    <div class="container history-hero__stack">
+
+      <div class="history-hero__fold1">
+        <div class="history-hero__top">
+          <img class="history-hero__logo" src="assets/logo-consistem-grafite.svg" alt="Consistem" />
+          <h1 class="text-h1">A história da Consistem</h1>
+          <div class="history-hero__meta">
+            <span class="text-small">1986</span>
+            <span class="history-hero__meta-line" aria-hidden="true"></span>
+            <span class="text-small">2026</span>
           </div>
-          <div class="history-fact">
-            <span class="text-tag history-fact__label">Sede</span>
-            <span class="text-p history-fact__value">Jaraguá do Sul, SC</span>
-          </div>
-          <div class="history-fact">
-            <span class="text-tag history-fact__label">Atuação</span>
-            <span class="text-p history-fact__value">Sistemas de gestão empresarial</span>
-          </div>
-          <div class="history-fact">
-            <span class="text-tag history-fact__label">Principal produto</span>
-            <span class="text-p history-fact__value">Consistem ERP</span>
+          <div class="history-facts">
+            <div class="history-fact">
+              <span class="text-tag history-fact__label">Fundação</span>
+              <span class="text-p history-fact__value">1986</span>
+            </div>
+            <div class="history-fact">
+              <span class="text-tag history-fact__label">Sede</span>
+              <span class="text-p history-fact__value">Jaraguá do Sul, SC</span>
+            </div>
+            <div class="history-fact">
+              <span class="text-tag history-fact__label">Atuação</span>
+              <span class="text-p history-fact__value">Sistemas de gestão empresarial</span>
+            </div>
+            <div class="history-fact">
+              <span class="text-tag history-fact__label">Principal produto</span>
+              <span class="text-p history-fact__value">Consistem ERP</span>
+            </div>
           </div>
         </div>
+
+        <div class="history-hero-graphic">
+          <canvas class="history-hero-graphic__canvas" id="historyHero40" aria-hidden="true"></canvas>
+          <video class="history-hero-graphic__video js-lazy-video" muted loop playsinline preload="none" aria-hidden="true">
+            <source data-src="assets/video/gif-40-anos.mp4" type="video/mp4" />
+          </video>
+          <span class="history-hero-graphic__bar history-hero-graphic__bar--a" aria-hidden="true"></span>
+          <span class="history-hero-graphic__bar history-hero-graphic__bar--b" aria-hidden="true"></span>
+        </div>
       </div>
-      <div class="history-placeholder history-hero__photo"><span class="text-small history-placeholder__label">Foto em breve</span></div>
+
+      <div class="history-hero-intro">
+        <div class="history-hero-intro__text">
+          <p class="history-hero-intro__lead">A Consistem <strong>nasceu em Jaraguá do Sul</strong>, em uma sala na antiga casa de seus fundadores, <strong>Laureci e Ivonete Sabel</strong>.</p>
+          <p class="text-p text-p-lg">O que começou em uma estrutura pequena cresceu acompanhando a própria transformação da tecnologia empresarial. Sistemas, processos, equipes e indústrias mudaram profundamente desde então, e cada etapa exigiu novas competências para continuar atendendo empresas com operações cada vez mais integradas e complexas.</p>
+        </div>
+        <div class="history-hero-intro__photo">
+          <img src="assets/historia/historia-1986-fundacao.webp" alt="Fundador da Consistem em escritório na década de 1980" loading="eager" decoding="async" />
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -95,6 +124,7 @@
     </nav>
 
     <section class="container history-block" id="era-1986" data-history-era>
+      <span class="history-block__waypoint" aria-hidden="true"></span>
       <div class="history-block__content">
         <div class="history-block__sticky">
           <p class="text-tag">1986–1994</p>
@@ -106,23 +136,30 @@
       <div class="history-block__cards">
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-1986-fundacao.webp" alt="Fundador da Consistem em escritório na década de 1980" width="480" height="480" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">1986</h3>
-          <p class="text-p history-card__title">Fundação em Jaraguá do Sul</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">1986</h3>
+            <p class="text-p history-card__title">Fundação em Jaraguá do Sul</p>
+          </div>
         </div>
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-1988-primeira-sede.webp" alt="Primeira sede própria da Consistem" width="480" height="480" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">1988</h3>
-          <p class="text-p history-card__title">Primeira sede própria</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">1988</h3>
+            <p class="text-p history-card__title">Primeira sede própria</p>
+          </div>
         </div>
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-1994-ampliacao.webp" alt="Ampliação da sede da Consistem em 1994" width="480" height="480" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">1994</h3>
-          <p class="text-p history-card__title">Nova ampliação</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">1994</h3>
+            <p class="text-p history-card__title">Nova ampliação</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="container history-block history-block--reverse" id="era-2000" data-history-era>
+      <span class="history-block__waypoint" aria-hidden="true"></span>
       <div class="history-block__content">
         <div class="history-block__sticky">
           <p class="text-tag">2000–2010</p>
@@ -134,23 +171,30 @@
       <div class="history-block__cards">
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-2000-erp-reformulado.webp" alt="Apresentação do Consistem ERP reformulado em 2000" width="480" height="480" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">2000</h3>
-          <p class="text-p history-card__title">ERP totalmente reformulado</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">2000</h3>
+            <p class="text-p history-card__title">ERP totalmente reformulado</p>
+          </div>
         </div>
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-2007-versao-grid.webp" alt="Sede da Consistem em 2007, ano da primeira versão do sistema com grid" width="480" height="480" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">2007</h3>
-          <p class="text-p history-card__title">Primeira versão com grid</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">2007</h3>
+            <p class="text-p history-card__title">Primeira versão com grid</p>
+          </div>
         </div>
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-2009-processos.webp" alt="Formalização dos processos de desenvolvimento da Consistem em 2009" width="480" height="480" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">2009</h3>
-          <p class="text-p history-card__title">Processos de desenvolvimento formalizados</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">2009</h3>
+            <p class="text-p history-card__title">Processos de desenvolvimento formalizados</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="container history-block" id="era-2010" data-history-era>
+      <span class="history-block__waypoint" aria-hidden="true"></span>
       <div class="history-block__content">
         <div class="history-block__sticky">
           <p class="text-tag">2010–2020</p>
@@ -163,18 +207,23 @@
       <div class="history-block__cards">
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-2012-febratex.webp" alt="Estande da Consistem na Febratex 2012" width="1200" height="902" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">2012</h3>
-          <p class="text-p history-card__title">Primeira participação na Febratex</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">2012</h3>
+            <p class="text-p history-card__title">Primeira participação na Febratex</p>
+          </div>
         </div>
         <div class="history-card">
           <div class="history-placeholder history-card__photo"><span class="text-small history-placeholder__label">Foto em breve</span></div>
-          <h3 class="text-h4 history-card__year">2019</h3>
-          <p class="text-p history-card__title">Reformulação de interface do ERP</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">2019</h3>
+            <p class="text-p history-card__title">Reformulação de interface do ERP</p>
+          </div>
         </div>
       </div>
     </section>
 
     <section class="container history-block history-block--reverse" id="era-2021" data-history-era>
+      <span class="history-block__waypoint" aria-hidden="true"></span>
       <div class="history-block__content">
         <div class="history-block__sticky">
           <p class="text-tag">2021–2025</p>
@@ -187,66 +236,89 @@
       <div class="history-block__cards">
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-2022-bloco-administrativo.webp" alt="Fachada do novo bloco administrativo da Consistem, entregue em 2022" width="1200" height="801" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">2022</h3>
-          <p class="text-p history-card__title">Bloco administrativo e primeiro Consistem Talks</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">2022</h3>
+            <p class="text-p history-card__title">Bloco administrativo e primeiro Consistem Talks</p>
+          </div>
         </div>
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-2023-workshop.webp" alt="Marca do Consistem Workshop, lançado em 2023" width="1200" height="675" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">2023</h3>
-          <p class="text-p history-card__title">Consistem Workshop</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">2023</h3>
+            <p class="text-p history-card__title">Consistem Workshop</p>
+          </div>
         </div>
         <div class="history-card">
           <img class="history-photo history-card__photo" src="assets/historia/historia-2025-obra-fabrica.webp" alt="Obras de ampliação da fábrica de software e serviços da Consistem, iniciadas em 2025" width="1200" height="900" loading="lazy" decoding="async" />
-          <h3 class="text-h4 history-card__year">2025</h3>
-          <p class="text-p history-card__title">Obras do novo prédio da fábrica de software e serviços</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Bloco "presente" — fora do padrão de stack, de propósito: fecho maior
-         da timeline, não mais uma era igual às outras. Último filho de
-         .history-timeline: é aqui que a barra sticky solta. -->
-    <section class="container history-present" id="era-presente" data-history-era>
-      <div class="history-present__grid">
-        <div class="history-present__content">
-          <p class="text-tag">2026</p>
-          <h2 class="text-h1 history-present__title">Quarenta anos e novos movimentos</h2>
-          <div class="history-present__text">
-            <p class="text-p text-p-lg">Em 2026, a Consistem chega aos 40 anos enquanto atualiza também a forma como se posiciona e amplia seu portfólio tecnológico.</p>
-            <p class="text-p text-p-lg">A nova identidade reforça a confiança que orienta a marca. Ao mesmo tempo, a Consistem Clara IA amplia a presença da inteligência artificial no ecossistema de gestão, conectando dados, agentes, automação e governança.</p>
-            <p class="text-p text-p-lg">Esses movimentos fazem parte de uma mesma trajetória: utilizar o conhecimento acumulado para responder a novas necessidades sem perder de vista a segurança e a continuidade das operações.</p>
+          <div class="history-card__group">
+            <h3 class="history-card__year">2025</h3>
+            <p class="text-p history-card__title">Obras do novo prédio da fábrica de software e serviços</p>
           </div>
         </div>
-        <div class="history-placeholder history-present__photo"><span class="text-small history-placeholder__label">Foto em breve</span></div>
       </div>
     </section>
   </div>
 
+  <!-- Bloco "presente" (2026) — claro (Figma: node 1429:39912), FORA de
+       .history-timeline de propósito: não é mais uma era igual às outras
+       dentro do bloco escuro, é o fecho visual antes do depoimento. A
+       barra sticky (.history-nav) solta o sticky na borda de
+       .history-timeline — com este bloco fora dela, solta um pouco antes
+       (fim da era 2021-2025), correto: não faria sentido a barra
+       escura/vidro flutuar sobre uma seção branca. -->
+  <section class="history-present section--light" id="era-presente" data-history-era>
+    <div class="container">
+      <div class="history-present__intro">
+        <p class="fundamentos-lead">Em 2026, a <strong>Consistem chega aos 40 anos</strong> enquanto atualiza também a forma como se posiciona e amplia seu portfólio tecnológico.</p>
+        <p class="text-p text-p-lg">A nova identidade reforça a confiança que orienta a marca. Ao mesmo tempo, a Consistem Clara IA amplia a presença da inteligência artificial no ecossistema de gestão, conectando dados, agentes, automação e governança.</p>
+        <p class="text-p text-p-lg">Esses movimentos fazem parte de uma mesma trajetória: utilizar o conhecimento acumulado para responder a novas necessidades sem perder de vista a segurança e a continuidade das operações.</p>
+      </div>
+      <div class="history-present__photo">
+        <span class="text-tag history-present__photo-label">2026</span>
+        <img src="assets/historia/historia-2026-fachada.webp" alt="Ilustração da nova fachada da Consistem, marcando os 40 anos da empresa" loading="lazy" decoding="async" />
+      </div>
+    </div>
+  </section>
+
   <!-- Fechamento — depoimento Appel Home (reaproveita .about/.about__grid,
-       já genéricos, usados também em index.html). -->
+       já genéricos, usados também em index.html). Vídeo na coluna esquerda
+       (mídia antes do texto no DOM — .about__grid posiciona pela ordem,
+       sem precisar de modificador). Depoimento falado (não é loop mudo
+       decorativo) — controls+poster, mesmo padrão do vídeo do manifesto
+       em index.html, sem JS novo. -->
   <section class="about section--light" id="depoimento-appel">
     <div class="container about__grid">
+      <div class="about__media">
+        <div class="history-video-placeholder">
+          <video controls playsinline preload="none" poster="assets/depoimento-eder-appel.jpg" aria-label="Depoimento de Eder, da Appel Home, sobre a Consistem">
+            <source src="assets/video/depoimento-appel-eder.mp4" type="video/mp4" />
+          </video>
+        </div>
+      </div>
       <div class="about__content">
         <h2 class="text-h2">A história continua com relações sólidas</h2>
         <p class="text-p text-p-lg">As empresas que chegam ao ecossistema Consistem também ajudam a ampliar o conhecimento sobre a indústria e seus novos desafios.</p>
         <p class="text-p text-p-lg">A Appel Home conheceu a Consistem na Febratex 2024, enquanto avaliava mais de dez sistemas para tomar uma decisão. Hoje, a relação iniciada naquele processo faz parte da gestão da Appel Home e voltou à Febratex em forma de depoimento.</p>
-      </div>
-      <div class="about__media">
-        <div class="history-placeholder history-video-placeholder"><span class="text-small history-placeholder__label">Vídeo em breve</span></div>
       </div>
     </div>
   </section>
 
   <!-- Fechamento final — CTA de volta pra "De olho no futuro" (index.html),
        sem duplicar aqui o conteúdo de nova identidade/Clara IA que já mora
-       naquela seção. -->
+       naquela seção. Card escuro arredondado (Figma: node 1413:2063)
+       sentado sobre a seção clara — ver .history-closing-card em
+       css/styles.css. -->
   <section class="section-pad section--light pre-footer" id="proximos-passos">
     <div class="container">
-      <div class="history-closing">
-        <h2 class="text-h2">Os próximos passos são construídos no presente</h2>
-        <p class="text-p text-p-lg">Conhecer a história ajuda a compreender de onde vêm muitos dos critérios que orientam a Consistem hoje. Eles aparecem nos produtos, na relação com os públicos e nas novas soluções lançadas para o mercado.</p>
-        <p class="text-p text-p-lg">Hoje, o portfólio de produtos vai além do ERP, com soluções que abrangem aplicações em nuvem, análise de dados, integrações e inteligência artificial.</p>
-        <a class="btn btn--warm btn--md" href="index.html#futuro">Confira a evolução</a>
+      <div class="history-closing-card">
+        <div class="history-closing">
+          <h2 class="text-h2">Os próximos passos são construídos no presente</h2>
+          <div class="history-closing__text">
+            <p class="text-p text-p-lg">Conhecer a história ajuda a compreender de onde vêm muitos dos critérios que orientam a Consistem hoje. Eles aparecem nos produtos, na relação com os públicos e nas novas soluções lançadas para o mercado.</p>
+            <p class="text-p text-p-lg">Hoje, o portfólio de produtos vai além do ERP, com soluções que abrangem aplicações em nuvem, análise de dados, integrações e inteligência artificial.</p>
+          </div>
+          <a class="btn btn--warm btn--md" href="index.html#futuro">Confira a evolução</a>
+        </div>
       </div>
     </div>
   </section>
@@ -281,5 +353,7 @@
 <script src="js/vendor/gsap.min.js"></script>
 <script src="js/vendor/ScrollTrigger.min.js"></script>
 <script src="js/main.js"></script>
+<script src="js/shape-40-data.js"></script>
+<script src="js/history-hero-40.js"></script>
 </body>
 </html>
